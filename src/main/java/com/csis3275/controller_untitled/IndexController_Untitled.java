@@ -2,7 +2,10 @@ package com.csis3275.controller_untitled;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+
+
 
 /**
  * @author Jacob Pauls
@@ -19,4 +22,5 @@ public class IndexController_Untitled {
 		return "landing_page_untitled";
 	}
 	
+
 }

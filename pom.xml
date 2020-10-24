@@ -22,9 +22,10 @@
 	<url>http://www.example.com</url>
 
 	<properties>
+	<java.version>14</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.14</maven.compiler.source>
+		<maven.compiler.target>1.14</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -54,6 +55,17 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
+		<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-jdbc</artifactId>
+<version>5.0.2.RELEASE</version>
+</dependency>
+<!-- H2 DB -->
+<dependency>
+<groupId>com.h2database</groupId>
+<artifactId>h2</artifactId>
+<version>1.4.200</version>
+</dependency>
 	</dependencies>
 
 	<build>
