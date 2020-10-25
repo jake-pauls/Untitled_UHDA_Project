@@ -41,7 +41,7 @@ public class PasswordResetController_untitled {
     }
     
     // Process form submission from forgotPassword page
-	@RequestMapping(value = "/forgot", method = RequestMethod.POST)
+	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public ModelAndView processForgotPasswordForm(ModelAndView modelAndView, @RequestParam("email") String userEmail, HttpServletRequest request) {
 
 		// Lookup user in database by e-mail
