@@ -2,10 +2,13 @@ package com.csis3275.model_untitled;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.csis3275.dao_untitled.Login_RegisterDAO_mwi_18;
 
+@Component
 public class Login_mwi_18 {
 	@Autowired
 	Login_RegisterDAO_mwi_18 dao;
@@ -13,6 +16,9 @@ public class Login_mwi_18 {
 	private String username;
 	private String password;
 	
+	public Login_mwi_18() {
+		
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -26,7 +32,8 @@ public class Login_mwi_18 {
 		this.password = password;
 	}
 	
-
+	
+	
 	
 	
 }

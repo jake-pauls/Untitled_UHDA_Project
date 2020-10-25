@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.csis3275.dao_untitled.Login_RegisterDAO_mwi_18;
 import com.csis3275.model_untitled.Login_mwi_18;
-import com.csis3275.model_untitled.Register_mwi_18;
+
 import com.csis3275.model_untitled.User_untitled;
 
 @Controller
@@ -33,13 +33,12 @@ public class Login_RegisterController_mwi_18 {
 	@PostMapping("/login")
 	public String attemptLogin(Login_mwi_18 login,Model model) {
 		
-		List<Login_mwi_18> list = dao.checkCredentials(login);
-		if(list.isEmpty()) {
-			model.addAttribute("test","Invalid username or password :(");
+		User_untitled user = dao.checkCredentials(login.getUsername(), login.getPassword());
+		if(user != null) {
+			model.addAttribute("test","Login succesful");
 		}else {
-			model.addAttribute("test","SUCCESS");
+			model.addAttribute("test","Username or Password incorrect");
 		}
-		
 		
 		model.addAttribute("login",login);
 		
@@ -73,10 +72,12 @@ public class Login_RegisterController_mwi_18 {
 		model.addAttribute("login",login);
 		user.setResetToken(null);
 		
-		if (dao.createUser(user)) {
+		if (dao.createUser(user) == 1) {
 			model.addAttribute("test","user created");
-		}else {
-			model.addAttribute("test","Not created");
+		}else{
+			model.addAttribute("user", user);
+			model.addAttribute("error","That username has already been taken");
+			return "register";
 		}
 		
 		return "login";
