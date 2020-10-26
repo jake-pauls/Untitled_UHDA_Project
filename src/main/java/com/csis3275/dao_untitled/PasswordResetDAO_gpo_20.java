@@ -5,12 +5,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import org.springframework.stereotype.Component;
 
-import com.csis3275.model_untitled.PasswordReset_gpo_20;
 import com.csis3275.model_untitled.UserRowMapper_mwi_18;
 
 import com.csis3275.model_untitled.User_untitled;

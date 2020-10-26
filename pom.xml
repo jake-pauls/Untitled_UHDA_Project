@@ -22,7 +22,7 @@
 	<url>http://www.example.com</url>
 
 	<properties>
-	<java.version>14</java.version>
+		<java.version>14</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.14</maven.compiler.source>
 		<maven.compiler.target>1.14</maven.compiler.target>
@@ -56,16 +56,18 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 		<dependency>
-<groupId>org.springframework</groupId>
-<artifactId>spring-jdbc</artifactId>
-<version>5.0.2.RELEASE</version>
-</dependency>
-<!-- H2 DB -->
-<dependency>
-<groupId>com.h2database</groupId>
-<artifactId>h2</artifactId>
-<version>1.4.200</version>
-</dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<!-- H2 DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
