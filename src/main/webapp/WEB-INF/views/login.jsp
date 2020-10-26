@@ -29,7 +29,8 @@
 	</table>
 	</form:form>
 	<h4>Need an account?</h4>
-	<a href = "${pageContext.request.contextPath}/register">Register Here</a>
+	<a href = "${pageContext.request.contextPath}/register">Register Here</a><br>
+	<a href = "${pageContext.request.contextPath}/forgotpassword">Forgot Password?</a>
 </div>
 </body>
 </html>

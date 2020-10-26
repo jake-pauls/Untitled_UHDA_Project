@@ -2,6 +2,8 @@ package com.csis3275.controller_untitled;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -33,22 +35,22 @@ public class PasswordResetController_gpo_20 {
 	}
 	
 	@PostMapping("/forgotpassword")
-	public String checkValidEmail(PasswordReset_gpo_20 forgotpassword, Model model) {
+	public String checkValidEmail(PasswordReset_gpo_20 forgotpassword, Model model, HttpServletRequest request) {
 		User_untitled user = passwordResetDAO.checkUserEmailExists(forgotpassword.getEmail());
 		if(user !=null) {
 			// Generate random 36-character string token for reset password 
 			forgotpassword.setResetToken(UUID.randomUUID().toString());
 			user.setResetToken(forgotpassword.getResetToken());
 			passwordResetDAO.addResetTokenToUser(user);
-			//String appUrl = request.getScheme() + "://" + request.getServerName();
+			String resetPageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort() + request.getContextPath();
 			
 			// Email message
 			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
-			passwordResetEmail.setFrom("support@demo.com");
+			passwordResetEmail.setFrom("uhda.untitled.csis3275@gmail.com");
 			passwordResetEmail.setTo(user.getEmail());
 			passwordResetEmail.setSubject("Password Reset Request");
 			passwordResetEmail.setText("To reset your password, click the link below:\n" 
-					+ "/reset?resetToken=" + user.getResetToken());
+					+ resetPageUrl + "/reset?resetToken=" + user.getResetToken());
 			
 			emailService.sendEmail(passwordResetEmail);
 			model.addAttribute("resetmessage", "A Password reset link has been sent to "+ user.getEmail());
