@@ -5,13 +5,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,7 @@ import com.csis3275.dao_untitled.EmailServiceImpl_untitled;
 import com.csis3275.dao_untitled.PasswordResetServiceImpl_untitled;
 import com.csis3275.model_untitled.PasswordResetInfo_untitled;
 
+
 @Controller
 public class PasswordResetController_untitled {
 
@@ -30,23 +33,34 @@ public class PasswordResetController_untitled {
 
 	@Autowired
 	private EmailServiceImpl_untitled emailService;
-
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	// Display forgotPassword page
-	@RequestMapping(value = "/forgot", method = RequestMethod.GET)
-	public ModelAndView displayForgotPasswordPage() {
-		return new ModelAndView("forgotPassword");
+	// We need a blank student for the add form
+	@ModelAttribute("user")
+	public  PasswordResetInfo_untitled setupAddForm() {
+		return new PasswordResetInfo_untitled();
+	}
+
+
+	@RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
+	public ModelAndView displayForgotPasswordPage(ModelAndView modelAndView) {
+		return new ModelAndView("forgot-password");
     }
     
     // Process form submission from forgotPassword page
-	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
+	@RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
 	public ModelAndView processForgotPasswordForm(ModelAndView modelAndView, @RequestParam("email") String userEmail, HttpServletRequest request) {
 
 		// Lookup user in database by e-mail
-		Optional<PasswordResetInfo_untitled> optional = passwordResetService.getUserByEmail(userEmail);
+		PasswordResetInfo_untitled resetUser = passwordResetService.getUserByEmail(userEmail);
 
+		if (resetUser.getEmail() != null) {
+			modelAndView.addObject("existsmessage", "the user exists");
+		}
+		else {
+			modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
+			
+		}
+		/*
 		if (!optional.isPresent()) {
 			modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
 		} else {
@@ -73,8 +87,8 @@ public class PasswordResetController_untitled {
 			// Add success message to view
 			modelAndView.addObject("successMessage", "A password reset link has been sent to " + userEmail);
 		}
-
-		modelAndView.setViewName("forgotPassword");
+*/
+		modelAndView.setViewName("forgot-password");
 		return modelAndView;
 
 	}
@@ -108,7 +122,7 @@ public class PasswordResetController_untitled {
 			PasswordResetInfo_untitled resetUser = user.get(); 
             
 			// Set new password    
-            resetUser.setPassword(bCryptPasswordEncoder.encode(requestParams.get("password")));
+            resetUser.setPassword(requestParams.get("password"));
             
 			// Set the reset token to null so it cannot be used again
 			resetUser.setResetToken(null);
