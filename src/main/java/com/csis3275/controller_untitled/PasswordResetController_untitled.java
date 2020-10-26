@@ -13,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,25 +43,44 @@ public class PasswordResetController_untitled {
 	}
 
 
-	@RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
-	public ModelAndView displayForgotPasswordPage(ModelAndView modelAndView) {
-		return new ModelAndView("forgot-password");
-    }
+	//@RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
+	//public ModelAndView displayForgotPasswordPage(ModelAndView modelAndView) {
+		//return new ModelAndView("forgot-password");
+    //}
+	@GetMapping("/forgot-password")
+	public String showPasswordResetPage(Model model) {
+		PasswordResetInfo_untitled user = new PasswordResetInfo_untitled();
+		model.addAttribute("user", user);
+		return "forgot-password";
+	}
+	
+	@PostMapping("/forgot-password")
+	public String resetForgottenPassword(PasswordResetInfo_untitled user, Model model) {
+		PasswordResetInfo_untitled currentUser = passwordResetService.getUserByEmail(user.getEmail());
+		if(currentUser!=null) {
+			model.addAttribute("test","user exists");
+		}else {
+			model.addAttribute("test","email does not exist");
+		}
+		
+		model.addAttribute("user",user);
+		
+		return "forgot-password";
     
     // Process form submission from forgotPassword page
-	@RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-	public ModelAndView processForgotPasswordForm(ModelAndView modelAndView, @RequestParam("email") String userEmail, HttpServletRequest request) {
+	//@RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
+	//public ModelAndView processForgotPasswordForm(ModelAndView modelAndView, @RequestParam("email") String userEmail, HttpServletRequest request) {
 
 		// Lookup user in database by e-mail
-		PasswordResetInfo_untitled resetUser = passwordResetService.getUserByEmail(userEmail);
+		//PasswordResetInfo_untitled resetUser = passwordResetService.getUserByEmail(userEmail);
 
-		if (resetUser.getEmail() != null) {
-			modelAndView.addObject("existsmessage", "the user exists");
-		}
-		else {
-			modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
+		//if (resetUser.getEmail() != null) {
+			//modelAndView.addObject("existsmessage", "the user exists");
+	//	}
+		//else {
+			//modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
 			
-		}
+		//}
 		/*
 		if (!optional.isPresent()) {
 			modelAndView.addObject("errorMessage", "We didn't find an account for that e-mail address.");
@@ -88,8 +109,8 @@ public class PasswordResetController_untitled {
 			modelAndView.addObject("successMessage", "A password reset link has been sent to " + userEmail);
 		}
 */
-		modelAndView.setViewName("forgot-password");
-		return modelAndView;
+//		modelAndView.setViewName("forgot-password");
+	//	return modelAndView;
 
 	}
 

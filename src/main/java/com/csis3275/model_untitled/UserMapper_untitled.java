@@ -11,8 +11,12 @@ public class UserMapper_untitled implements RowMapper<PasswordResetInfo_untitled
 		PasswordResetInfo_untitled currentUser = new PasswordResetInfo_untitled();
 		currentUser.setUsername(resultSet.getString("username"));
 		currentUser.setEmail(resultSet.getString("email"));
-		currentUser.setFirstName(resultSet.getString("firstName"));
-		currentUser.setLastName(resultSet.getString("lastName"));
+		currentUser.setFirstName(resultSet.getString("first_name"));
+		currentUser.setLastName(resultSet.getString("last_name"));
+		currentUser.setSecurityQuestion(resultSet.getString("security_question"));
+		currentUser.setSecurityAnswer(resultSet.getString("security_answer"));
+		currentUser.setResetToken(resultSet.getString("reset_token"));
+		currentUser.setRole(resultSet.getString("role"));
 		return currentUser;
 	}
 

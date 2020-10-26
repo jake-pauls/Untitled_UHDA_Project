@@ -1,5 +1,6 @@
 package com.csis3275.dao_untitled;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
@@ -26,7 +27,12 @@ public class PasswordResetServiceImpl_untitled {
 		jdbcPasswordReset = new JdbcTemplate(dataSource);
 	}
 	public PasswordResetInfo_untitled getUserByEmail(String email) {
-		return jdbcPasswordReset.queryForObject(SQL_GET_BY_EMAIL, new Object[] {email}, new UserMapper_untitled());
+		List<PasswordResetInfo_untitled> list = jdbcPasswordReset.query(SQL_GET_BY_EMAIL, new UserMapper_untitled(),email);
+		try {
+			return list.get(0);
+		}catch(Exception ex){
+			return null;
+		}
 	}
 	
 	
