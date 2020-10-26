@@ -12,6 +12,7 @@ public class PasswordReset_gpo_20 {
 	
 	private String email;
 	private String resetToken;
+	private String password;
 	
 	public PasswordReset_gpo_20() {
 		
@@ -28,6 +29,11 @@ public class PasswordReset_gpo_20 {
 	public void setResetToken(String resetToken) {
 		this.resetToken = resetToken;
 	}
-	
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 }

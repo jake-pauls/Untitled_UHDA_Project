@@ -23,6 +23,7 @@ public class PasswordResetDAO_gpo_20 {
 	private final String SQL_GET_USER_BY_EMAIL = "SELECT * FROM users WHERE email = ?;";
 	private final String SQL_GET_USER_BY_RESET_TOKEN = "SELECT * FROM users WHERE reset_token = ?;";
 	private final String SQL_ADD_RESET_TOKEN_BY_EMAIL = "UPDATE users SET reset_token=? WHERE email=?;";
+	private final String SQL_UPDATE_PASSWORD_BY_RESET_TOKEN = "UPDATE users SET password=?, reset_token=NULL WHERE reset_token=?;";
 	
 
 	//DAO methods
@@ -45,5 +46,19 @@ public class PasswordResetDAO_gpo_20 {
 	//in order to reset the users password.
 	public boolean addResetTokenToUser(User_untitled user) {
 		return jdbcTemplate.update(SQL_ADD_RESET_TOKEN_BY_EMAIL, user.getResetToken(), user.getEmail()) >0;
+	}
+	//This method used to get the user based on their resetToken from a reset email link
+	//returns null if no user has that resetToken in order to trigger an error message.
+	public User_untitled checkUserHasResetToken(String resetToken) {
+		List<User_untitled> list = jdbcTemplate.query(SQL_GET_USER_BY_RESET_TOKEN, new UserRowMapper_mwi_18(), resetToken);
+		try {
+			return list.get(0);
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+	//This method is used to update the users password if it matches the generated reset token 
+	public boolean updatePasswordByResetToken(User_untitled user) {
+		return jdbcTemplate.update(SQL_UPDATE_PASSWORD_BY_RESET_TOKEN, user.getPassword(), user.getResetToken()) >0;
 	}
 }
