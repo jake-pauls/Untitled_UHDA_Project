@@ -63,3 +63,6 @@ database.properties
 # Typically, this file would be tracked if it contains build/dependency configurations:
 #.project
 target/
+
+# Local Database File
+database.properties
