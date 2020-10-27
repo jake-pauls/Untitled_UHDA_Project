@@ -18,14 +18,31 @@ import com.csis3275.dao_untitled.PasswordResetDAO_gpo_20;
 import com.csis3275.model_untitled.PasswordReset_gpo_20;
 import com.csis3275.model_untitled.User_untitled;
 
+/**
+ *  
+ * @author Gregory Pohlod Student ID 300311820
+ * @date Oct 25, 2020
+ * PasswordResetController_gpo_20.java
+ * com.csis3275.controller_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ *
+ * EMAIL SERVICE FEATURE CLASSES AND METHODS:
+ * utilized online walkthrough to plugin email functionaility found at the link below:
+ * https://www.codebyamir.com/blog/forgot-password-feature-with-java-and-spring-boot
+ * along with other resources to track down the required dependancies to use the JavaMailSender and SimpleMailMessage
+ * utilized for the password reset email and possibly future Features or other feature emails in this project
+ */
 @Controller
 public class PasswordResetController_gpo_20 {
-	@Autowired
 	
+	//connecting to the DAO and email services classes
+	@Autowired
 	PasswordResetDAO_gpo_20 passwordResetDAO;
 	@Autowired
 	private EmailServiceImpl_untitled emailService;
 	
+	//mapping for when a user goest to the forgotpassword view
 	@GetMapping("/forgotpassword")
 	public String showForgotPWForm(Model model) {
 		PasswordReset_gpo_20 forgotpassword = new PasswordReset_gpo_20();
@@ -34,9 +51,11 @@ public class PasswordResetController_gpo_20 {
 		return "forgotpassword";
 	}
 	
+	//mapping for when a user hits submit on the forgotpassword view in order to generate the reset password token and send the email with the reset link
 	@PostMapping("/forgotpassword")
 	public String checkValidEmail(PasswordReset_gpo_20 forgotpassword, Model model, HttpServletRequest request) {
 		User_untitled user = passwordResetDAO.checkUserEmailExists(forgotpassword.getEmail());
+		//if a user with that email exists perform the below
 		if(user !=null) {
 			// Generate random 36-character string token for reset password 
 			forgotpassword.setResetToken(UUID.randomUUID().toString());
@@ -44,7 +63,7 @@ public class PasswordResetController_gpo_20 {
 			passwordResetDAO.addResetTokenToUser(user);
 			String resetPageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort() + request.getContextPath();
 			
-			// Email message
+			// Email message with reset link using the email setup in the application.properties
 			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
 			passwordResetEmail.setFrom("uhda.untitled.csis3275@gmail.com");
 			passwordResetEmail.setTo(user.getEmail());
@@ -54,27 +73,31 @@ public class PasswordResetController_gpo_20 {
 			
 			emailService.sendEmail(passwordResetEmail);
 			model.addAttribute("resetmessage", "A Password reset link has been sent to "+ user.getEmail());
-		} else {
+		} else { //else if a user with that email does not exist, let the user know it was spelt incorrectly or is not valid
 			model.addAttribute("resetmessage", "Email is not valid or is spelt incorrectly, try again");
 		}
 		model.addAttribute("forgotpassword", forgotpassword);
 		return "forgotpassword";
 	}
 	
+	//mapping for when the user goes to the reset view
 	@GetMapping("/reset")
+	//gets the resetToken from the URL
 	public String showResetPWForm(Model model, @RequestParam("resetToken") String resetToken) {
 		PasswordReset_gpo_20 resetpassword = new PasswordReset_gpo_20();
 		resetpassword.setResetToken(resetToken);
+		//queries for user who matches the resetToken in the URL, if there is a User that has that toekn perform the below
 		User_untitled user = passwordResetDAO.checkUserHasResetToken(resetpassword.getResetToken());
 		if(user !=null) {
 			model.addAttribute("resetpassword", resetpassword);
 			model.addAttribute("resetmessage", "Enter New Password");
-		} else {
+		} else { //if there is no user with the resetToken in the URL then tell the user it is an invalid link
 			model.addAttribute("error", "Invalid Reset Link");
 		}
 		return "reset";
 	}
 	
+	//when user submits their new password, the below method will will update the users password and reset the resetToken to null since it has been used
 	@PostMapping("/reset")
 	public String resetUsersPassword(@ModelAttribute("resetpassword") PasswordReset_gpo_20 resetpassword, Model model, @RequestParam("resetToken") String resetToken) {
 		User_untitled user =  passwordResetDAO.checkUserHasResetToken(resetToken);

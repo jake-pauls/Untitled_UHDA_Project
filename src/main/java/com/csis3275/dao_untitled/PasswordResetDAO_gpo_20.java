@@ -13,6 +13,16 @@ import com.csis3275.model_untitled.UserRowMapper_mwi_18;
 
 import com.csis3275.model_untitled.User_untitled;
 
+/**
+ * 
+ * @author Gregory Pohlod Student ID 300311820
+ * @date Oct 24, 2020
+ * PasswordResetDAO_gpo_20.java
+ * com.csis3275.dao_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ *
+ */
 @Component
 public class PasswordResetDAO_gpo_20 {
 	JdbcTemplate jdbcTemplate;
@@ -55,7 +65,7 @@ public class PasswordResetDAO_gpo_20 {
 			return null;
 		}
 	}
-	//This method is used to update the users password if it matches the generated reset token 
+	//This method is used to update the users password if it matches the generated reset token, it then sets the token to null since the resetToken has been used. 
 	public boolean updatePasswordByResetToken(User_untitled user) {
 		return jdbcTemplate.update(SQL_UPDATE_PASSWORD_BY_RESET_TOKEN, user.getPassword(), user.getResetToken()) >0;
 	}
