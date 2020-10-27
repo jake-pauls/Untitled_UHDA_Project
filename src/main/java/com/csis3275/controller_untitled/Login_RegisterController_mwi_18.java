@@ -42,6 +42,12 @@ public class Login_RegisterController_mwi_18 {
 		
 		model.addAttribute("login",login);
 		
+		if(user.getRole().equals("admin")) {
+			//TODO
+		}else if(user.getRole().equals("employee")) {
+			//TODO
+		}
+		
 		return "login";
 	}
 	
