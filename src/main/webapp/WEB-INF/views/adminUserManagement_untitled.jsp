@@ -15,6 +15,12 @@
 	<div class="container">
 		<h1>User List</h1>
 		<hr />
+		<c:if test="${errorMessage != null}">
+			<div>${errorMessage}</div>
+		</c:if>
+		<c:if test="${successMessage != null}">
+			<div>${successMessage}</div>
+		</c:if>
 		<table>
 			<tr>
 				<td>Username</td>
