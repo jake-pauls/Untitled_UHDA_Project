@@ -100,11 +100,11 @@
 			<form:hidden id="hidden-lastName" path="lastName" value="" />
 			<form:hidden id="hidden-email" path="email" value="" />
 			<form:hidden id="hidden-role" path="role" value="" />
-			<form:button class="main_button" id="button-reference" type="submit" name="saveUser"
-				disabled="true">Save Changes</form:button>
+			<form:button class="main_button" id="button-reference" type="submit"
+				name="saveUser" disabled="true">Save Changes</form:button>
 		</form:form>
-		<button class="main_button" id="addNewUser" onclick="addNewTableRow()">Add New
-			User</button>
+		<button class="main_button" id="addNewUser" onclick="addNewTableRow()">Add
+			New User</button>
 	</div>
 </body>
 </html>

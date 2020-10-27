@@ -1,18 +1,23 @@
 package com.csis3275.controller_untitled;
 
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csis3275.dao_untitled.AdminUserManagementDAOImpl_jpa_66;
+import com.csis3275.dao_untitled.EmailServiceImpl_untitled;
+import com.csis3275.dao_untitled.PasswordResetDAO_gpo_20;
+import com.csis3275.model_untitled.PasswordReset_gpo_20;
 import com.csis3275.model_untitled.User_untitled;
 
 /**
@@ -38,6 +43,14 @@ public class AdminUserManagementController_jpa_66 {
 	
 	@Autowired
 	AdminUserManagementDAOImpl_jpa_66 adminUserManagementDAOImpl;
+	
+	/**
+	 * DAO and email service to trigger Administrator password resets
+	 */
+	@Autowired
+	PasswordResetDAO_gpo_20 passwordResetDAO;
+	@Autowired
+	private EmailServiceImpl_untitled emailService;
 	
 	/**
 	 * Model attribute bound to the 'User_untitled' object
@@ -69,10 +82,12 @@ public class AdminUserManagementController_jpa_66 {
 	 * @return The ModelAndView object containing a refreshed user list from the database and an success or error messages that may have been provoked during the operation
 	 */
 	@RequestMapping(value = "/AdminUserManagementCreateUser", method = RequestMethod.POST)
-	public ModelAndView createWorkspaceUser(@ModelAttribute("user") User_untitled createdUser, ModelAndView modelAndView) {
+	public ModelAndView createWorkspaceUser(@ModelAttribute("user") User_untitled createdUser, ModelAndView modelAndView, HttpServletRequest request) {
 		if(adminUserManagementDAOImpl.checkIfUsernameExists(createdUser.getUsername())) {
 			if (adminUserManagementDAOImpl.checkIfEmailExists(createdUser.getEmail())) {
 				adminUserManagementDAOImpl.createUser(createdUser);
+				// Trigger password reset upon creating user
+				adminResetUserPassword(createdUser.getEmail(), request);
 				modelAndView.addObject("successMessage", INSERT_USER_SUCCESS_MESSAGE);
 			} else {
 				modelAndView.addObject("errorMessage", DUPLICATE_EMAIL_ERROR_MESSAGE);
@@ -116,5 +131,32 @@ public class AdminUserManagementController_jpa_66 {
 		modelAndView.addObject("userList", userList);
 		modelAndView.setViewName("AdminUserManagement");
 		return modelAndView;
+	}
+	
+	/**
+	 * Calls the email service to send a account confirmation email whenever a new user is added to the workspace
+	 * @param email String containing the destination email address for the account confirmation
+	 * @param request HttpServletRequest object containing the request data for the HttpSession
+	 */
+	private void adminResetUserPassword(String email, HttpServletRequest request) {
+		// Create a new password reset object for the passed model
+		PasswordReset_gpo_20 resetPassword = new PasswordReset_gpo_20();
+		resetPassword.setEmail(email);
+		User_untitled user = passwordResetDAO.checkUserEmailExists(resetPassword.getEmail());
+		if(user !=null) {
+			// Generate random 36-character string token for reset password 
+			resetPassword.setResetToken(UUID.randomUUID().toString());
+			user.setResetToken(resetPassword.getResetToken());
+			passwordResetDAO.addResetTokenToUser(user);
+			String resetPageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getLocalPort() + request.getContextPath();
+			// Email message with reset link using the email setup in the application.properties
+			SimpleMailMessage passwordResetEmail = new SimpleMailMessage();
+			passwordResetEmail.setFrom("uhda.untitled.csis3275@gmail.com");
+			passwordResetEmail.setTo(user.getEmail());
+			passwordResetEmail.setSubject("Action Required: Account Created in UHDA, Account Confirmation Required");
+			passwordResetEmail.setText("To confirm your account and set your login password, click the link below:\n" 
+					+ resetPageUrl + "/reset?resetToken=" + user.getResetToken());
+			emailService.sendEmail(passwordResetEmail);
+		} 
 	}
 }
