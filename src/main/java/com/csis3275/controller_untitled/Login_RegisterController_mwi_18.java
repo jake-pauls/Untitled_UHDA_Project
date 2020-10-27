@@ -73,7 +73,8 @@ public class Login_RegisterController_mwi_18 {
 		user.setResetToken(null);
 		
 		if(dao.checkEmail(user.getEmail())) {
-			model.addAttribute("user", user);
+			User_untitled newUser = new User_untitled();
+			model.addAttribute("user", newUser);
 			model.addAttribute("error","Sorry that email is already being used");
 			return "register";
 		}else {

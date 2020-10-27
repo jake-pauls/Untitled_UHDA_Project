@@ -22,7 +22,7 @@ public class Login_RegisterDAO_mwi_18 {
 	private final String SQL_GET_LOGIN_INFO = "SELECT * FROM users WHERE username = ? AND password = ?;";
 	private final String SQL_CREATE_USER = "INSERT INTO users(username, password, first_name, last_name, email, security_question,"
 			+ "security_answer,reset_token,role) VALUES(?,?,?,?,?,?,?,?,?);";
-	private final String SQL_CHECK_EMAIL = "SELECT email FROM USERS WHERE email = ?";
+	private final String SQL_CHECK_EMAIL = "SELECT * FROM USERS WHERE email = ?";
 	
 	@Autowired
 	public Login_RegisterDAO_mwi_18(DataSource dataSource) {
@@ -54,13 +54,13 @@ public class Login_RegisterDAO_mwi_18 {
 		try {
 			List<User_untitled> list = jdbcTemplate.query(SQL_CHECK_EMAIL,new UserRowMapper_mwi_18(),email);
 			if(!list.isEmpty()) {
-				return false;
-			}else {
 				return true;
+			}else {
+				return false;
 			}
 				
 		}catch (Exception ex) {
-			return true;
+			return false;
 		}
 		
 	}
