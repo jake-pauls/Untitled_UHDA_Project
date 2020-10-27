@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @author Jacob Pauls
- * @date 10/20/20
- * IndexController_Untitled.java
+ * @date Oct 20, 2020
+ * Untitled_UHDA_Project
  */
 
 @Controller

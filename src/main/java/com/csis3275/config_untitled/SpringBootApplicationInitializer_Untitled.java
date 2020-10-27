@@ -14,8 +14,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  * @author Jacob Pauls
- * @date 10/20/20
- * SpringBootApplicationInitializer_Untitled.java
+ * @date Oct 20, 2020
+ * Untitled_UHDA_Project
  */
 
 @SpringBootApplication
