@@ -72,14 +72,21 @@ public class Login_RegisterController_mwi_18 {
 		model.addAttribute("login",login);
 		user.setResetToken(null);
 		
-		if (dao.createUser(user) == 1) {
-			model.addAttribute("test","user created");
-		}else{
+		if(dao.checkEmail(user.getEmail())) {
 			model.addAttribute("user", user);
-			model.addAttribute("error","That username has already been taken");
+			model.addAttribute("error","Sorry that email is already being used");
 			return "register";
+		}else {
+			if (dao.createUser(user) == 1) {
+				model.addAttribute("test","user created");
+			}else{
+				model.addAttribute("user", user);
+				model.addAttribute("error","Sorry that username is already being used");
+				return "register";
+			}
+			
+			return "login";
 		}
-		
-		return "login";
 	}
+		
 }
