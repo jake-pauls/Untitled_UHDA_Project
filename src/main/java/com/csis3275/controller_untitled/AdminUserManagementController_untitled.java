@@ -24,6 +24,15 @@ import com.csis3275.model_untitled.User_untitled;
 @Controller
 public class AdminUserManagementController_untitled {
 
+	// Error message constants
+	private final String DUPLICATE_USERNAME_ERROR_MESSAGE = "The username you entered already exists, please try again";
+	private final String DUPLICATE_EMAIL_ERROR_MESSAGE = "The email you entered already exists, please try again";
+	
+	// Success message constants
+	private final String INSERT_USER_SUCCESS_MESSAGE = "User was successfully added to the workspace";
+	private final String UPDATE_USER_SUCCESS_MESSAGE = "User was successfully updated in the workspace";
+	private final String DELETE_USER_SUCCESS_MESSAGE = "User was successfully deleted from the workspace";
+	
 	@Autowired
 	AdminUserManagementDAOImpl_untitled adminUserManagementDAOImpl;
 	
@@ -42,7 +51,16 @@ public class AdminUserManagementController_untitled {
 	
 	@RequestMapping(value = "/adminUserManagementCreateUser", method = RequestMethod.POST)
 	public ModelAndView createWorkspaceUser(@ModelAttribute("user") User_untitled createdUser, ModelAndView modelAndView) {
-		adminUserManagementDAOImpl.createUser(createdUser);
+		if(adminUserManagementDAOImpl.checkIfUsernameExists(createdUser.getUsername())) {
+			if (adminUserManagementDAOImpl.checkIfEmailExists(createdUser.getEmail())) {
+				adminUserManagementDAOImpl.createUser(createdUser);
+				modelAndView.addObject("successMessage", INSERT_USER_SUCCESS_MESSAGE);
+			} else {
+				modelAndView.addObject("errorMessage", DUPLICATE_EMAIL_ERROR_MESSAGE);
+			}
+		} else {
+			modelAndView.addObject("errorMessage", DUPLICATE_USERNAME_ERROR_MESSAGE);
+		}
 		List<User_untitled> userList = adminUserManagementDAOImpl.getAllUsers();
 		modelAndView.addObject("userList", userList);
 		modelAndView.setViewName("adminUserManagement_untitled");
@@ -52,6 +70,7 @@ public class AdminUserManagementController_untitled {
 	@RequestMapping(value = "/adminUserManagementUpdateUser", method = RequestMethod.POST)
 	public ModelAndView handleUpdateUser(@ModelAttribute("user") User_untitled userToUpdate, ModelAndView modelAndView) {		
 		adminUserManagementDAOImpl.updateUser(userToUpdate);
+		modelAndView.addObject("successMessage", UPDATE_USER_SUCCESS_MESSAGE);
 		List<User_untitled> userList = adminUserManagementDAOImpl.getAllUsers();
 		modelAndView.addObject("userList", userList);
 		modelAndView.setViewName("adminUserManagement_untitled");
@@ -61,6 +80,7 @@ public class AdminUserManagementController_untitled {
 	@RequestMapping(value = "/adminUserManagementDeleteUser", method = RequestMethod.POST)
 	public ModelAndView handleDeleteUser(@ModelAttribute("user") User_untitled userToDelete, ModelAndView modelAndView) {		
 		adminUserManagementDAOImpl.deleteUser(userToDelete);
+		modelAndView.addObject("successMessage", DELETE_USER_SUCCESS_MESSAGE);
 		List<User_untitled> userList = adminUserManagementDAOImpl.getAllUsers();
 		modelAndView.addObject("userList", userList);
 		modelAndView.setViewName("adminUserManagement_untitled");

@@ -29,6 +29,9 @@ public class AdminUserManagementDAOImpl_untitled {
 	// Updates only permissible on first_name, last_name, and role
 	private final String SQL_ADMIN_UPDATE_USER = "UPDATE users SET first_name = ?, last_name = ?, email = ?, role = ? WHERE username = ?";
 	private final String SQL_ADMIN_DELETE_USER = "DELETE FROM users WHERE username = ?";
+	private final String SQL_CHECK_IF_USERNAME_EXISTS = "SELECT * FROM users WHERE username = ?";
+	private final String SQL_CHECK_IF_EMAIL_EXISTS = "SELECT * FROM users WHERE email = ?";
+	
 	
 	@Autowired
 	public AdminUserManagementDAOImpl_untitled(DataSource dataSource) {
@@ -43,8 +46,17 @@ public class AdminUserManagementDAOImpl_untitled {
 		return jdbcNewUserTemplate.queryForObject(SQL_SELECT_USER_BY_USERNAME, new Object[]{username}, new UserRowMapper_mwi_18());
 	}
 	
+	//consider deleting?
 	public User_untitled getUserByRole(String role) {
 		return jdbcNewUserTemplate.queryForObject(SQL_SELECT_USER_BY_ROLE, new Object[]{role}, new UserRowMapper_mwi_18());
+	}
+	
+	public boolean checkIfUsernameExists(String username) {
+		return jdbcNewUserTemplate.query(SQL_CHECK_IF_USERNAME_EXISTS, new Object[] {username}, new UserRowMapper_mwi_18()).isEmpty();
+	}
+	
+	public boolean checkIfEmailExists(String email) {
+		return jdbcNewUserTemplate.query(SQL_CHECK_IF_EMAIL_EXISTS, new Object[] {email}, new UserRowMapper_mwi_18()).isEmpty();
 	}
 	
 	public boolean createUser(User_untitled user) {

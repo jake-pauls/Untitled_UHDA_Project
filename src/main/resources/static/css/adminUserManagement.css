@@ -1,0 +1,16 @@
+/**
+ * Jacob Pauls Student ID 300273666
+ * Oct 26, 2020
+ * adminUserManagement.css
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
+
+.main_button {
+	padding: 4px;
+	margin-top: 4px;
+}
+
+#user_list {
+	width: 900px;
+}
