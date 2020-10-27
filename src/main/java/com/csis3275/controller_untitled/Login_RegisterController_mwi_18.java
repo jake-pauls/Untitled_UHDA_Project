@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.csis3275.dao_untitled.Login_RegisterDAO_mwi_18;
 import com.csis3275.model_untitled.Login_mwi_18;
@@ -31,18 +32,21 @@ public class Login_RegisterController_mwi_18 {
 	}
 	
 	@PostMapping("/login")
-	public String attemptLogin(Login_mwi_18 login,Model model) {
+	public ModelAndView attemptLogin(Login_mwi_18 login,ModelAndView modelAndView) {
 		
 		User_untitled user = dao.checkCredentials(login.getUsername(), login.getPassword());
 		if(user != null) {
-			model.addAttribute("test","Login succesful");
+			modelAndView.addObject("test","Login succesful");
+			modelAndView.addObject("user", user);
+			modelAndView.setViewName("userHomePage_untitled");
 		}else {
-			model.addAttribute("test","Username or Password incorrect");
+			modelAndView.addObject("test","Username or Password incorrect");
+			modelAndView.setViewName("login");
 		}
 		
-		model.addAttribute("login",login);
+		modelAndView.addObject("login",login);
 		
-		return "login";
+		return modelAndView;
 	}
 	
 	@ModelAttribute("sq")
