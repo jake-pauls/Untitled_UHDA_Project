@@ -7,10 +7,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script src="<c:url value="/js/jquery-3.5.1.min.js" />"></script>
-<script src="<c:url value="/js/adminUserManagementTable_untitled.js" />"></script>
+<script src="<c:url value="/js/AdminUserManagementTable_jpa_66.js" />"></script>
 <title>Workspace Name - User Management</title>
 <link rel="stylesheet" href="css/login.css" />
-<link rel="stylesheet" href="css/adminUserManagement.css" />
+<link rel="stylesheet" href="css/AdminUserManagement_jpa_66.css" />
 </head>
 <body>
 	<div class="container" id="user_list">
@@ -63,7 +63,7 @@
 					</select></td>
 					<td><button onclick="editTableRow('${user.username}')">Edit</button></td>
 					<td><form:form method="post"
-							action="${pageContext.request.contextPath}/adminUserManagementDeleteUser"
+							action="${pageContext.request.contextPath}/AdminUserManagementDeleteUser"
 							modelAttribute="user">
 							<form:input type="hidden" path="username"
 								value="${user.username}" />
@@ -73,7 +73,7 @@
 			</c:forEach>
 			<tr id="newTableRow" style="display: none;">
 				<form:form method="post"
-					action="${pageContext.request.contextPath}/adminUserManagementCreateUser"
+					action="${pageContext.request.contextPath}/AdminUserManagementCreateUser"
 					modelAttribute="user">
 					<td><form:input class="newUser username" path="username"
 							type="text" /></td>
@@ -93,7 +93,7 @@
 			</tr>
 		</table>
 		<form:form method="post"
-			action="${pageContext.request.contextPath}/adminUserManagementUpdateUser"
+			action="${pageContext.request.contextPath}/AdminUserManagementUpdateUser"
 			modelAttribute="user">
 			<form:hidden id="hidden-username" path="username" value="" />
 			<form:hidden id="hidden-firstName" path="firstName" value="" />
