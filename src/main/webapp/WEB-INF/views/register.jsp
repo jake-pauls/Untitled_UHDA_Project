@@ -12,8 +12,10 @@
 <body>
 <div class = "container">
 <c:if test="${error != null }">
-<p>Sorry someone has already taken that username</p>
+<p>${error}</p>
 </c:if>
+<h2>Please fill out the registration form</h2>
+<div class = "register_container">
 <form:form action="${pageContext.request.contextPath}/register" class="register_form" modelAttribute="user" method = "post">
 	<table>
 		<tr>
@@ -53,6 +55,7 @@
 	<form:hidden path="resetToken" value = ""/>
 	
 </form:form>
+</div>
 </div>
 </body>
 </html>

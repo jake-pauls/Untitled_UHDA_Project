@@ -12,6 +12,7 @@
 <body>
 <div class = "container">
 	<h1>Welcome to the UHDA</h1>
+	<div class = "login_container">
 	<h2>${test }</h2>
 	<form:form action="${pageContext.request.contextPath}/login" class="login_form" modelAttribute="login" method = "post">
 	<table>
