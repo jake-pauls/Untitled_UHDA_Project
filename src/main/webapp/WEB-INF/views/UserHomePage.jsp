@@ -13,7 +13,7 @@
 		<h1>User Home Page</h1>
 		<h2>Hello, ${user.firstName}</h2>
 		<c:if test="${user.role == 'admin'}">
-			<a href="${pageContext.request.contextPath}/adminUserManagement">Administrator
+			<a href="${pageContext.request.contextPath}/AdminUserManagement">Administrator
 				User Management</a>
 		</c:if>
 	</div>

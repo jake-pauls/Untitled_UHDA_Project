@@ -13,9 +13,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
- * @author Jacob Pauls
+ * @author Jacob Pauls Student ID 300273666
  * @date Oct 20, 2020
- * Untitled_UHDA_Project
+ * SpringBootApplicationInitializer_Untitled.java
+ * com.csis3275.config_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
  */
 
 @SpringBootApplication
@@ -34,13 +37,10 @@ public class SpringBootApplicationInitializer_Untitled extends SpringBootServlet
 		DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
 		driverManagerDataSource.setUrl(environment.getProperty(URL));
 		driverManagerDataSource.setUsername(environment.getProperty(USER));
-
 		driverManagerDataSource.setPassword(environment.getProperty(PASSWORD));
-
 		driverManagerDataSource.setDriverClassName(environment.getProperty(DRIVER));
 		return driverManagerDataSource;
 	}
-	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootApplicationInitializer_Untitled.class, args);
