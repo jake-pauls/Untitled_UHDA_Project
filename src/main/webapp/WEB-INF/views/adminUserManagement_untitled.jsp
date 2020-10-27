@@ -9,10 +9,11 @@
 <script src="<c:url value="/js/jquery-3.5.1.min.js" />"></script>
 <script src="<c:url value="/js/adminUserManagementTable_untitled.js" />"></script>
 <title>Workspace Name - User Management</title>
+<link rel="stylesheet" href="css/login.css" />
+<link rel="stylesheet" href="css/adminUserManagement.css" />
 </head>
 <body>
-	<h1>Workspace Name - User Management</h1>
-	<div class="container">
+	<div class="container" id="user_list">
 		<h1>User List</h1>
 		<hr />
 		<c:if test="${errorMessage != null}">
@@ -99,10 +100,10 @@
 			<form:hidden id="hidden-lastName" path="lastName" value="" />
 			<form:hidden id="hidden-email" path="email" value="" />
 			<form:hidden id="hidden-role" path="role" value="" />
-			<form:button id="button-reference" type="submit" name="saveUser"
+			<form:button class="main_button" id="button-reference" type="submit" name="saveUser"
 				disabled="true">Save Changes</form:button>
 		</form:form>
-		<button id="addNewUser" onclick="addNewTableRow()">Add New
+		<button class="main_button" id="addNewUser" onclick="addNewTableRow()">Add New
 			User</button>
 	</div>
 </body>
