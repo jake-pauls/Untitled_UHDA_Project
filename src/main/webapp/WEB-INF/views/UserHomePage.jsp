@@ -16,6 +16,7 @@
 			<a href="${pageContext.request.contextPath}/AdminUserManagement">Administrator
 				User Management</a>
 		</c:if>
+		<h4><a href = "${pageContext.request.contextPath}/login">Logout</a></h4>
 	</div>
 </body>
 </html>
