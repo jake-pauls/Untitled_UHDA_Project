@@ -8,7 +8,22 @@ import org.springframework.stereotype.Service;
 
 import com.csis3275.model_untitled.EmailService_untitled;
 
+/**
+ * @author Gregory Pohlod
+ * @date 10/26/2020
+ * EmailServiceImpl_untitled.java
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ * 
+ * EMAIL FEATURE CLASSES AND METHODS:
+ * utilized online walkthrough to plugin email functionaility found at the link below:
+ * https://www.codebyamir.com/blog/forgot-password-feature-with-java-and-spring-boot
+ * along with other resources to track down the required dependancies to use the JavaMailSender and SimpleMailMessage
+ * utilized for the password reset email and possibly future Features or other feature emails in this project
+ * 
+ */
 
+//setting up the method for the javamailer to be sent by the application utilizing the account outlined in the application.properties
 @Service("emailService")
 public class EmailServiceImpl_untitled implements EmailService_untitled {
 	@Autowired
