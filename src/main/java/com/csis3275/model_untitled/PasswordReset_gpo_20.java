@@ -6,11 +6,14 @@ import org.springframework.stereotype.Component;
 import com.csis3275.dao_untitled.PasswordResetDAO_gpo_20;
 
 /**
- * @author Gregory Pohlod
- * @date 10/24/2020
+ * 
+ * @author Gregory Pohlod Student ID 300311820
+ * @date Oct 25, 2020
  * PasswordReset_gpo_20.java
+ * com.csis3275.model_untitled
  * CSIS 3275 Group Project
  * Group Name: Untitled
+ *
  */
 
 //getters and seters used in the password reset/ forgot password process in order to set, and get emails, passwords and reset tokens.

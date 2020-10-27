@@ -19,18 +19,19 @@ import com.csis3275.model_untitled.PasswordReset_gpo_20;
 import com.csis3275.model_untitled.User_untitled;
 
 /**
- * @author Gregory Pohlod
- * @date 10/24/2020
+ *  
+ * @author Gregory Pohlod Student ID 300311820
+ * @date Oct 25, 2020
  * PasswordResetController_gpo_20.java
+ * com.csis3275.controller_untitled
  * CSIS 3275 Group Project
  * Group Name: Untitled
- * 
- * EMAIL FEATURE CLASSES AND METHODS:
+ *
+ * EMAIL SERVICE FEATURE CLASSES AND METHODS:
  * utilized online walkthrough to plugin email functionaility found at the link below:
  * https://www.codebyamir.com/blog/forgot-password-feature-with-java-and-spring-boot
  * along with other resources to track down the required dependancies to use the JavaMailSender and SimpleMailMessage
  * utilized for the password reset email and possibly future Features or other feature emails in this project
- * 
  */
 @Controller
 public class PasswordResetController_gpo_20 {
