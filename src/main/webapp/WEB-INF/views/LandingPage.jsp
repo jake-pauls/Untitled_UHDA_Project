@@ -4,5 +4,6 @@
 <html lang="en">
 <body>
 	<h2>${helloMessage}</h2>
+	<h4><a href = "${pageContext.request.contextPath}/login">Login</a></h4>
 </body>
 </html>
