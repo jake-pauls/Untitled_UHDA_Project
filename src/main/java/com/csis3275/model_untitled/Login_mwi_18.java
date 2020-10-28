@@ -8,6 +8,15 @@ import org.springframework.stereotype.Component;
 
 import com.csis3275.dao_untitled.Login_RegisterDAO_mwi_18;
 
+/**
+ * 
+ * @author Michael Wilson 300278118
+ * @date 
+ * Login_mwi_18.java
+ * com.csis3275.model_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
 @Component
 public class Login_mwi_18 {
 	@Autowired

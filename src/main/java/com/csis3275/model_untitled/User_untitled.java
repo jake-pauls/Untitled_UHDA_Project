@@ -1,5 +1,14 @@
 package com.csis3275.model_untitled;
 
+/**
+ * 
+ * @author Michael Wilson 300278118
+ * @date 
+ * User_untitled.java
+ * com.csis3275.model_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
 public class User_untitled {
 	private String username;
 	private String password;

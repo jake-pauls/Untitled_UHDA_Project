@@ -14,6 +14,15 @@ import com.csis3275.model_untitled.UserRowMapper_mwi_18;
 
 import com.csis3275.model_untitled.User_untitled;
 
+/**
+ * 
+ * @author Michael Wilson 300278118
+ * @date 
+ * Login_RegisterDAO_mwi_18.java
+ * com.csis3275.dao_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
 @Component
 public class Login_RegisterDAO_mwi_18 {
 	JdbcTemplate jdbcTemplate;

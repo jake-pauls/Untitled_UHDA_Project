@@ -16,6 +16,15 @@ import com.csis3275.model_untitled.Login_mwi_18;
 
 import com.csis3275.model_untitled.User_untitled;
 
+/**
+ * 
+ * @author Michael Wilson 300278118
+ * @date 
+ * Login_RegisterController_mwi_18.java
+ * com.csis3275.controller_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
 @Controller
 public class Login_RegisterController_mwi_18 {
 	

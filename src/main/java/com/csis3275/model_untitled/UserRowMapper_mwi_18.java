@@ -6,6 +6,15 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @author Michael Wilson 300278118
+ * @date 
+ * UserRowMapper_mwi_18.java
+ * com.csis3275.model_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ */
 @Component
 public class UserRowMapper_mwi_18 implements RowMapper<User_untitled>{
 
