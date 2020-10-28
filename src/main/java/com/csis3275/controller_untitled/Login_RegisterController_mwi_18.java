@@ -23,12 +23,13 @@ public class Login_RegisterController_mwi_18 {
 	Login_RegisterDAO_mwi_18 dao;
 	
 	@GetMapping("/login")
-	public String showLoginForm(Model model) {
+	public ModelAndView showLoginForm(ModelAndView modelAndView) {
 		Login_mwi_18 login = new Login_mwi_18();
-		model.addAttribute("test","");
-		model.addAttribute("login",login);
+		modelAndView.addObject("test","");
+		modelAndView.addObject("login",login);
 		
-		return "login";
+		modelAndView.setViewName("login");
+		return modelAndView;
 	}
 	
 	@PostMapping("/login")

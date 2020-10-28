@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class = "container">
+<div class = "login_container">
 	<h3>Enter your email associated to your account below to reset your password</h3>
 	<h2>${resetmessage }</h2>
 	<form:form action="${pageContext.request.contextPath}/forgotpassword" class="login_form" modelAttribute="forgotpassword" method = "post">
@@ -25,6 +26,7 @@
 	</table>
 	</form:form>
 	<h4>Back to Login Page? <a href = "${pageContext.request.contextPath}/login">Click Here</a></h4>
+</div>
 </div>
 </body>
 </html>
