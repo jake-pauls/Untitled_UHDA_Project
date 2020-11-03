@@ -33,7 +33,10 @@ public class AdminUserManagementDAOImpl_jpa_66 {
 	private final String SQL_ADMIN_DELETE_USER = "DELETE FROM users WHERE username = ?";
 	private final String SQL_CHECK_IF_USERNAME_EXISTS = "SELECT * FROM users WHERE username = ?";
 	private final String SQL_CHECK_IF_EMAIL_EXISTS = "SELECT * FROM users WHERE email = ?";
-	
+	// Authority Table Queries
+	private final String SQL_ADMIN_INSERT_USER_AUTHORITY = "INSERT INTO authorities (username, authority) VALUES (?,?)";
+	private final String SQL_ADMIN_UPDATE_USER_AUTHORITY = "UPDATE authorities SET authority = ? WHERE username = ?";
+	private final String SQL_ADMIN_DELETE_USER_AUTHORITY = "DELETE FROM authorities WHERE username = ?";
 	
 	@Autowired
 	public AdminUserManagementDAOImpl_jpa_66(DataSource dataSource) {
@@ -76,12 +79,13 @@ public class AdminUserManagementDAOImpl_jpa_66 {
 	}
 	
 	/**
-	 * Operation to create a user and add it to the database
+	 * Operation to create a user and add it to the database, whenever a user is added an authority must also be added
 	 * @param user The 'User_untitled' object for the user being added
-	 * @return boolean value determining whether the query successfully added the user, if rows returned is greater than 0 the result is true
+	 * @return boolean value determining whether the query successfully added the user authority, if rows returned is greater than 0 the result is true
 	 */
 	public boolean createUser(User_untitled user) {
-		return jdbcNewUserTemplate.update(SQL_ADMIN_INSERT_USER, user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole()) > 0;
+		jdbcNewUserTemplate.update(SQL_ADMIN_INSERT_USER, user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
+		return createUserAuthority(user, checkUserAuthority(user.getRole()));
 	}
 	
 	/**
@@ -90,6 +94,8 @@ public class AdminUserManagementDAOImpl_jpa_66 {
 	 * @return boolean value determining whether the query successfully updated the user, if rows returned is greater than 0 the result is true
 	 */
 	public boolean updateUser(User_untitled user) {
+		// Update the user's authority level if necessary
+		updateUserAuthority(user, checkUserAuthority(user.getRole()));
 		return jdbcNewUserTemplate.update(SQL_ADMIN_UPDATE_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), user.getUsername()) > 0;
 	}
 	
@@ -99,6 +105,30 @@ public class AdminUserManagementDAOImpl_jpa_66 {
 	 * @return boolean value determining whether the query successfully deleted the user, if rows returned is greater than 0 the result is true
 	 */
 	public boolean deleteUser(User_untitled user) {
+		deleteUserAuthority(user);
 		return jdbcNewUserTemplate.update(SQL_ADMIN_DELETE_USER, user.getUsername()) > 0;
+	}
+	
+	private boolean createUserAuthority(User_untitled user, String authority) {
+		return jdbcNewUserTemplate.update(SQL_ADMIN_INSERT_USER_AUTHORITY, user.getUsername(), authority) > 0;
+	}
+	
+	private boolean updateUserAuthority(User_untitled user, String authority) {
+		return jdbcNewUserTemplate.update(SQL_ADMIN_UPDATE_USER_AUTHORITY, authority, user.getUsername()) > 0;
+	}
+	
+	private boolean deleteUserAuthority(User_untitled user) {
+		return jdbcNewUserTemplate.update(SQL_ADMIN_DELETE_USER_AUTHORITY, user.getUsername()) > 0;
+	}
+	
+	private String checkUserAuthority(String authority) {
+		if (authority.equals("admin")) {
+			authority = "ROLE_ADMIN";
+		} else if (authority.equals("employee")) {
+			authority = "ROLE_EMPLOYEE";
+		} else {
+			authority = "ROLE_USER";
+		}
+		return authority;
 	}
 }
