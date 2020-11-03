@@ -7,10 +7,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Register</title>
-<!-- UIkit CSS -->
+<!-- UIkit CSS/JS -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
-<!-- UIkit JS -->
 <script
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
 <script
@@ -19,7 +18,7 @@
 <body>
 
 	<div class="uk-position-center">
-		<h2 class="uk-text-lead">Please fill out the registration form</h2>
+		<h2 class="uk-text-lead">Please fill out the registration form below</h2>
 
 		<c:if test="${ error != null }">
 			<div class="uk-alert-danger" uk-alert>

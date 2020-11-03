@@ -7,26 +7,56 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Forgot Password</title>
-<link rel = "stylesheet" href = "css/login.css"/>
+<!-- UIkit CSS/JS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 </head>
 <body>
-<div class = "container">
-<div class = "login_container">
-	<h3>Enter your email associated to your account below to reset your password</h3>
-	<h2>${resetmessage }</h2>
-	<form:form action="${pageContext.request.contextPath}/forgotpassword" class="login_form" modelAttribute="forgotpassword" method = "post">
-	<table>
-		<tr class = "login_form_items">
-			<td><label for = "email">Email: </label></td>
-			<td><form:input path = "email"/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><button>Submit</button></td>
-		</tr>
-	</table>
-	</form:form>
-	<h4>Back to Login Page? <a href = "${pageContext.request.contextPath}/login">Click Here</a></h4>
-</div>
-</div>
+	<div class="uk-position-center">
+
+		<c:if test="${resetErrorMessage != null}">
+			<div class="uk-alert-danger" uk-alert>
+				<p>${resetErrorMessage}</p>
+			</div>
+		</c:if>
+
+		<c:if test="${resetSuccessMessage != null}">
+			<div class="uk-alert-success" uk-alert>
+				<p>${resetSuccessMessage}</p>
+			</div>
+		</c:if>
+
+		<form:form action="${pageContext.request.contextPath}/forgotpassword"
+			class="uk-form-stacked" modelAttribute="forgotpassword" method="post">
+
+			<div class="uk-margin">
+				<label class="uk-form-label uk-text-bold uk-margin-bottom"
+					for="email">Enter the email associated with your account
+					below to reset your password </label>
+				<div class="uk-form-controls">
+					<div class="uk-inline">
+						<span class="uk-form-icon" uk-icon="icon: mail"></span>
+						<form:input class="uk-input uk-form-width-large" id="email"
+							type="text" path="email" />
+					</div>
+				</div>
+			</div>
+
+			<div uk-grid>
+				<div class="uk-width-1-4">
+					<button class="uk-button uk-button-primary">Submit</button>
+				</div>
+				<div class="uk-width-1-4 uk-margin-auto-left">
+					<a class="uk-button uk-button-default"
+						href="${pageContext.request.contextPath}/login">Back</a>
+				</div>
+			</div>
+		</form:form>
+
+	</div>
 </body>
 </html>

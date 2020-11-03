@@ -6,10 +6,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>User Home Page</title>
-<!-- UIkit CSS -->
+<!-- UIkit CSS/JS -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
-<!-- UIkit JS -->
 <script
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
 <script
@@ -28,22 +27,6 @@
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
 							uk-tooltip="Manage Users"></a>
 					</c:if>
-				</div>
-				<div class="uk-width-auto@m">
-					<a href="#" class="uk-icon-button uk-button-secondary"
-						uk-icon="icon: cog; ratio: 1.25" uk-tooltip="Settings"></a>
-				</div>
-				<div class="uk-width-auto@m">
-					<a href="#" class="uk-icon-button uk-button-secondary"
-						uk-icon="icon: cog; ratio: 1.25" uk-tooltip="Settings"></a>
-				</div>
-				<div class="uk-width-auto@m">
-					<a href="#" class="uk-icon-button uk-button-secondary"
-						uk-icon="icon: cog; ratio: 1.25" uk-tooltip="Settings"></a>
-				</div>
-				<div class="uk-width-auto@m">
-					<a href="#" class="uk-icon-button uk-button-secondary"
-						uk-icon="icon: cog; ratio: 1.25" uk-tooltip="Settings"></a>
 				</div>
 			</div>
 
