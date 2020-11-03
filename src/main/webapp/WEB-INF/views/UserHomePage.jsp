@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,19 +23,21 @@
 				${user.firstName}</h2>
 
 			<div class="uk-margin-medium" uk-grid>
+
 				<div class="uk-width-auto@m">
-					<c:if test="${user.role == 'admin'}">
+					<sec:authorize access="hasRole('ADMIN')">
 						<a href="${pageContext.request.contextPath}/AdminUserManagement"
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
 							uk-tooltip="Manage Users"></a>
-					</c:if>
+					</sec:authorize>
 				</div>
+
 			</div>
 
 			<div class="uk-margin-medium">
 				<h4 class="uk-text-lead uk-text-center">
 					<a class="uk-button uk-button-default"
-						href="${pageContext.request.contextPath}/login">Logout</a>
+						href="${pageContext.request.contextPath}/logout">Logout</a>
 				</h4>
 			</div>
 		</div>
