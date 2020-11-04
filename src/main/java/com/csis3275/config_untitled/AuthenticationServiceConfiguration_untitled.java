@@ -45,7 +45,7 @@ public class AuthenticationServiceConfiguration_untitled extends WebSecurityConf
 			// Only users with the ADMIN role can access admin user management
 			.antMatchers("/AdminUserManagement").hasRole("ADMIN")
 			// All users can access the root directory, registration, forgot password, and resources
-			.antMatchers("/", "/register", "/forgotpassword", "/resources/**").permitAll()
+			.antMatchers("/", "/register", "/forgotpassword", "/reset**", "/resources/**").permitAll()
 			// All other requests require authentication
 			.anyRequest().authenticated()
 			.and()
