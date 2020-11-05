@@ -20,7 +20,7 @@
 	<div class="uk-section uk-section-default">
 		<div class="uk-container uk-position-center">
 			<h2 class="uk-heading-small uk-text-bold uk-text-center">Hello,
-				${user.firstName}</h2>
+				${loggedInUser.firstName}</h2>
 
 			<div class="uk-margin-medium" uk-grid>
 

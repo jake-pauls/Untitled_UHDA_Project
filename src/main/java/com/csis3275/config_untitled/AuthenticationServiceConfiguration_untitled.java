@@ -52,6 +52,7 @@ public class AuthenticationServiceConfiguration_untitled extends WebSecurityConf
 				.formLogin()
 					.loginPage("/login")
 					.defaultSuccessUrl("/UserHomePage")
+					.failureUrl("/login?error=1")
 					.permitAll()
 			.and()
 				// Redirect back to login form on logout success

@@ -19,9 +19,9 @@
 	<div class="uk-position-center">
 		<h1 class="uk-text-lead uk-text-bold">Welcome to the UHDA</h1>
 
-		<c:if test="${test != null}">
+		<c:if test="${not empty param['error']}">
 			<div class="uk-alert-danger" uk-alert>
-				<p>${test}</p>
+				<c:out value="Username or Password Incorrect" />
 			</div>
 		</c:if>
 
@@ -64,8 +64,8 @@
 		<a href="${pageContext.request.contextPath}/register">Register
 			Here</a><br> <a
 			href="${pageContext.request.contextPath}/forgotpassword">Forgot
-			Password?</a><br>
-		<a class="uk-button uk-button-default uk-margin-top"
+			Password?</a><br> <a
+			class="uk-button uk-button-default uk-margin-top"
 			href="${pageContext.request.contextPath}/">Back</a>
 	</div>
 </body>
