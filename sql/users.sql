@@ -1,15 +1,15 @@
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users(
-username VARCHAR(30) PRIMARY KEY,
-password VARCHAR(100),
-first_name VARCHAR(30),
-last_name VARCHAR(30),
-email VARCHAR(50),
-security_question VARCHAR(60),
-security_answer VARCHAR(20),
-reset_token VARCHAR(50),
-role VARCHAR(20),
+	username VARCHAR(30) PRIMARY KEY,
+	password VARCHAR(100),
+	first_name VARCHAR(30),
+	last_name VARCHAR(30),
+	email VARCHAR(50),
+	security_question VARCHAR(60),
+	security_answer VARCHAR(20),
+	reset_token VARCHAR(50),
+	role VARCHAR(20),
 );
 
 
