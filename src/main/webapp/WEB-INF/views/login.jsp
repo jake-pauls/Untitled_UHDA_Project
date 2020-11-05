@@ -7,33 +7,64 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Login</title>
-<link rel = "stylesheet" href = "css/login.css"/>
+<!-- UIkit CSS/JS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 </head>
 <body>
-<div class = "container">
-	<h1>Welcome to the UHDA</h1>
-	<div class = "login_container">
-	<h2>${test } ${param.test}</h2>
-	
-	<form:form action="${pageContext.request.contextPath}/login" class="login_form" modelAttribute="login" method = "post">
-	<table>
-		<tr class = "login_form_items">
-			<td><label for = "username">Username: </label></td>
-			<td><form:input path = "username"/></td>
-		</tr>
-		<tr>
-			<td><label for = "password">Password: </label></td>
-			<td><form:input path = "password"/></td>
-		</tr>
-		<tr>
-			<td colspan="2"><button>Login</button></td>
-		</tr>
-	</table>
-	</form:form>
-	<h4>Need an account?</h4>
-	<a href = "${pageContext.request.contextPath}/register">Register Here</a><br>
-	<a href = "${pageContext.request.contextPath}/forgotpassword">Forgot Password?</a>
-</div>
-</div>
+	<div class="uk-position-center">
+		<h1 class="uk-text-lead uk-text-bold">Welcome to the UHDA</h1>
+
+		<c:if test="${test != null}">
+			<div class="uk-alert-danger" uk-alert>
+				<p>${test}</p>
+			</div>
+		</c:if>
+
+		<c:if test="${successMessage != null}">
+			<div class="uk-alert-success" uk-alert>
+				<p>${successMessage}</p>
+			</div>
+		</c:if>
+
+		<form:form action="${pageContext.request.contextPath}/login"
+			class="uk-form-stacked" modelAttribute="login" method="post">
+
+			<div class="uk-margin">
+				<label class="uk-form-label" for="username">Username: </label>
+				<div class="uk-form-controls">
+					<div class="uk-inline">
+						<span class="uk-form-icon" uk-icon="icon: user"></span>
+						<form:input class="uk-input uk-form-width-large" id="username"
+							type="text" path="username" />
+					</div>
+				</div>
+			</div>
+
+			<div class="uk-margin">
+				<label class="uk-form-label" for="password">Password: </label>
+				<div class="uk-form-controls">
+					<div class="uk-inline">
+						<span class="uk-form-icon" uk-icon="icon: lock"></span>
+						<form:input class="uk-input uk-form-width-large" id="password"
+							type="password" path="password" />
+					</div>
+				</div>
+			</div>
+
+			<button class="uk-button uk-button-primary">Login</button>
+
+		</form:form>
+
+		<h4>Need an account?</h4>
+		<a href="${pageContext.request.contextPath}/register">Register
+			Here</a><br> <a
+			href="${pageContext.request.contextPath}/forgotpassword">Forgot
+			Password?</a>
+	</div>
 </body>
 </html>

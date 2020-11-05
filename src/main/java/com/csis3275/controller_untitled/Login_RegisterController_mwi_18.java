@@ -34,7 +34,6 @@ public class Login_RegisterController_mwi_18 {
 	@GetMapping("/login")
 	public ModelAndView showLoginForm(ModelAndView modelAndView) {
 		Login_mwi_18 login = new Login_mwi_18();
-		modelAndView.addObject("test","");
 		modelAndView.addObject("login",login);
 		
 		modelAndView.setViewName("login");
@@ -46,7 +45,7 @@ public class Login_RegisterController_mwi_18 {
 		
 		User_untitled user = dao.checkCredentials(login.getUsername(), login.getPassword());
 		if(user != null) {
-			modelAndView.addObject("test","Login succesful");
+			modelAndView.addObject("successMessage","Login succesful");
 			modelAndView.addObject("user", user);
 			modelAndView.addObject("tab","My Tickets");
 			modelAndView.setViewName("UserHomePage");
@@ -97,7 +96,7 @@ public class Login_RegisterController_mwi_18 {
 			return "register";
 		}else {
 			if (dao.createUser(user) == 1) {
-				model.addAttribute("test","user created");
+				model.addAttribute("successMessage","New user created, please log in");
 			}else{
 				model.addAttribute("user", user);
 				model.addAttribute("error","Sorry that username is already being used");

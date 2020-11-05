@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.csis3275.dao_untitled.EmailServiceImpl_untitled;
 import com.csis3275.dao_untitled.PasswordResetDAO_gpo_20;
@@ -76,9 +77,9 @@ public class PasswordResetController_gpo_20 {
 					+ resetPageUrl + "/reset?resetToken=" + user.getResetToken());
 			
 			emailService.sendEmail(passwordResetEmail);
-			modelAndView.addObject("resetmessage", "A Password reset link has been sent to "+ user.getEmail());
+			modelAndView.addObject("resetSuccessMessage", "A Password reset link has been sent to "+ user.getEmail());
 		} else { //else if a user with that email does not exist, let the user know it was spelt incorrectly or is not valid
-			modelAndView.addObject("resetmessage", "Email is not valid or is spelt incorrectly, try again");
+			modelAndView.addObject("resetErrorMessage", "Email is not valid or is spelt incorrectly, try again");
 		}
 		modelAndView.addObject("forgotpassword", forgotpassword);
 		modelAndView.setViewName("forgotpassword");
@@ -105,13 +106,13 @@ public class PasswordResetController_gpo_20 {
 	
 	//when user submits their new password, the below method will will update the users password and reset the resetToken to null since it has been used
 	@PostMapping("/reset")
-	public ModelAndView resetUsersPassword(@ModelAttribute("resetpassword") PasswordReset_gpo_20 resetpassword, ModelAndView modelAndView, RedirectAttributes redirectAttributes, @RequestParam("resetToken") String resetToken) {
+	public RedirectView resetUsersPassword(@ModelAttribute("resetpassword") PasswordReset_gpo_20 resetpassword, ModelAndView modelAndView, RedirectAttributes redirectAttributes, @RequestParam("resetToken") String resetToken) {
 		User_untitled user =  passwordResetDAO.checkUserHasResetToken(resetToken);
 		user.setPassword(resetpassword.getPassword());
 		passwordResetDAO.updatePasswordByResetToken(user);
-		modelAndView.addObject("test","Password successfully Reset");
-		modelAndView.setViewName("redirect:/login");
-		return modelAndView;
+		RedirectView redirectView = new RedirectView("/login", true);
+		redirectAttributes.addFlashAttribute("successMessage", "Password successfully reset");
+		return redirectView;
 	}
 	
 }

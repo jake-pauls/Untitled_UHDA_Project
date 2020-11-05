@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController_untitled {
-
-	private final String LANDING_PAGE_MESSAGE = "Hello from Untitled! Click the link below to login.";
 	
 	/**
 	 * Request mapped to landing point for SpringBoot application
@@ -26,7 +24,6 @@ public class IndexController_untitled {
 	 */
 	@RequestMapping("/")
 	public String index(ModelMap model) {
-		model.put("helloMessage", LANDING_PAGE_MESSAGE);
 		return "LandingPage";
 	}
 	
