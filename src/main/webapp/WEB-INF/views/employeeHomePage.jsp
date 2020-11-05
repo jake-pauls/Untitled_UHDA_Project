@@ -30,6 +30,7 @@
 <div class="view">
 <div id = "viewTitle">
 	${tab}
+ 
 </div>
 
 </div>
