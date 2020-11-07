@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.csis3275.model_untitled.UserRowMapper_mwi_18;
 
 import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.DatabaseAuthenticationUtilities_untitled;
 
 /**
  * 
@@ -50,9 +51,11 @@ public class Login_RegisterDAO_mwi_18 {
 	
 	public int createUser(User_untitled user) {
 		try {
-			jdbcTemplate.update(SQL_CREATE_USER,user.getUsername(),user.getPassword(),user.getFirstName(),
+			// Insert the user using the hashed password
+			jdbcTemplate.update(SQL_CREATE_USER,user.getUsername(),user.getHashedPassword(),user.getFirstName(),
 					user.getLastName(), user.getEmail(), user.getSecurityQ(), user.getSecurityA(),user.getResetToken(), user.getRole());
-			
+			// Create an authority entry for the new user
+			DatabaseAuthenticationUtilities_untitled.createUserAuthority(jdbcTemplate, user);
 			return 1;
 		}catch(DuplicateKeyException ex) {
 			return -1;

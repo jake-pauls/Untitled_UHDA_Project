@@ -85,6 +85,7 @@ public class AdminUserManagementController_jpa_66 {
 	public ModelAndView createWorkspaceUser(@ModelAttribute("user") User_untitled createdUser, ModelAndView modelAndView, HttpServletRequest request) {
 		if(adminUserManagementDAOImpl.checkIfUsernameExists(createdUser.getUsername())) {
 			if (adminUserManagementDAOImpl.checkIfEmailExists(createdUser.getEmail())) {
+				// Create the user
 				adminUserManagementDAOImpl.createUser(createdUser);
 				// Trigger password reset upon creating user
 				adminResetUserPassword(createdUser.getEmail(), request);

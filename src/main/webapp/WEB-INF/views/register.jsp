@@ -18,7 +18,8 @@
 <body>
 
 	<div class="uk-position-center">
-		<h2 class="uk-text-lead">Please fill out the registration form below</h2>
+		<h2 class="uk-text-lead">Please fill out the registration form
+			below</h2>
 
 		<c:if test="${ error != null }">
 			<div class="uk-alert-danger" uk-alert>
@@ -98,9 +99,17 @@
 				</div>
 			</div>
 
-			<button class="uk-button uk-button-primary">Create Account</button>
-			<form:hidden path="role" value="user" />
-			<form:hidden path="resetToken" value="" />
+			<div uk-grid>
+				<form:hidden path="role" value="user" />
+				<form:hidden path="resetToken" value="" />
+				<div class="uk-width-1-2">
+					<button class="uk-button uk-button-primary">Create Account</button>
+				</div>
+				<div class="uk-width-1-4 uk-margin-auto-left">
+					<a class="uk-button uk-button-default"
+						href="${pageContext.request.contextPath}/login">Back</a>
+				</div>
+			</div>
 			
 		</form:form>
 	</div>

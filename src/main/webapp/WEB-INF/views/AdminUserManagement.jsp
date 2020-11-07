@@ -134,7 +134,7 @@
 					id="button-reference" type="submit" name="saveUser" disabled="true">Save Changes</form:button>
 				<button class="uk-button uk-button-secondary uk-margin-left"
 					id="addNewUser" onclick="addNewTableRow()">Add New User</button>
-				<a class="uk-button uk-button-default uk-margin-left" href="${pageContext.request.contextPath}/login">Back</a>
+				<a class="uk-button uk-button-default uk-margin-left" href="${pageContext.request.contextPath}/UserHomePage">Back</a>
 			</div>
 
 		</form:form>

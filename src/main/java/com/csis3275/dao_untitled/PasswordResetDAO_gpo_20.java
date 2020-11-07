@@ -67,6 +67,6 @@ public class PasswordResetDAO_gpo_20 {
 	}
 	//This method is used to update the users password if it matches the generated reset token, it then sets the token to null since the resetToken has been used. 
 	public boolean updatePasswordByResetToken(User_untitled user) {
-		return jdbcTemplate.update(SQL_UPDATE_PASSWORD_BY_RESET_TOKEN, user.getPassword(), user.getResetToken()) >0;
+		return jdbcTemplate.update(SQL_UPDATE_PASSWORD_BY_RESET_TOKEN, user.getHashedPassword(), user.getResetToken()) >0;
 	}
 }

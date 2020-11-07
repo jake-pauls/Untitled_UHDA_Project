@@ -1,5 +1,7 @@
 package com.csis3275.model_untitled;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 /**
  * 
  * @author Michael Wilson 300278118
@@ -74,5 +76,14 @@ public class User_untitled {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	/**
+	 * Retrieves hashed password associated with the scoped user object
+	 * @return Password hashed using the BCrypt hash algorithm
+	 */
+	public String getHashedPassword() {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(getPassword()); 
 	}
 }

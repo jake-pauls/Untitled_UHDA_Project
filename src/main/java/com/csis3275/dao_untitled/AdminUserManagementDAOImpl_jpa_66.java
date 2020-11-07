@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.csis3275.model_untitled.UserRowMapper_mwi_18;
 import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.DatabaseAuthenticationUtilities_untitled;
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -23,16 +24,17 @@ import com.csis3275.model_untitled.User_untitled;
 @Component
 public class AdminUserManagementDAOImpl_jpa_66 {
 	JdbcTemplate jdbcNewUserTemplate;
+
+	private final String USER_TABLE_NAME = "users";
 	
-	// SQL Queries
-	private final String SQL_SELECT_ALL_USERS = "SELECT * FROM users";
-	private final String SQL_SELECT_USER_BY_USERNAME = "SELECT * FROM users WHERE username = ?";
-	private final String SQL_ADMIN_INSERT_USER = "INSERT INTO users(username, first_name, last_name, email, role) VALUES (?,?,?,?,?)";
-	// Updates only permissible on first_name, last_name, email and role
-	private final String SQL_ADMIN_UPDATE_USER = "UPDATE users SET first_name = ?, last_name = ?, email = ?, role = ? WHERE username = ?";
-	private final String SQL_ADMIN_DELETE_USER = "DELETE FROM users WHERE username = ?";
-	private final String SQL_CHECK_IF_USERNAME_EXISTS = "SELECT * FROM users WHERE username = ?";
-	private final String SQL_CHECK_IF_EMAIL_EXISTS = "SELECT * FROM users WHERE email = ?";
+	// Users Table Queries
+	private final String SQL_SELECT_ALL_USERS = "SELECT * FROM " + USER_TABLE_NAME;
+	private final String SQL_SELECT_USER_BY_USERNAME = "SELECT * FROM " + USER_TABLE_NAME + " WHERE username = ?";
+	private final String SQL_ADMIN_INSERT_USER = "INSERT INTO " + USER_TABLE_NAME + "(username, first_name, last_name, email, role) VALUES (?,?,?,?,?)";
+	private final String SQL_ADMIN_UPDATE_USER = "UPDATE " + USER_TABLE_NAME + " SET first_name = ?, last_name = ?, email = ?, role = ? WHERE username = ?";
+	private final String SQL_ADMIN_DELETE_USER = "DELETE FROM " + USER_TABLE_NAME + " WHERE username = ?";
+	private final String SQL_CHECK_IF_USERNAME_EXISTS = "SELECT * FROM " + USER_TABLE_NAME + " WHERE username = ?";
+	private final String SQL_CHECK_IF_EMAIL_EXISTS = "SELECT * FROM " + USER_TABLE_NAME + " WHERE email = ?";
 	
 	
 	@Autowired
@@ -76,29 +78,32 @@ public class AdminUserManagementDAOImpl_jpa_66 {
 	}
 	
 	/**
-	 * Operation to create a user and add it to the database
+	 * Operation to create a user and add it to the database, whenever a user is added an authority must also be added
 	 * @param user The 'User_untitled' object for the user being added
-	 * @return boolean value determining whether the query successfully added the user, if rows returned is greater than 0 the result is true
+	 * @return boolean value determining whether the query successfully added the user authority, if rows returned is greater than 0 the result is true
 	 */
 	public boolean createUser(User_untitled user) {
-		return jdbcNewUserTemplate.update(SQL_ADMIN_INSERT_USER, user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole()) > 0;
+		jdbcNewUserTemplate.update(SQL_ADMIN_INSERT_USER, user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole());
+		return DatabaseAuthenticationUtilities_untitled.createUserAuthority(jdbcNewUserTemplate, user);
 	}
 	
 	/**
-	 * Operation to update a user in the database
+	 * Operation to update a user in the database, checks for updates in user authority first
 	 * @param user The 'User_untitled' object for the user being updated
 	 * @return boolean value determining whether the query successfully updated the user, if rows returned is greater than 0 the result is true
 	 */
 	public boolean updateUser(User_untitled user) {
+		DatabaseAuthenticationUtilities_untitled.updateUserAuthority(jdbcNewUserTemplate, user);
 		return jdbcNewUserTemplate.update(SQL_ADMIN_UPDATE_USER, user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), user.getUsername()) > 0;
 	}
 	
 	/**
-	 * Operation to delete a user in the database
+	 * Operation to delete a user in the database, performs delete on user authority first due to referential integrity
 	 * @param user The 'User_untitled' object for the user being deleted
 	 * @return boolean value determining whether the query successfully deleted the user, if rows returned is greater than 0 the result is true
 	 */
 	public boolean deleteUser(User_untitled user) {
+		DatabaseAuthenticationUtilities_untitled.deleteUserAuthority(jdbcNewUserTemplate, user);
 		return jdbcNewUserTemplate.update(SQL_ADMIN_DELETE_USER, user.getUsername()) > 0;
 	}
 }
