@@ -5,35 +5,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel = "stylesheet" href = "css/homepage.css" />
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 <meta charset="ISO-8859-1">
 <title>Employee</title>
 </head>
 <body>
-<div class = "header" style="font-family: arial">
-	<div class="myTicket">
-		<p id="headerText">My Tickets</p>
-	</div>
-	<div class="avaliableTickets">
-		<p id="headerText">Available Tickets</p>
-	</div>
-	<div id="headerSpace"></div>
-		
-	<div id="profile">
-		<c:choose>
-			<c:when test="${user != null }"><p id="headerText">${user.username }</p></c:when>
-			<c:otherwise><p id="headerText">Sign In</p></c:otherwise>
-		</c:choose>
-		
-	</div>
+<div class = "uk-container uk-container-small">
+<nav class="uk-navbar-container" uk-navbar>
+	<div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="">My Tickets</a></li>
+            <li class="uk-nav"><a href="">Active Tickets</a></li>
+            <li class="uk-nav"><a href="">Create Ticket</a></li>
+        </ul>
+    </div>
+</nav>
 </div>
-<div class="view">
-<div id = "viewTitle">
-	${tab}
- 
-</div>
-
-</div>
-
 </body>
 </html>
