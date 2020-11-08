@@ -107,7 +107,7 @@ public class TicketManagementDAOImpl_jpa_66 {
 	 * Creates a Timestamp object for the current time
 	 * @return Timestamp object representing the current time 
 	 */
-	private Timestamp getCurrentTime() {
+	public Timestamp getCurrentTime() {
 		return new Timestamp(new Date().getTime());
 	}
 }
