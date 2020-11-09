@@ -32,22 +32,43 @@ public class TicketActionsController_gpo_20 {
 	
 	//Success messages
 	private final String TICKET_ASSIGNED_SUCCESS_MESSAGE = "Ticket has been assigned succesfully";
+	private final String TICKET_STATUS_SUCCESS_MESSAGE = "Ticket status has been updated succesfully";
 	
+	/**
+	 * wire up and declare the ticket action sql class
+	 */
 	@Autowired
 	TicketActionsDAO_Impl_gpo_20 ticketActionsDAOImpl;
 	
+	/**
+	 * wire up the email services class
+	 */
 	@Autowired
 	private EmailServiceImpl_untitled emailService;
 	
+	/**
+	 * Model attribute bound to the User_untitled object
+	 * @return the user object, binding the model attribute "user"
+	 */
 	@ModelAttribute("user")
 	public User_untitled setupUserModelAttribute() {
 		return new User_untitled();
 	}
+	/**
+	 * Model attribute bound to the Ticket_untitled object
+	 * @return the ticket object, binding the model attribute "ticket"
+	 */
 	@ModelAttribute("ticket")
 	public Ticket_untitled setupTicketModelAttribute() {
 		return new Ticket_untitled();
 	}
 	
+	/**
+	 * POST request mapping for assigning a ticket.
+	 * @param ticketToAssign New 'Ticket_untitled' object created from the ticket being edited 
+	 * @param modelAndView object containing the model and view attributes in scope
+	 * @return 
+	 */
 	@RequestMapping(value = "/AssignTicket", method = RequestMethod.POST)
 	public ModelAndView handleAssigningTicket(@ModelAttribute("ticket") Ticket_untitled ticketToAssign, ModelAndView modelAndView) {
 		ticketActionsDAOImpl.assignTicket(ticketToAssign);
@@ -63,6 +84,55 @@ public class TicketActionsController_gpo_20 {
 		return modelAndView;
 	}
 	
+	/**
+	 * POST request mapping for changing a tickets status.
+	 * @param ticketToAssign New 'Ticket_untitled' object created from the ticket being actioned 
+	 * @param modelAndView object containing the model and view attributes in scope
+	 * @return 
+	 */
+	@RequestMapping(value = "/ChangeTicketStatus", method = RequestMethod.POST)
+	public ModelAndView handleChangingTicketStatus(@ModelAttribute("ticket") Ticket_untitled ticketToAssign, ModelAndView modelAndView) {
+		ticketActionsDAOImpl.changeTicketStatus(ticketToAssign);
+		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticketToAssign.getUsername());
+		User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(ticketToAssign.getAssignee());	
+		String subjectOfEmail = "Ticket Number: " + ticketToAssign.getTicketID() + " status has been updated to " + ticketToAssign.getStatus();
+		String emailText = "Your ticket status has been updated to " + ticketToAssign.getStatus() + " please review your ticket if further action is required";
+		modelAndView.addObject("successMessage", TICKET_STATUS_SUCCESS_MESSAGE);
+		ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+		List<Ticket_untitled> ticketList = ticketActionsDAOImpl.getAllTickets();
+		modelAndView.addObject("ticketList", ticketList);
+		modelAndView.setViewName("TicketDisplay");
+		return modelAndView;
+	}
+	
+	/**
+	 * POST request mapping for changing a tickets priority.
+	 * @param ticketToAssign New 'Ticket_untitled' object created from the ticket being actioned 
+	 * @param modelAndView object containing the model and view attributes in scope
+	 * @return 
+	 */
+	@RequestMapping(value = "/ChangeTicketPriority", method = RequestMethod.POST)
+	public ModelAndView handleChangingTicketPriority(@ModelAttribute("ticket") Ticket_untitled ticketToAssign, ModelAndView modelAndView) {
+		ticketActionsDAOImpl.changeTicketPriority(ticketToAssign);
+		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticketToAssign.getUsername());
+		User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(ticketToAssign.getAssignee());	
+		String subjectOfEmail = "Ticket Number: " + ticketToAssign.getTicketID() + " priority has been changed to " + ticketToAssign.getPriority();
+		String emailText = "Your ticket priority has been updated to " + ticketToAssign.getStatus() + " please review your ticket if further action is required, we look forward to assisting you as soon as possible";
+		modelAndView.addObject("successMessage", TICKET_STATUS_SUCCESS_MESSAGE);
+		ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+		List<Ticket_untitled> ticketList = ticketActionsDAOImpl.getAllTickets();
+		modelAndView.addObject("ticketList", ticketList);
+		modelAndView.setViewName("TicketDisplay");
+		return modelAndView;
+	}
+	
+	/**
+	 * Email service to send update emails based on the ticket action performed.
+	 * @param userEmail, gathered from the username from the ticket that is being actioned
+	 * @param assigneeEmail, gathered from the assignee from the ticket that is being actioned
+	 * @param subjectLine, used to provide a customized subject line based on the action performed on the ticket
+	 * @param message, used to provide a customized message text based on the action performed.
+	 */
 	public void ticketActionEmail(String userEmail, String assigneeEmail, String subjectLine, String message) {
 		SimpleMailMessage ticketActionEmail = new SimpleMailMessage();
 		ticketActionEmail.setFrom("uhda.untitled.csis3275@gmail.com");
