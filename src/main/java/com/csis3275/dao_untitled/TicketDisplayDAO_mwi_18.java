@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.csis3275.model_untitled.TicketRowMapper_jpa_66;
 import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.UserRowMapper_mwi_18;
+import com.csis3275.model_untitled.User_untitled;
 
 @Component
 public class TicketDisplayDAO_mwi_18 {
@@ -17,6 +19,7 @@ public class TicketDisplayDAO_mwi_18 {
 	
 	private String SQL_GET_ALL_UNASSIGNED_TICKETS = "SELECT * FROM TICKETS WHERE assignee IS NULL ORDER BY %s;";
 	private String SQL_GET_ALL_EMPLOYEES_TICKETS = "SELECT * FROM TICKETS WHERE assignee = ? ORDER BY %s;";
+	private String SQL_GET_LIST_OF_EMPLOYEES_AND_ADMINS = "SELECT * FROM USERS WHERE role = 'admin' OR role = 'employee'";
 	
 	@Autowired
 	public TicketDisplayDAO_mwi_18(DataSource dataSource) {
@@ -33,5 +36,9 @@ public class TicketDisplayDAO_mwi_18 {
 		String formattedSQL = String.format(SQL_GET_ALL_EMPLOYEES_TICKETS, order);
 		
 		return jdbcTemplate.query(formattedSQL, new TicketRowMapper_jpa_66(),assignee);
+	}
+	public List<User_untitled> getListOfEmployeesAndAdmins(){
+		
+		return jdbcTemplate.query(SQL_GET_LIST_OF_EMPLOYEES_AND_ADMINS, new UserRowMapper_mwi_18());
 	}
 }
