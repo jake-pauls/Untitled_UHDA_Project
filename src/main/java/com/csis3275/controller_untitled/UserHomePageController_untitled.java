@@ -37,6 +37,8 @@ public class UserHomePageController_untitled {
 	public ModelAndView userHomePage(HttpSession session, ModelAndView modelAndView, Principal principal) {
 		modelAndView.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
 		modelAndView.setViewName("UserHomePage");
+		
+		
 		return modelAndView;
 	}
 	

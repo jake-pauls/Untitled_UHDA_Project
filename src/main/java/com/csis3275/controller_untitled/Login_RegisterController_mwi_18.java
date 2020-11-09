@@ -47,7 +47,11 @@ public class Login_RegisterController_mwi_18 {
 		if(user != null) {
 			modelAndView.addObject("successMessage","Login succesful");
 			modelAndView.addObject("user", user);
+			modelAndView.addObject("tab","My Tickets");
 			modelAndView.setViewName("UserHomePage");
+			if(user.getRole().equals("employee")) {
+				modelAndView.setViewName("employeeHomePage");
+			}
 		}else {
 			modelAndView.addObject("test","Username or Password incorrect");
 			modelAndView.setViewName("login");

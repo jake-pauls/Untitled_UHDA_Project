@@ -44,6 +44,8 @@ public class AuthenticationServiceConfiguration_untitled extends WebSecurityConf
 		http.authorizeRequests()
 			// Only users with the ADMIN role can access admin user management
 			.antMatchers("/AdminUserManagement").hasRole("ADMIN")
+			// Employees
+			.antMatchers("/employeeHomePage").hasRole("EMPLOYEE")
 			// All users can access the root directory, registration, forgot password, and resources
 			.antMatchers("/", "/register", "/forgotpassword", "/reset**", "/resources/**").permitAll()
 			// All other requests require authentication
