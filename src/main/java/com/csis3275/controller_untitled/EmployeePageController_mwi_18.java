@@ -10,12 +10,15 @@ import javax.swing.JOptionPane;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.UserRowMapper_mwi_18;
+import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 
@@ -75,5 +78,11 @@ public class EmployeePageController_mwi_18 {
 		myList.add(Ticket_untitled.TICKET_STATUS_RESOLVED);
 		myList.add(Ticket_untitled.TICKET_STATUS_CLOSED);
 		return myList;
+	}
+	
+	@ModelAttribute("employeeList")
+	public void employeeAdminList(ModelMap modelMap){
+		List<User_untitled> employeeList = dao.getListOfEmployeesAndAdmins();
+		modelMap.addAttribute("employeeList", employeeList);
 	}
 }

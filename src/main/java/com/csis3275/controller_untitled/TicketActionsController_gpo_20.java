@@ -56,6 +56,7 @@ public class TicketActionsController_gpo_20 {
 	public User_untitled setupUserModelAttribute() {
 		return new User_untitled();
 	}
+
 	/**
 	 * Model attribute bound to the Ticket_untitled object
 	 * 
@@ -66,44 +67,25 @@ public class TicketActionsController_gpo_20 {
 	// return new Ticket_untitled();
 	// }
 
+	@RequestMapping(value = "/AssignTicket", method = RequestMethod.POST)
+	public RedirectView handleAssigningTicket(@ModelAttribute("ticket") Ticket_untitled ticketToAssign,
+			RedirectAttributes redirectAttributes) {
+		ticketActionsDAOImpl.assignTicket(ticketToAssign);
+		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticketToAssign.getUsername());
+		User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(ticketToAssign.getAssignee());
+		String subjectOfEmail = "Ticket Number: " + ticketToAssign.getTicketID() + " has been assigned to "
+				+ assigneeProfile.getFirstName() + " " + assigneeProfile.getLastName();
+		String emailText = "Your ticket has now been assigned, " + assigneeProfile.getFirstName()
+				+ " will be addressing your issue or concern and will update the ticket as progress is made";
+		ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+		redirectAttributes.addFlashAttribute("successMessage", TICKET_ASSIGNED_SUCCESS_MESSAGE);
+		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
+		return redirectView;
+	}
+
 	/**
-	 * POST request mapping for assigning a ticket.
+	 * POST request mapping for changing a tickets status.
 	 * 
-	 * @param ticketToAssign New 'Ticket_untitled' object created from the ticket
-	 *                       being edited
-	 * @param modelAndView   object containing the model and view attributes in
-	 *                       scope
-	 * @return
-	 *
-	 * @RequestMapping(value = "/AssignTicket", method = RequestMethod.POST) public
-	 *                       ModelAndView
-	 *                       handleAssigningTicket(@ModelAttribute("ticket")
-	 *                       Ticket_untitled ticketToAssign, ModelAndView
-	 *                       modelAndView) {
-	 *                       ticketActionsDAOImpl.assignTicket(ticketToAssign);
-	 *                       User_untitled userProfile =
-	 *                       ticketActionsDAOImpl.getUserProfileByUsername(ticketToAssign.getUsername());
-	 *                       User_untitled assigneeProfile =
-	 *                       ticketActionsDAOImpl.getAssigneeProfileByUsername(ticketToAssign.getAssignee());
-	 *                       String subjectOfEmail = "Ticket Number: " +
-	 *                       ticketToAssign.getTicketID() + " has been assigned to "
-	 *                       + assigneeProfile.getFirstName() + " "+
-	 *                       assigneeProfile.getLastName(); String emailText = "Your
-	 *                       ticket has now been assigned, " +
-	 *                       assigneeProfile.getFirstName() + " will be addressing
-	 *                       your issue or concern and will update the ticket as
-	 *                       progress is made";
-	 *                       modelAndView.addObject("successMessage",
-	 *                       TICKET_ASSIGNED_SUCCESS_MESSAGE);
-	 *                       ticketActionEmail(userProfile.getEmail(),
-	 *                       assigneeProfile.getEmail(), subjectOfEmail, emailText);
-	 *                       List<Ticket_untitled> ticketList =
-	 *                       ticketActionsDAOImpl.getAllTickets();
-	 *                       modelAndView.addObject("ticketList", ticketList);
-	 *                       modelAndView.setViewName("TicketDisplay"); return
-	 *                       modelAndView; }
-	 * 
-	 *                       /** POST request mapping for changing a tickets status.
 	 * @param ticketToAssign New 'Ticket_untitled' object created from the ticket
 	 *                       being actioned
 	 * @param modelAndView   object containing the model and view attributes in
