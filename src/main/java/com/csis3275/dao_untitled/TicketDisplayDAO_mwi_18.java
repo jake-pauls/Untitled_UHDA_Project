@@ -16,7 +16,7 @@ public class TicketDisplayDAO_mwi_18 {
 	JdbcTemplate jdbcTemplate;
 	
 	private String SQL_GET_ALL_UNASSIGNED_TICKETS = "SELECT * FROM TICKETS WHERE assignee IS NULL;";
-	private String SQL_GET_ALL_EMPLOYEES_TICKETS = "SELECT * FROM TICKETS WHERE assignee = ?;";
+	private String SQL_GET_ALL_EMPLOYEES_TICKETS = "SELECT * FROM TICKETS WHERE assignee = ? ORDER BY %s;";
 	
 	@Autowired
 	public TicketDisplayDAO_mwi_18(DataSource dataSource) {
@@ -27,7 +27,9 @@ public class TicketDisplayDAO_mwi_18 {
 		return jdbcTemplate.query(SQL_GET_ALL_UNASSIGNED_TICKETS, new TicketRowMapper_jpa_66());
 	}
 	
-	public List<Ticket_untitled> getAssignedTickets(String assignee){
-		return jdbcTemplate.query(SQL_GET_ALL_EMPLOYEES_TICKETS, new TicketRowMapper_jpa_66(),assignee);
+	public List<Ticket_untitled> getAssignedTickets(String assignee,String order){
+		String formattedSQL = String.format(SQL_GET_ALL_EMPLOYEES_TICKETS, order);
+		
+		return jdbcTemplate.query(formattedSQL, new TicketRowMapper_jpa_66(),assignee);
 	}
 }

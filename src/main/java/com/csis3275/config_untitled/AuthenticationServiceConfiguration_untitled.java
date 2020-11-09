@@ -53,7 +53,7 @@ public class AuthenticationServiceConfiguration_untitled extends WebSecurityConf
 			.and()
 				.formLogin()
 					.loginPage("/login")
-					.defaultSuccessUrl("/employeeHomePage")
+					.defaultSuccessUrl("/UserHomePage")
 					.failureUrl("/login?error=1")
 					.permitAll()
 			.and()
