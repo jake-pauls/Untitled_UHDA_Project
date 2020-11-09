@@ -34,6 +34,7 @@ public class TicketActionsController_gpo_20 {
 	// Success messages
 	private final String TICKET_ASSIGNED_SUCCESS_MESSAGE = "Ticket has been assigned succesfully";
 	private final String TICKET_STATUS_SUCCESS_MESSAGE = "Ticket status has been updated succesfully";
+	private final String TICKET_PRIORITY_SUCCESS_MESSAGE = "Ticket priority has been updated succesfully";
 
 	/**
 	 * wire up and declare the ticket action sql class
@@ -124,36 +125,34 @@ public class TicketActionsController_gpo_20 {
 	 * @param modelAndView   object containing the model and view attributes in
 	 *                       scope
 	 * @return
-	 *
-	 * @RequestMapping(value = "/ChangeTicketPriority", method = RequestMethod.POST)
-	 *                       public ModelAndView
-	 *                       handleChangingTicketPriority(@ModelAttribute("ticket")
-	 *                       Ticket_untitled ticketToAssign, ModelAndView
-	 *                       modelAndView) {
-	 *                       ticketActionsDAOImpl.changeTicketPriority(ticketToAssign);
-	 *                       User_untitled userProfile =
-	 *                       ticketActionsDAOImpl.getUserProfileByUsername(ticketToAssign.getUsername());
-	 *                       User_untitled assigneeProfile =
-	 *                       ticketActionsDAOImpl.getAssigneeProfileByUsername(ticketToAssign.getAssignee());
-	 *                       String subjectOfEmail = "Ticket Number: " +
-	 *                       ticketToAssign.getTicketID() + " priority has been
-	 *                       changed to " + ticketToAssign.getPriority(); String
-	 *                       emailText = "Your ticket priority has been updated to "
-	 *                       + ticketToAssign.getStatus() + " please review your
-	 *                       ticket if further action is required, we look forward
-	 *                       to assisting you as soon as possible";
-	 *                       modelAndView.addObject("successMessage",
-	 *                       TICKET_STATUS_SUCCESS_MESSAGE);
-	 *                       ticketActionEmail(userProfile.getEmail(),
-	 *                       assigneeProfile.getEmail(), subjectOfEmail, emailText);
-	 *                       List<Ticket_untitled> ticketList =
-	 *                       ticketActionsDAOImpl.getAllTickets();
-	 *                       modelAndView.addObject("ticketList", ticketList);
-	 *                       modelAndView.setViewName("TicketDisplay"); return
-	 *                       modelAndView; }
+	 */
+	@RequestMapping(value = "/ChangeTicketPriority", method = RequestMethod.POST)
+	public RedirectView handleChangingTicketPriority(@ModelAttribute("ticket") Ticket_untitled ticket,
+			RedirectAttributes redirectAttributes) {
+		ticketActionsDAOImpl.changeTicketPriority(ticket);
+		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticket.getUsername());
+		if (ticket.getAssignee().isBlank()) {
+			String subjectOfEmail = "Ticket Number: " + ticket.getTicketID() + " priority has beenchanged to "
+					+ ticket.getPriority();
+			String emailText = "Your ticket priority has been updated to " + ticket.getStatus()
+					+ " please review your ticket if further action is required, we look forward to assisting you as soon as possible";
+			ticketActionEmail(userProfile.getEmail(), null, subjectOfEmail, emailText);
+		} else {
+			User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(ticket.getAssignee());
+			String subjectOfEmail = "Ticket Number: " + ticket.getTicketID() + " priority has been changed to "
+					+ ticket.getPriority();
+			String emailText = "Your ticket priority has been updated to " + ticket.getStatus()
+					+ " please review your ticket if further action is required, we look forward to assisting you as soon as possible";
+			ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+		}
+		redirectAttributes.addFlashAttribute("successMessage", TICKET_PRIORITY_SUCCESS_MESSAGE);
+		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
+		return redirectView;
+	}
+
+	/**
+	 * Email service to send update emails based on the ticket action performed.
 	 * 
-	 *                       /** Email service to send update emails based on the
-	 *                       ticket action performed.
 	 * @param userEmail,     gathered from the username from the ticket that is
 	 *                       being actioned
 	 * @param assigneeEmail, gathered from the assignee from the ticket that is

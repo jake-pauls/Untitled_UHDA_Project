@@ -79,6 +79,16 @@ public class EmployeePageController_mwi_18 {
 		myList.add(Ticket_untitled.TICKET_STATUS_CLOSED);
 		return myList;
 	}
+	@ModelAttribute("priorityList")
+	public List<String> getpriorityList(){
+		List<String> myList = new ArrayList<String>();
+		myList.add(Ticket_untitled.TICKET_PRIORITY_TRIVIAL);
+		myList.add(Ticket_untitled.TICKET_PRIORITY_LOW);
+		myList.add(Ticket_untitled.TICKET_PRIORITY_NORMAL);
+		myList.add(Ticket_untitled.TICKET_PRIORITY_HIGH);
+		myList.add(Ticket_untitled.TICKET_PRIORITY_CRITICAL);
+		return myList;
+	}
 	
 	@ModelAttribute("employeeList")
 	public void employeeAdminList(ModelMap modelMap){

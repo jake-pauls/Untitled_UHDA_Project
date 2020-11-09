@@ -91,7 +91,9 @@
 												</div>
 												<div class="uk-modal-body">
 													<p>${ticket.description }</p>
-													<form:form modelAttribute="ticket">
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/ChangeTicketStatus"
+														modelAttribute="ticket">
 														<table class="uk-table">
 															<tr>
 																<td>Status:</td>
@@ -102,14 +104,56 @@
 																		</c:forEach>
 
 																	</form:select></td>
+																<td><form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
 															</tr>
 														</table>
+														<form:hidden path="ticketID" value="${ticket.ticketID }" />
+														<form:hidden path="username" value="${ticket.username }" />
+														<form:hidden path="assignee" value="${ticket.assignee }" />
+													</form:form>
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/AssignTicket"
+														modelAttribute="ticket">
+														<table class="uk-table">
+															<tr>
+																<td>Assigned To:</td>
+																<td><form:select path="assignee">
+																		<c:forEach items="${employeeList}" var="assignee">
+																			<form:option value="${assignee.username}" />
+																		</c:forEach>
+																	</form:select></td>
+																<td><form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
+															</tr>
+														</table>
+														<form:hidden path="ticketID" value="${ticket.ticketID }" />
+														<form:hidden path="username" value="${ticket.username }" />
+													</form:form>
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/ChangeTicketPriority"
+														modelAttribute="ticket">
+														<table class="uk-table">
+															<tr>
+																<td>Priority:</td>
+																<td><form:select path="priority">
+																		<c:forEach items="${priorityList}" var="priority">
+																			<form:option value="${priority }"
+																				selected="${priority == ticket.priority ? 'selected' : ''}" />
+																		</c:forEach>
+																	</form:select></td>
+																<td><form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
+															</tr>
+														</table>
+														<form:hidden path="ticketID" value="${ticket.ticketID }" />
+														<form:hidden path="username" value="${ticket.username }" />
+														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
 													<button class="uk-button uk-button-default uk-modal-close"
 														type="button">Cancel</button>
-													<button class="uk-button uk-button-primary" type="button">Save</button>
 												</div>
 											</div>
 										</div>
@@ -211,7 +255,7 @@
 																<td>Assigned To:</td>
 																<td><form:select path="assignee">
 																		<c:forEach items="${employeeList}" var="assignee">
-																			<form:option value="${assignee.username}"/>
+																			<form:option value="${assignee.username}" />
 																		</c:forEach>
 																	</form:select></td>
 																<td><form:button
@@ -220,6 +264,26 @@
 														</table>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
+													</form:form>
+													<form:form method="post"
+														action="${pageContext.request.contextPath}/ChangeTicketPriority"
+														modelAttribute="ticket">
+														<table class="uk-table">
+															<tr>
+																<td>Priority:</td>
+																<td><form:select path="priority">
+																		<c:forEach items="${priorityList}" var="priority">
+																			<form:option value="${priority }"
+																				selected="${priority == ticket.priority ? 'selected' : ''}" />
+																		</c:forEach>
+																	</form:select></td>
+																<td><form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
+															</tr>
+														</table>
+														<form:hidden path="ticketID" value="${ticket.ticketID }" />
+														<form:hidden path="username" value="${ticket.username }" />
+														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
