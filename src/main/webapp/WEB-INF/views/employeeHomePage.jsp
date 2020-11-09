@@ -2,6 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +24,81 @@
 				<ul class="uk-navbar-nav">
 					<li class="uk-active"><a href="">My Tickets</a></li>
 					<li class="uk-nav"><a href="">Active Tickets</a></li>
-					<li class="uk-nav"><a href="">Create Ticket</a></li>
+					<li class="uk-nav"><a href="#createTicket" uk-toggle>Create Ticket</a></li>
+						
+						<div id="createTicket" uk-modal>
+							<div class="uk-modal-dialog">
+								<button class="uk-modal-close-default" type="button" uk-close></button>
+								<div class="uk-modal-header">
+									<h2 class="uk-modal-title">Create A Ticket</h2>
+								</div>
+							<form:form action="${pageContext.request.contextPath}/createTicket" modelAttribute="ticket">
+								<div class="uk-modal-body">
+									<p>Please fill the information below to create a new ticket</p>
+										<div class="uk-margin">
+											<label class="uk-form-label" for="title">Ticket Title: </label>
+											<div class="uk-form-controls">
+												<div class="uk-inline">
+													<form:input class="uk-input uk-form-width-large" id="title"
+														type="text" path="title" />
+												</div>
+											</div>
+										</div>
+										
+										<div class="uk-margin">
+											<label class="uk-form-label" for="description">Description: </label>
+											<div class="uk-form-controls">
+												<div class="uk-inline">
+													<form:input class="uk-input uk-form-width-large" id="description"
+														type="text" path="description" />
+												</div>
+											</div>
+										</div>
+										
+										<div class="uk-margin">
+											<label class="uk-form-label" for="description">Priority: </label>
+											<div class="uk-form-controls">
+												<div class="uk-inline">
+													<form:select class="uk-input uk-form-width-large" id="priority" path="priority">
+														<form:option value="" disabled="true" selected="true">Select a priority level</form:option>
+														<c:forEach items="${priorityList}" var="priority">
+															<form:option value="${priority}" />
+														</c:forEach>
+													</form:select>
+												</div>
+											</div>
+										</div>
+										
+										<div class="uk-margin">
+											<label class="uk-form-label" for="category">Category: </label>
+											<div class="uk-form-controls">
+												<div class="uk-inline">
+													<form:select class="uk-input uk-form-width-large" id="category" path="category">
+														<form:option value="" disabled="true" selected="true">Select a category</form:option>
+														<c:forEach items="${categoryList}" var="category">
+															<form:option value="${category }" />
+														</c:forEach>
+													</form:select>
+												</div>
+											</div>
+										</div>
+										
+										<sec:authorize access="isAuthenticated()">
+											<form:input type="hidden" path="username" value="${loggedInUser.username}"/>
+										</sec:authorize>
+										
+										<div class="uk-modal-footer uk-text-right">
+											<button class="uk-button uk-button-default uk-modal-close"
+												type="button">Cancel</button>
+											<button class="uk-button uk-button-primary" type="submit">Create Ticket</button>
+										</div>
+									</div>
+								</form:form>		
+							</div>
+						</div>
+						
 					<li class="uk-nav">
-						<button class="uk-button uk-button-default" type="button">Sort By</button>
+						<button class="uk-button uk-button-default uk-margin-top uk-margin-small-left" type="button">Sort By</button>
 						<div uk-dropdown="mode: click">
 							<ul class="uk-nav uk-dropdown-nav">
 								<li><a href="${pageContext.request.contextPath}/sort?order=username">Author</a></li>

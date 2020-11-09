@@ -7,6 +7,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import com.csis3275.model_untitled.Ticket_untitled;
  */
 
 @Component
+@Primary
 public class TicketManagementDAOImpl_jpa_66 {
 	JdbcTemplate jdbcTicketManagementTemplate;
 	
@@ -84,7 +86,7 @@ public class TicketManagementDAOImpl_jpa_66 {
 		// Update the lastUpdated Timestamp
 		ticket.setLastUpdated(getCurrentTime());
 		return jdbcTicketManagementTemplate.update(SQL_UPDATE_TICKET, ticket.getTitle(), ticket.getDescription(), 
-																	  ticket.getDescription(), ticket.getStatus(), 
+																	  ticket.getPriority(), ticket.getStatus(), 
 																	  ticket.getUsername(), ticket.getAssignee(), 
 																	  ticket.getCategory(), ticket.getDateClosed(), 
 																	  ticket.getLastUpdated(), ticket.getTicketID()) > 0;

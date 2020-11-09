@@ -28,11 +28,11 @@
 					<sec:authorize access="hasRole('ADMIN')">
 						<a href="${pageContext.request.contextPath}/AdminUserManagement"
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
-							uk-tooltip="Manage Users"></a>
+							uk-tooltip="User Management"></a>
 					</sec:authorize>
 				</div>
 				<div class="uk-width-auto@m">
-					<sec:authorize access="hasRole('EMPLOYEE')">
+					<sec:authorize access="hasAnyRole('ADMIN', 'EMPLOYEE')">
 						<a href="${pageContext.request.contextPath}/employeeHomePage"
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
 							uk-tooltip="Employee Page"></a>
