@@ -29,6 +29,8 @@ public class EmployeePageController_mwi_18 {
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
 	
+	private String currentTab = "assigned";
+	
 	@ModelAttribute("ticket")
 	public Ticket_untitled newTicket() {
 		return new Ticket_untitled();
@@ -41,7 +43,9 @@ public class EmployeePageController_mwi_18 {
 		view.setViewName("employeeHomePage");
 		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),"dateOpened");
 		view.addObject("assignedTickets",myList);
-		
+		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
+		view.addObject("unAssignedTickets",unAssignedList);
+		view.addObject("tab",this.currentTab);
 		return view;
 	}
 	
@@ -51,15 +55,14 @@ public class EmployeePageController_mwi_18 {
 		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
 		
 		view.addObject("assignedTickets",myList);
+		
+		myList = dao.getAllUnassignedTickets(order);
+		
+		
+		view.addObject("unAssignedTickets",myList);
 		return view;
 	}
 	
-	
-	@ModelAttribute("unassignedTickets")
-	public List<Ticket_untitled> getUnassignedTickets(){
-		
-		return dao.getAllUnassignedTickets();
-	}
 	
 	
 	
