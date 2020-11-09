@@ -15,7 +15,7 @@ import com.csis3275.model_untitled.Ticket_untitled;
 public class TicketDisplayDAO_mwi_18 {
 	JdbcTemplate jdbcTemplate;
 	
-	private String SQL_GET_ALL_UNASSIGNED_TICKETS = "SELECT * FROM TICKETS WHERE assignee IS NULL;";
+	private String SQL_GET_ALL_UNASSIGNED_TICKETS = "SELECT * FROM TICKETS WHERE assignee IS NULL ORDER BY %s;";
 	private String SQL_GET_ALL_EMPLOYEES_TICKETS = "SELECT * FROM TICKETS WHERE assignee = ? ORDER BY %s;";
 	
 	@Autowired
@@ -23,8 +23,10 @@ public class TicketDisplayDAO_mwi_18 {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public List<Ticket_untitled> getAllUnassignedTickets(){
-		return jdbcTemplate.query(SQL_GET_ALL_UNASSIGNED_TICKETS, new TicketRowMapper_jpa_66());
+	public List<Ticket_untitled> getAllUnassignedTickets(String order){
+		String formattedSQL = String.format(SQL_GET_ALL_UNASSIGNED_TICKETS, order);
+		
+		return jdbcTemplate.query(formattedSQL, new TicketRowMapper_jpa_66());
 	}
 	
 	public List<Ticket_untitled> getAssignedTickets(String assignee,String order){

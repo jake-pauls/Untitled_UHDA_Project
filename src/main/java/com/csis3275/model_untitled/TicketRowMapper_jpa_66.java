@@ -31,6 +31,7 @@ public class TicketRowMapper_jpa_66 implements RowMapper<Ticket_untitled>{
 		ticket.setAssignee(resultSet.getString("assignee"));
 		ticket.setCategory(resultSet.getString("category"));
 		ticket.setDateOpened(resultSet.getTimestamp("dateOpened"));
+		ticket.setFormattedDateOpen();
 		ticket.setDateClosed(resultSet.getTimestamp("dateClosed"));
 		ticket.setLastUpdated(resultSet.getTimestamp("lastUpdated"));
 		

@@ -2,6 +2,8 @@ package com.csis3275.model_untitled;
 
 import java.util.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -24,7 +26,7 @@ public class Ticket_untitled {
 	Timestamp dateOpened;
 	Timestamp dateClosed;
 	Timestamp lastUpdated;
-	
+	String formDateOpen;
 	/*
 	 * Ticket Constants
 	 * TICKET_PRIORITY - Indicates the possible priority values for a ticket
@@ -113,5 +115,20 @@ public class Ticket_untitled {
 	}
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	
+	public void setFormattedDateOpen() {
+		
+		
+		String pattern = "yyyy/mm/dd hh:MM:ss";
+		SimpleDateFormat simple = new SimpleDateFormat(pattern);
+		
+		
+		this.formDateOpen = simple.format(this.dateOpened);
+		
+        
+	}
+	public String getFormDateOpen() {
+		return this.formDateOpen;
 	}
 }
