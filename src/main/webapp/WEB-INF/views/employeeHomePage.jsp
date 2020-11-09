@@ -188,7 +188,13 @@
 		</div>
 			
 			</li>
+			<li>
+			<!-- Create ticket form goes here -->
+				
+			</li>
 		</ul>
+		<hr/>
+		<a class = "uk-button" href="${pageContext.request.contextPath}/UserHomePage">Go Back</a>
 
 	</div>
 
