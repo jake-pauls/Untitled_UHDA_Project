@@ -1,5 +1,6 @@
 package com.csis3275.model_untitled;
 
+
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,8 +14,10 @@ import java.text.SimpleDateFormat;
  * Group Name: Untitled
  */
 
-public class Ticket_untitled {
-	String ticketID;
+
+public class Ticket_untitled{
+	
+	int ticketID;
 	String title;
 	String description;
 	String priority;
@@ -49,10 +52,10 @@ public class Ticket_untitled {
 	public static final String TICKET_CATEGORY_INTERNET = "Internet";
 	public static final String TICKET_CATEGORY_INSTALLATION_REQUEST = "Installation Request";
 
-	public String getTicketID() {
+	public int getTicketID() {
 		return ticketID;
 	}
-	public void setTicketID(String ticketID) {
+	public void setTicketID(int ticketID) {
 		this.ticketID = ticketID;
 	}
 	public String getTitle() {

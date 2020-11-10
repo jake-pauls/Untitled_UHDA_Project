@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="uk-container uk-container-large">
-
+		<h2>Employee Page</h2>
 
 		<ul class="uk-tab" uk-tab>
 			<li class="uk-active"><a href="#">Assigned Tickets</a></li>
@@ -73,6 +73,7 @@
 									<li class="uk-padding-small">
 										<div>
 											<h3>${ticket.title }</h3>
+											<hr>
 											<h4>${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
@@ -208,6 +209,7 @@
 									<li class="uk-padding-small">
 										<div>
 											<h3>${ticket.title }</h3>
+											<hr>
 											<h4>${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
@@ -216,6 +218,10 @@
 											</p>
 										</div> <a class="uk-button uk-button-default"
 										href="#my${ticket.ticketID }" uk-toggle>Open</a>
+										<hr>
+										<a class="uk-button uk-button-default"
+										href="${pageContext.request.contextPath}/pickUp?id=${ticket.ticketID }" >Pick Up</a>
+										
 
 										<div id="my${ticket.ticketID }" uk-modal>
 											<div class="uk-modal-dialog">

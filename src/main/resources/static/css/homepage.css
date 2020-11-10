@@ -1,6 +1,15 @@
 #bor{
 	border:3px solid black;
-	box-shadow: 1px 1px 1px black;
 	
+	
+}
+#top_margin{
+	margin-top: 200px;
+}
+#top_margin_small{
+	margin-top: 40px;
+}
+#float_right{
+	float: right;
 }
 
