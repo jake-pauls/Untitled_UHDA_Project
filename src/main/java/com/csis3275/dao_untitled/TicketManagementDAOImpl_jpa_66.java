@@ -7,6 +7,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import com.csis3275.model_untitled.Ticket_untitled;
  */
 
 @Component
+@Primary
 public class TicketManagementDAOImpl_jpa_66 {
 	JdbcTemplate jdbcTicketManagementTemplate;
 	
