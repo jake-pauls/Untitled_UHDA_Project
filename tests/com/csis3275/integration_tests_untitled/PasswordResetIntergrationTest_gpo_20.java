@@ -1,10 +1,10 @@
-package com.csis3275.controller_untitled_tests;
+package com.csis3275.integration_tests_untitled;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class TicketActionsControllerTest_gpo_20 {
+class PasswordResetIntergrationTest_gpo_20 {
 
 	@Test
 	void test() {
