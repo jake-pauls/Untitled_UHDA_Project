@@ -107,7 +107,7 @@
 								
 								<c:forEach items="${createdList}" var="ticket">
 									<li class="uk-padding-small">
-										<div>
+										<div id = "bor">
 											<h3>${ticket.title }</h3>
 											<hr>
 											<h4>${ticket.username }</h4>
@@ -116,9 +116,9 @@
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
-										</div> <a class="uk-button uk-button-default"
+										 <a class="uk-button uk-button-default"
 										href="#my${ticket.ticketID }" uk-toggle>Open</a>
-
+										</div>
 										<div id="my${ticket.ticketID }" uk-modal>
 											<div class="uk-modal-dialog">
 												<button class="uk-modal-close-default" type="button"
