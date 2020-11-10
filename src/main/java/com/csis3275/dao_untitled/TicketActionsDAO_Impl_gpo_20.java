@@ -28,9 +28,9 @@ public class TicketActionsDAO_Impl_gpo_20 extends TicketManagementDAOImpl_jpa_66
 	private final String USERS_TABLE_NAME = "users";	
 	
 	//Tickets Table Queries
-	private final String SQL_ASSIGN_TICKET_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET assignee = ? WHERE ticketID = ?";
-	private final String SQL_CHANGE_TICKET_STATUS_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET status = ? WHERE ticketID = ?";
-	private final String SQL_CHANGE_TICKET_PRIORITY_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET priority = ? WHERE ticketID = ?";
+	private final String SQL_ASSIGN_TICKET_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET assignee = ?, lastupdated = ? WHERE ticketID = ?";
+	private final String SQL_CHANGE_TICKET_STATUS_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET status = ?, lastupdated = ? WHERE ticketID = ?";
+	private final String SQL_CHANGE_TICKET_PRIORITY_BY_TIKETID = "UPDATE " + TICKET_TABLE_NAME + " SET priority = ?, lastupdated = ? WHERE ticketID = ?";
 	private final String SQL_GET_USER_PROFILES_FROM_TICKETS = "SELECT * FROM " + USERS_TABLE_NAME +  " WHERE username = ?";
 	
 	@Autowired
@@ -41,17 +41,17 @@ public class TicketActionsDAO_Impl_gpo_20 extends TicketManagementDAOImpl_jpa_66
 	public boolean assignTicket(Ticket_untitled ticket) {
 		// Update the lastUpdated Timestamp
 		ticket.setLastUpdated(getCurrentTime());
-		return jdbcTicketManagementTemplate.update(SQL_ASSIGN_TICKET_BY_TIKETID, ticket.getAssignee(), ticket.getTicketID()) > 0;
+		return jdbcTicketManagementTemplate.update(SQL_ASSIGN_TICKET_BY_TIKETID, ticket.getAssignee(), ticket.getLastUpdated(),ticket.getTicketID()) > 0;
 	}
 	public boolean changeTicketStatus(Ticket_untitled ticket) {
 		// Update the lastUpdated Timestamp
 		ticket.setLastUpdated(getCurrentTime());
-		return jdbcTicketManagementTemplate.update(SQL_CHANGE_TICKET_STATUS_BY_TIKETID, ticket.getStatus(), ticket.getTicketID()) > 0;
+		return jdbcTicketManagementTemplate.update(SQL_CHANGE_TICKET_STATUS_BY_TIKETID, ticket.getStatus(), ticket.getLastUpdated(), ticket.getTicketID()) > 0;
 	}
 	public boolean changeTicketPriority(Ticket_untitled ticket) {
 		// Update the lastUpdated Timestamp
 		ticket.setLastUpdated(getCurrentTime());
-		return jdbcTicketManagementTemplate.update(SQL_CHANGE_TICKET_PRIORITY_BY_TIKETID, ticket.getPriority(), ticket.getTicketID()) > 0;
+		return jdbcTicketManagementTemplate.update(SQL_CHANGE_TICKET_PRIORITY_BY_TIKETID, ticket.getPriority(), ticket.getLastUpdated(), ticket.getTicketID()) > 0;
 	}
 	public User_untitled getUserProfileByUsername(String username) {
 		return jdbcTicketManagementTemplate.queryForObject(SQL_GET_USER_PROFILES_FROM_TICKETS, new Object[]{username}, new UserRowMapper_mwi_18());
