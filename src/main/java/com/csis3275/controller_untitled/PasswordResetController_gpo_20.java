@@ -34,6 +34,18 @@ import com.csis3275.model_untitled.User_untitled;
  * https://www.codebyamir.com/blog/forgot-password-feature-with-java-and-spring-boot
  * along with other resources to track down the required dependancies to use the JavaMailSender and SimpleMailMessage
  * utilized for the password reset email and possibly future Features or other feature emails in this project
+ * 
+ * This controller provides get and post mapping for the forgot password and reset views and forms. 
+ * Those are used to reset passwords that are forgotten, and also by Jacobs admin user management to set a newly created users password if an admin makes a user.
+ * 
+ * upon submitting the valid email (checks to ensure the email is a valid user) the post mapping will then assign a random reset token to the 
+ * users database field, and send it in a reset email link to the users email on file.
+ * 
+ * The user can follow that link, and the get mapping for the reset page requires a valid reset token. after the user submits a new password, their reset token is set back to null
+ * so that you cannot use the same link twice.
+ * 
+ * 
+ * 
  */
 @Controller
 public class PasswordResetController_gpo_20 {

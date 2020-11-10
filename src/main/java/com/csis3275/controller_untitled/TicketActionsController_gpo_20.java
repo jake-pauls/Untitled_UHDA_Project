@@ -24,6 +24,17 @@ import com.csis3275.model_untitled.User_untitled;
  * @date Nov 8, 2020 TicketActionsController_gpo_20.java
  *       com.csis3275.controller_untitled CSIS 3275 Group Project Group Name:
  *       Untitled
+ *       
+ * This Controller provides post mapping to the EmployeeHomePage ticket items that can be actioned as an employee
+ * those items are assigning a ticket (or claiming an unassigned ticket), changing a tickets priority, or changing the tickets status.
+ * 
+ * After doing any action, the lastupdated field for that ticket is updated with a new timestamp.
+ * 
+ * All actions use the TicketActionsDAO class to run their queries and update the tickets.
+ * 
+ * After an actioned is performed, the action passes the user who made the ticket, the employee who is assigned to the ticket,
+ * the message and subject of the actions email, down to the ticketActionEmail method in order to send the appropriate email based
+ * on the action that was taken.
  *
  */
 

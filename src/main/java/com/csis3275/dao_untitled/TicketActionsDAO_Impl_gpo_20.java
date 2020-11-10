@@ -18,7 +18,9 @@ import com.csis3275.model_untitled.User_untitled;
  * com.csis3275.dao_untitled
  * CSIS 3275 Group Project
  * Group Name: Untitled
- *
+ * 
+ * The SQL here is used to update the ticket depending on the action, ie. assinging a ticket, updating the status, updating the priority, 
+ * and also pulling a lister of users so that the appropriate email can be pulled for both the user of the ticket, and the assignee.
  */
 
 @Component
