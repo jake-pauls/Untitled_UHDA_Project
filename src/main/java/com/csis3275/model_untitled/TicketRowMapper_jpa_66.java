@@ -1,5 +1,6 @@
 package com.csis3275.model_untitled;
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,11 +19,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class TicketRowMapper_jpa_66 implements RowMapper<Ticket_untitled>{
 
+
 	@Override
 	public Ticket_untitled mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 		Ticket_untitled ticket = new Ticket_untitled();
 		
-		ticket.setTicketID(resultSet.getString("ticketId"));
+		ticket.setTicketID(resultSet.getInt("ticketId"));
 		ticket.setTitle(resultSet.getString("title"));
 		ticket.setDescription(resultSet.getString("description"));
 		ticket.setPriority(resultSet.getString("priority"));
@@ -31,6 +33,7 @@ public class TicketRowMapper_jpa_66 implements RowMapper<Ticket_untitled>{
 		ticket.setAssignee(resultSet.getString("assignee"));
 		ticket.setCategory(resultSet.getString("category"));
 		ticket.setDateOpened(resultSet.getTimestamp("dateOpened"));
+		ticket.setFormattedDateOpen();
 		ticket.setDateClosed(resultSet.getTimestamp("dateClosed"));
 		ticket.setLastUpdated(resultSet.getTimestamp("lastUpdated"));
 		

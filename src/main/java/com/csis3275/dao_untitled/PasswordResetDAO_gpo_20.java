@@ -22,6 +22,9 @@ import com.csis3275.model_untitled.User_untitled;
  * CSIS 3275 Group Project
  * Group Name: Untitled
  *
+ * 
+ * The queries here get users by their email address, their reset token, adds a reset token, and updates a users password based on the reset token
+ *
  */
 @Component
 public class PasswordResetDAO_gpo_20 {

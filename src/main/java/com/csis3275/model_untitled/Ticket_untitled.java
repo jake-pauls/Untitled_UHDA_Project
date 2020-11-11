@@ -1,6 +1,9 @@
 package com.csis3275.model_untitled;
 
+
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -11,8 +14,10 @@ import java.sql.Timestamp;
  * Group Name: Untitled
  */
 
-public class Ticket_untitled {
-	String ticketID;
+
+public class Ticket_untitled{
+	
+	int ticketID;
 	String title;
 	String description;
 	String priority;
@@ -23,7 +28,7 @@ public class Ticket_untitled {
 	Timestamp dateOpened;
 	Timestamp dateClosed;
 	Timestamp lastUpdated;
-	
+	String formDateOpen;
 	/*
 	 * Ticket Constants
 	 * TICKET_PRIORITY - Indicates the possible priority values for a ticket
@@ -47,10 +52,10 @@ public class Ticket_untitled {
 	public static final String TICKET_CATEGORY_INTERNET = "Internet";
 	public static final String TICKET_CATEGORY_INSTALLATION_REQUEST = "Installation Request";
 
-	public String getTicketID() {
+	public int getTicketID() {
 		return ticketID;
 	}
-	public void setTicketID(String ticketID) {
+	public void setTicketID(int ticketID) {
 		this.ticketID = ticketID;
 	}
 	public String getTitle() {
@@ -112,5 +117,20 @@ public class Ticket_untitled {
 	}
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	
+	public void setFormattedDateOpen() {
+		
+		
+		String pattern = "yyyy/mm/dd hh:MM:ss";
+		SimpleDateFormat simple = new SimpleDateFormat(pattern);
+		
+		
+		this.formDateOpen = simple.format(this.dateOpened);
+		
+        
+	}
+	public String getFormDateOpen() {
+		return this.formDateOpen;
 	}
 }
