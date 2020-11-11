@@ -21,44 +21,36 @@
 <body>
 	<div class="uk-container uk-container-large">	
 			
-			<div class = "uk-clearfix" id = "top_margin_small">
-			<div class = "uk-float-right" uk-grid>
+		<div class = "uk-clearfix" id = "top_margin_small">
+			<div class = "uk-float-right uk-grid-small" uk-grid>
 				<c:if test="${loggedInUser.role == 'admin' }">
 					<div>
-					<sec:authorize access="hasRole('ADMIN')">
-						<a href="${pageContext.request.contextPath}/AdminUserManagement"
-							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
-							uk-tooltip="Admin Page"></a>
-					</sec:authorize>
-				</div>
+						<sec:authorize access="hasRole('ADMIN')">
+							<a href="${pageContext.request.contextPath}/AdminUserManagement"
+								class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
+								uk-tooltip="Admin Page"></a>
+						</sec:authorize>
+					</div>
 				</c:if>
 				
-				<c:if test="${loggedInUser.role == 'employee' }">
+				<c:if test="${loggedInUser.role == 'employee' || loggedInUser.role == 'admin'}">
 					<div>
-					<sec:authorize access="hasRole('EMPLOYEE')">
-						<a href="${pageContext.request.contextPath}/employeeHomePage"
-							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
-							uk-tooltip="Employee Page"></a>
-					</sec:authorize>
-				</div>
+						<sec:authorize access="hasAnyRole('ADMIN', 'EMPLOYEE')">
+							<a href="${pageContext.request.contextPath}/employeeHomePage"
+								class="uk-icon-button" uk-icon="icon: tag; ratio: 1.25"
+								uk-tooltip="Employee Page"></a>
+						</sec:authorize>
+					</div>
 				</c:if>
 				
 				<div>
-				<h4 class="uk-text-lead">
 					<a class="uk-icon-button" uk-icon="icon: sign-out; ratio: 1.25"
 						href="${pageContext.request.contextPath}/logout" 
 						uk-tooltip="Log Out"></a>
-				</h4>
 				</div>
-
 			</div>
-			</div>
+		</div>
 		
-		
-	
-	
-
-
 		<ul class="uk-tab" uk-tab>
 			<li class="uk-active"><a href="#">My Tickets</a></li>
 			<li><a href="#">Create Ticket</a></li>

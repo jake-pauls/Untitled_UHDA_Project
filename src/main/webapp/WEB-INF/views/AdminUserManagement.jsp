@@ -2,13 +2,15 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script src="<c:url value="/js/jquery-3.5.1.min.js" />"></script>
 <script src="<c:url value="/js/AdminUserManagementTable_jpa_66.js" />"></script>
-<title>Workspace Name - User Management</title>
+<title>Manage Users</title>
 <!-- UIkit CSS/JS -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
@@ -19,10 +21,30 @@
 </head>
 <body>
 	<div class="uk-container uk-position-center">
-		<h1
-			class="uk-heading-small uk-text-bold uk-heading-line uk-text-left uk-margin-small">
-			<span>User List</span>
-		</h1>
+		<div class="uk-clearfix">
+			<h1 class="uk-heading-small uk-text-bold uk-float-left">
+				User List
+			</h1>
+			<div class="uk-float-right uk-grid-small uk-margin-small-top"  uk-grid>
+				<div>
+					<a href="${pageContext.request.contextPath}/UserHomePage"
+						class="uk-icon-button" uk-icon="icon: home; ratio: 1.25"
+						uk-tooltip="Home page"></a>
+				</div>
+				<div>
+					<sec:authorize access="hasAnyRole('ADMIN', 'EMPLOYEE')">
+						<a href="${pageContext.request.contextPath}/employeeHomePage"
+							class="uk-icon-button" uk-icon="icon: tag; ratio: 1.25"
+							uk-tooltip="Employee Page"></a>
+					</sec:authorize>
+				</div>
+				<div>
+					<a class="uk-icon-button" uk-icon="icon: sign-out; ratio: 1.25"
+						href="${pageContext.request.contextPath}/logout"
+						uk-tooltip="Log Out"></a>
+				</div>
+			</div>
+		</div>
 
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
@@ -134,7 +156,6 @@
 					id="button-reference" type="submit" name="saveUser" disabled="true">Save Changes</form:button>
 				<button class="uk-button uk-button-secondary uk-margin-left"
 					id="addNewUser" onclick="addNewTableRow()">Add New User</button>
-				<a class="uk-button uk-button-default uk-margin-left" href="${pageContext.request.contextPath}/UserHomePage">Back</a>
 			</div>
 
 		</form:form>

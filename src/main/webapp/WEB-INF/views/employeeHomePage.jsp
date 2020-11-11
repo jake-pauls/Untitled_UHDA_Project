@@ -20,8 +20,7 @@
 <body>
 	<div class="uk-container uk-container-large">
 		<div class="uk-clearfix" id="top_margin_small">
-			<div class="uk-float-right" uk-grid>
-
+			<div class="uk-float-right uk-grid-small"  uk-grid>
 				<div>
 					<sec:authorize access="hasRole('ADMIN')">
 						<a href="${pageContext.request.contextPath}/AdminUserManagement"
@@ -35,13 +34,10 @@
 						uk-tooltip="Home page"></a>
 				</div>
 				<div>
-					<h4 class="uk-text-lead">
-						<a class="uk-icon-button" uk-icon="icon: sign-out; ratio: 1.25"
-							href="${pageContext.request.contextPath}/logout"
-							uk-tooltip="Log Out"></a>
-					</h4>
+					<a class="uk-icon-button" uk-icon="icon: sign-out; ratio: 1.25"
+						href="${pageContext.request.contextPath}/logout"
+						uk-tooltip="Log Out"></a>
 				</div>
-
 			</div>
 		</div>
 
@@ -120,61 +116,60 @@
 												</div>
 												<div class="uk-modal-body">
 													<p>${ticket.description }</p>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/ChangeTicketStatus"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Status:</td>
-																<td><form:select path="status">
+														<label class="uk-form-label" for="status">Status:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="status" path="status">
 																		<c:forEach items="${statusList}" var="status">
 																			<form:option value="${status }"
 																				selected="${status == ticket.status ? 'selected' : ''}" />
 																		</c:forEach>
-
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/AssignTicket"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Assigned To:</td>
-																<td><form:select path="assignee">
-																		<c:forEach items="${employeeList}" var="assignee">
-																			<form:option value="${assignee.username}" />
-																		</c:forEach>
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+														<label class="uk-form-label" for="assignee">Assigned To:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="assignee" path="assignee">
+																	<c:forEach items="${employeeList}" var="assignee">
+																		<form:option value="${assignee.username}" />
+																	</c:forEach>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 													</form:form>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/ChangeTicketPriority"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Priority:</td>
-																<td><form:select path="priority">
-																		<c:forEach items="${priorityList}" var="priority">
-																			<form:option value="${priority }"
-																				selected="${priority == ticket.priority ? 'selected' : ''}" />
-																		</c:forEach>
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+														<label class="uk-form-label" for="priority">Priority:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="priority" path="priority">
+																	<c:forEach items="${priorityList}" var="priority">
+																		<form:option value="${priority }"
+																			selected="${priority == ticket.priority ? 'selected' : ''}" />
+																	</c:forEach>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
@@ -260,61 +255,60 @@
 												</div>
 												<div class="uk-modal-body">
 													<p>${ticket.description }</p>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/ChangeTicketStatus"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Status:</td>
-																<td><form:select path="status">
+														<label class="uk-form-label" for="status">Status:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="status" path="status">
 																		<c:forEach items="${statusList}" var="status">
 																			<form:option value="${status }"
 																				selected="${status == ticket.status ? 'selected' : ''}" />
 																		</c:forEach>
-
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/AssignTicket"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Assigned To:</td>
-																<td><form:select path="assignee">
-																		<c:forEach items="${employeeList}" var="assignee">
-																			<form:option value="${assignee.username}" />
-																		</c:forEach>
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+														<label class="uk-form-label" for="assignee">Assigned To:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="assignee" path="assignee">
+																	<c:forEach items="${employeeList}" var="assignee">
+																		<form:option value="${assignee.username}" />
+																	</c:forEach>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 													</form:form>
-													<form:form method="post"
+													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/ChangeTicketPriority"
 														modelAttribute="ticket">
-														<table class="uk-table">
-															<tr>
-																<td>Priority:</td>
-																<td><form:select path="priority">
-																		<c:forEach items="${priorityList}" var="priority">
-																			<form:option value="${priority }"
-																				selected="${priority == ticket.priority ? 'selected' : ''}" />
-																		</c:forEach>
-																	</form:select></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button></td>
-															</tr>
-														</table>
+														<label class="uk-form-label" for="priority">Priority:</label>
+														<div class="uk-form-controls">
+															<div class="uk-inline">
+																<form:select class="uk-input uk-form-width-medium uk-margin-small-right" id="priority" path="priority">
+																	<c:forEach items="${priorityList}" var="priority">
+																		<form:option value="${priority }"
+																			selected="${priority == ticket.priority ? 'selected' : ''}" />
+																	</c:forEach>
+																</form:select>
+																<form:button
+																		class="uk-button uk-button-primary uk-button-small">save</form:button>
+															</div>
+														</div>
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
