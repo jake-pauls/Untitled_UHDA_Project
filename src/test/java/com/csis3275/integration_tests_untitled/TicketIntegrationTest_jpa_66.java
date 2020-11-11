@@ -19,7 +19,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import com.csis3275.dao_untitled.TicketManagementDAOImpl_jpa_66;
 import com.csis3275.model_untitled.Ticket_untitled;
-import com.csis3275.test_config_untitled.H2TestConfig_jpa_66;
+import com.csis3275.test_config_untitled.TestDatabaseConfig_jpa_66;
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -31,7 +31,7 @@ import com.csis3275.test_config_untitled.H2TestConfig_jpa_66;
  */
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = H2TestConfig_jpa_66.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = TestDatabaseConfig_jpa_66.class, loader = AnnotationConfigContextLoader.class)
 @SpringBootTest(classes = TicketManagementDAOImpl_jpa_66.class)
 @SqlGroup({
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:test-table-definitions.sql"),
@@ -54,7 +54,7 @@ class TicketIntegrationTest_jpa_66 {
 	void testCreateTicket() {
 		ticketDAO.createTicket(sampleTicket);
 		// 25 Sample Records, set the ticket to be the next inserted
-		sampleTicket.setTicketID(26);
+		sampleTicket.setTicketID(6);
 		Ticket_untitled retrievedTicket = ticketDAO.getTicketByID(Integer.toString(sampleTicket.getTicketID()));
 		System.out.println(retrievedTicket.getTitle());
 		assertNotNull(retrievedTicket);

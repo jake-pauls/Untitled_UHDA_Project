@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * @author Jacob Pauls Student ID 300273666
  * @date Nov 11, 2020
- * H2TestConfig_jpa_66.java
+ * TestDatabaseConfig_jpa_66.java
  * com.csis3275.test_config_untitled
  * CSIS 3275 Group Project
  * Group Name: Untitled
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @PropertySource("database-test.properties")
 @EnableTransactionManagement
-public class H2TestConfig_jpa_66 {
+public class TestDatabaseConfig_jpa_66 {
 
 	@Autowired
 	Environment environment;

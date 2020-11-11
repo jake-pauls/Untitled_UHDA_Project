@@ -13,6 +13,7 @@ local.properties
 
 #database info
 database.properties
+database-test.properties
 
 # External tool builders
 .externalToolBuilders/
