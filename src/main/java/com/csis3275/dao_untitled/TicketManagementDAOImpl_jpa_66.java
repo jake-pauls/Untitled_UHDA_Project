@@ -27,7 +27,7 @@ import com.csis3275.model_untitled.Ticket_untitled;
 @Primary
 public class TicketManagementDAOImpl_jpa_66 {
 	JdbcTemplate jdbcTicketManagementTemplate;
-	
+		
 	private final String TICKET_TABLE_NAME = "tickets";	
 	
 	// Tickets Table Queries
@@ -40,7 +40,7 @@ public class TicketManagementDAOImpl_jpa_66 {
 												 " (title, description, priority, status, username, assignee, category, dateOpened, lastUpdated)" +
 												 " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String SQL_UPDATE_TICKET = "UPDATE " + TICKET_TABLE_NAME + " SET title = ?, description = ?, priority = ?, status = ?, username = ?, assignee = ?, category = ?, dateClosed = ?, lastUpdated = ? WHERE ticketID = ?";
-	private final String SQL_CLOSE_TICKET = "UPDATE " + TICKET_TABLE_NAME + " SET dateClosed = ? WHERE ticketID = ?";
+	private final String SQL_CLOSE_TICKET = "UPDATE " + TICKET_TABLE_NAME + " SET status = ?, dateClosed = ? WHERE ticketID = ?";
 	private final String SQL_DELETE_TICKET = "DELETE FROM " + TICKET_TABLE_NAME + " WHERE ticketID = ?";
 	
 	@Autowired
@@ -137,7 +137,7 @@ public class TicketManagementDAOImpl_jpa_66 {
 		// Set a DateClosed Timestamp and update the lastUpdated Timestamp
 		ticket.setDateClosed(getCurrentTime());
 		ticket.setLastUpdated(getCurrentTime());
-		return jdbcTicketManagementTemplate.update(SQL_CLOSE_TICKET, ticket.getDateClosed(), ticket.getTicketID()) > 0;
+		return jdbcTicketManagementTemplate.update(SQL_CLOSE_TICKET, ticket.getStatus(), ticket.getDateClosed(), ticket.getTicketID()) > 0;
 	}
 	
 	/**

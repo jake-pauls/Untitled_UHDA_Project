@@ -48,8 +48,8 @@ CREATE TABLE tickets(
 );
 
 INSERT INTO tickets (title, description, priority, status, username, assignee, category, dateOpened, dateClosed, lastUpdated) 
-		VALUES ('Test Ticket #1', 'Test Ticket #1 Description', 'High', 'In Progress', 'user', 'employee', 'Internet', '2019-12-07 06:42:21', null, '2020-03-03 09:09:38'),
+		VALUES ('Test Ticket #1', 'Test Ticket #1 Description', 'Critical', 'In Progress', 'user', 'employee', 'Internet', '2019-12-07 06:42:21', null, '2020-03-03 09:09:38'),
 			   ('Test Ticket #2', 'Test Ticket #2 Description', 'Low', 'Closed', 'user', 'employee', 'Software', '2020-03-11 19:43:45', '2019-11-10 17:54:37', '2019-11-10 17:54:37'),
-			   ('Test Ticket #3', 'Test Ticket #3 Description', 'Low', 'In Progress', 'user', 'employee', 'Installation Request', '2020-02-10 05:18:21', null, '2020-09-24 04:21:54'),
-			   ('Test Ticket #4', 'Test Ticket #4 Description', 'Trivial', 'Closed', 'user', 'employee', 'Hardware', '2020-03-11 03:36:42', '2020-08-11 11:23:22', '2020-08-11 11:23:22'),
+			   ('Test Ticket #3', 'Test Ticket #3 Description', 'High', 'In Progress', 'user', 'employee', 'Installation Request', '2020-02-10 05:18:21', null, '2020-09-24 04:21:54'),
+			   ('Test Ticket #4', 'Test Ticket #4 Description', 'Medium', 'Closed', 'user', 'employee', 'Hardware', '2020-03-11 03:36:42', '2020-08-11 11:23:22', '2020-08-11 11:23:22'),
 			   ('Test Ticket #5', 'Test Ticket #5 Description', 'Trivial', 'Resolved', 'user', 'employee', 'Internet', '2020-04-28 12:08:24', null, '2020-08-21 10:30:17');
