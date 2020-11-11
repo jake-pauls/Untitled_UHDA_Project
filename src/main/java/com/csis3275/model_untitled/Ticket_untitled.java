@@ -21,6 +21,7 @@ public class Ticket_untitled{
 	String title;
 	String description;
 	String priority;
+	String priorityColour;
 	String status;
 	String username;
 	String assignee;
@@ -32,6 +33,7 @@ public class Ticket_untitled{
 	/*
 	 * Ticket Constants
 	 * TICKET_PRIORITY - Indicates the possible priority values for a ticket
+	 * TICKET_PRIORITY_COLOR - Indicates the possible colour values for the priority fields on a ticket
 	 * TICKET_STATUS - Indicates the possible status values for a ticket
 	 * TICKET_CATEGORY - Indicates the possible category values for a ticket
 	 */
@@ -40,6 +42,12 @@ public class Ticket_untitled{
 	public static final String TICKET_PRIORITY_NORMAL = "Normal";
 	public static final String TICKET_PRIORITY_HIGH = "High";
 	public static final String TICKET_PRIORITY_CRITICAL = "Critical";
+
+	public static final String TICKET_PRIORITY_COLOUR_TRIVIAL = "#00ace6";
+	public static final String TICKET_PRIORITY_COLOUR_LOW = "#009933";
+	public static final String TICKET_PRIORITY_COLOUR_NORMAL = "#1a1a1a";
+	public static final String TICKET_PRIORITY_COLOUR_HIGH = "#ffa31a";
+	public static final String TICKET_PRIORITY_COLOUR_CRITICAL = "#ff1a1a";
 
 	public static final String TICKET_STATUS_OPEN = "Open";
 	public static final String TICKET_STATUS_IN_PROGRESS = "In Progress";
@@ -74,6 +82,23 @@ public class Ticket_untitled{
 		return priority;
 	}
 	public void setPriority(String priority) {
+		switch(priority) {
+		case TICKET_PRIORITY_TRIVIAL:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_TRIVIAL);
+			break;
+		case TICKET_PRIORITY_LOW:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_LOW);
+			break;
+		case TICKET_PRIORITY_NORMAL:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_NORMAL);
+			break;
+		case TICKET_PRIORITY_HIGH:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_HIGH);
+			break;
+		case TICKET_PRIORITY_CRITICAL:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_CRITICAL);
+			break;
+		}
 		this.priority = priority;
 	}
 	public String getStatus() {
@@ -117,6 +142,12 @@ public class Ticket_untitled{
 	}
 	public void setLastUpdated(Timestamp lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+	public String getPriorityColour() {
+		return priorityColour;
+	}
+	public void setPriorityColour(String priorityColour) {
+		this.priorityColour = priorityColour;
 	}
 	
 	public void setFormattedDateOpen() {

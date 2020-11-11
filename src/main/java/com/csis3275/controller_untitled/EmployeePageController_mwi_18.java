@@ -1,6 +1,5 @@
 package com.csis3275.controller_untitled;
 
-import java.io.Console;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +65,6 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("unAssignedTickets",myList);
 		return view;
 	}
-	
-	
-	
-	
-	
 	
 	@ModelAttribute("statusList")
 	public List<String> getStatusList(){

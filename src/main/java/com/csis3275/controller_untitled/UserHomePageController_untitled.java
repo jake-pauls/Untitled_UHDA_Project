@@ -1,6 +1,7 @@
 package com.csis3275.controller_untitled;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -70,6 +71,26 @@ public class UserHomePageController_untitled {
 		return view;
 	}
 	
+	@ModelAttribute("categoryList")
+	public List<String> getCategoryList(){
+		List<String> categoryList = new ArrayList<String>();
+		categoryList.add(Ticket_untitled.TICKET_CATEGORY_GENERAL);
+		categoryList.add(Ticket_untitled.TICKET_CATEGORY_HARDWARE);
+		categoryList.add(Ticket_untitled.TICKET_CATEGORY_INSTALLATION_REQUEST);
+		categoryList.add(Ticket_untitled.TICKET_CATEGORY_INTERNET);
+		categoryList.add(Ticket_untitled.TICKET_CATEGORY_SOFTWARE);
+		return categoryList;
+	}
 	
+	@ModelAttribute("priorityList")
+	public List<String> getpriorityList(){
+		List<String> priorityList = new ArrayList<String>();
+		priorityList.add(Ticket_untitled.TICKET_PRIORITY_TRIVIAL);
+		priorityList.add(Ticket_untitled.TICKET_PRIORITY_LOW);
+		priorityList.add(Ticket_untitled.TICKET_PRIORITY_NORMAL);
+		priorityList.add(Ticket_untitled.TICKET_PRIORITY_HIGH);
+		priorityList.add(Ticket_untitled.TICKET_PRIORITY_CRITICAL);
+		return priorityList;
+	}
 	
 }

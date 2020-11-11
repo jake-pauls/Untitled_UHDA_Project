@@ -19,7 +19,6 @@
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 </head>
 <body>
-	
 	<div class="uk-container uk-container-large">	
 			
 			<div class = "uk-clearfix" id = "top_margin_small">
@@ -29,13 +28,6 @@
 					<sec:authorize access="hasRole('ADMIN')">
 						<a href="${pageContext.request.contextPath}/AdminUserManagement"
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
-<<<<<<< HEAD
-							uk-tooltip="User Management"></a>
-					</sec:authorize>
-				</div>
-				<div class="uk-width-auto@m">
-					<sec:authorize access="hasAnyRole('ADMIN', 'EMPLOYEE')">
-=======
 							uk-tooltip="Admin Page"></a>
 					</sec:authorize>
 				</div>
@@ -44,7 +36,6 @@
 				<c:if test="${loggedInUser.role == 'employee' }">
 					<div>
 					<sec:authorize access="hasRole('EMPLOYEE')">
->>>>>>> qa
 						<a href="${pageContext.request.contextPath}/employeeHomePage"
 							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
 							uk-tooltip="Employee Page"></a>
@@ -75,12 +66,14 @@
 		</ul>
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
+			    <a class="uk-alert-close" uk-close></a>
 				<p>${errorMessage}</p>
 			</div>
 		</c:if>
 
 		<c:if test="${successMessage != null}">
 			<div class="uk-alert-success" uk-alert>
+				<a class="uk-alert-close" uk-close></a>
 				<p>${successMessage}</p>
 			</div>
 		</c:if>
@@ -123,9 +116,20 @@
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
 											<hr>
-											<h4>${ticket.username }</h4>
+											<h4><span class="uk-text-light">Author: </span>${ticket.username }</h4>
+											<p>
+												Assigned To:
+												<c:choose>
+													<c:when test="${ticket.assignee == null}">
+														<span class="uk-text-warning">Unassigned</span>
+													</c:when>
+													<c:otherwise>
+														${ticket.assignee}
+													</c:otherwise>
+												</c:choose>
+											</p>
 											<p>Status: ${ticket.status }</p>
-											<p>Priority: ${ticket.priority }</p>
+											<p>Priority: <span class="uk-text-light" style="color: ${ticket.priorityColour};">${ticket.priority }</span></p>
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
@@ -170,11 +174,71 @@
 			<!-- Available ticket display -->
 			
 			<li>
-			<!-- Create ticket form goes here -->
-				
-			</li>
-		</ul>
-		
+				<form:form action="${pageContext.request.contextPath}/createTicket/?redirectUrl=UserHomePage" modelAttribute="ticket">
+					<div class="uk-modal-body">
+						<h1 class="uk-text-lead uk-text-light uk-margin-medium-bottom">Please fill the information below to create a new ticket</h1>
+							<div class="uk-margin">
+								<label class="uk-form-label" for="title">Ticket Title: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:input class="uk-input uk-form-width-large" id="title"
+											type="text" path="title" required="true"/>
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin">
+								<label class="uk-form-label" for="description">Description: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:textarea class="uk-input uk-form-width-large required" id="description"
+											 rows="4" cols="50" path="description" required="true"/>
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin">
+								<label class="uk-form-label" for="description">Priority: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:select class="uk-input uk-form-width-large required" id="priority" path="priority" required="true">
+											<form:option value="" disabled="true" selected="true">Select a priority level</form:option>
+											<c:forEach items="${priorityList}" var="priority">
+												<form:option value="${priority}" />
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin-large-bottom">
+								<label class="uk-form-label" for="category">Category: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:select class="uk-input uk-form-width-large required" id="category" path="category" required="true">
+											<form:option value="" disabled="true" selected="true">Select a category</form:option>
+											<c:forEach items="${categoryList}" var="category">
+												<form:option value="${category}" />
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+							</div>
+							
+							<sec:authorize access="isAuthenticated()">
+								<form:input type="hidden" path="username" value="${loggedInUser.username}"/>
+							</sec:authorize>
+							
+							<div class="uk-modal-footer uk-text-right">
+								<button class="uk-button uk-button-default uk-modal-close"
+									type="button">Cancel</button>
+								<button class="uk-button uk-button-primary" type="submit" onclick="checkRequiredInputs(this)">Create Ticket</button>
+							</div>
+						</div>
+					</form:form>		
+				</li>
+			</ul>
+			
 		
 
 	</div>

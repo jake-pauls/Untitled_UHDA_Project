@@ -19,88 +19,6 @@
 </head>
 <body>
 	<div class="uk-container uk-container-large">
-<<<<<<< HEAD
-		<nav class="uk-navbar-container" uk-navbar>
-			<div class="uk-navbar-left">
-				<ul class="uk-navbar-nav">
-					<li class="uk-active"><a href="">My Tickets</a></li>
-					<li class="uk-nav"><a href="">Active Tickets</a></li>
-					<li class="uk-nav"><a href="#createTicket" uk-toggle>Create Ticket</a></li>
-						
-						<div id="createTicket" uk-modal>
-							<div class="uk-modal-dialog">
-								<button class="uk-modal-close-default" type="button" uk-close></button>
-								<div class="uk-modal-header">
-									<h2 class="uk-modal-title">Create A Ticket</h2>
-								</div>
-							<form:form action="${pageContext.request.contextPath}/createTicket" modelAttribute="ticket">
-								<div class="uk-modal-body">
-									<p>Please fill the information below to create a new ticket</p>
-										<div class="uk-margin">
-											<label class="uk-form-label" for="title">Ticket Title: </label>
-											<div class="uk-form-controls">
-												<div class="uk-inline">
-													<form:input class="uk-input uk-form-width-large" id="title"
-														type="text" path="title" />
-												</div>
-											</div>
-										</div>
-										
-										<div class="uk-margin">
-											<label class="uk-form-label" for="description">Description: </label>
-											<div class="uk-form-controls">
-												<div class="uk-inline">
-													<form:input class="uk-input uk-form-width-large" id="description"
-														type="text" path="description" />
-												</div>
-											</div>
-										</div>
-										
-										<div class="uk-margin">
-											<label class="uk-form-label" for="description">Priority: </label>
-											<div class="uk-form-controls">
-												<div class="uk-inline">
-													<form:select class="uk-input uk-form-width-large" id="priority" path="priority">
-														<form:option value="" disabled="true" selected="true">Select a priority level</form:option>
-														<c:forEach items="${priorityList}" var="priority">
-															<form:option value="${priority}" />
-														</c:forEach>
-													</form:select>
-												</div>
-											</div>
-										</div>
-										
-										<div class="uk-margin">
-											<label class="uk-form-label" for="category">Category: </label>
-											<div class="uk-form-controls">
-												<div class="uk-inline">
-													<form:select class="uk-input uk-form-width-large" id="category" path="category">
-														<form:option value="" disabled="true" selected="true">Select a category</form:option>
-														<c:forEach items="${categoryList}" var="category">
-															<form:option value="${category }" />
-														</c:forEach>
-													</form:select>
-												</div>
-											</div>
-										</div>
-										
-										<sec:authorize access="isAuthenticated()">
-											<form:input type="hidden" path="username" value="${loggedInUser.username}"/>
-										</sec:authorize>
-										
-										<div class="uk-modal-footer uk-text-right">
-											<button class="uk-button uk-button-default uk-modal-close"
-												type="button">Cancel</button>
-											<button class="uk-button uk-button-primary" type="submit">Create Ticket</button>
-										</div>
-									</div>
-								</form:form>		
-							</div>
-						</div>
-						
-					<li class="uk-nav">
-						<button class="uk-button uk-button-default uk-margin-top uk-margin-small-left" type="button">Sort By</button>
-=======
 		<div class="uk-clearfix" id="top_margin_small">
 			<div class="uk-float-right" uk-grid>
 
@@ -135,12 +53,14 @@
 		</ul>
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
+				<a class="uk-alert-close" uk-close></a>
 				<p>${errorMessage}</p>
 			</div>
 		</c:if>
 
 		<c:if test="${successMessage != null}">
 			<div class="uk-alert-success" uk-alert>
+				<a class="uk-alert-close" uk-close></a>
 				<p>${successMessage}</p>
 			</div>
 		</c:if>
@@ -152,7 +72,6 @@
 				<ul class="uk-tab">
 					<li><a href="#">Sort By <span class="uk-margin-small-left"
 							uk-icon="icon: triangle-down"></span></a>
->>>>>>> qa
 						<div uk-dropdown="mode: click">
 							<ul class="uk-nav uk-dropdown-nav">
 								<li><a
@@ -183,9 +102,9 @@
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
 											<hr>
-											<h4>${ticket.username }</h4>
+											<h4><span class="uk-text-light">Author: </span> ${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
-											<p>Priority: ${ticket.priority }</p>
+											<p>Priority: <span class="uk-text-light" style="color: ${ticket.priorityColour};">${ticket.priority }</span></p>
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
@@ -319,9 +238,9 @@
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
 											<hr>
-											<h4>${ticket.username }</h4>
+											<h4><span class="uk-text-light">Author: </span> ${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
-											<p>Priority: ${ticket.priority }</p>
+											<p>Priority: <span class="uk-text-light" style="color: ${ticket.priorityColour};">${ticket.priority }</span></p>
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
@@ -426,10 +345,70 @@
 
 			</li>
 			<li>
-				<!-- Create ticket form goes here -->
-
-			</li>
-		</ul>
+				<form:form action="${pageContext.request.contextPath}/createTicket/?redirectUrl=employeeHomePage" modelAttribute="ticket">
+					<div class="uk-modal-body">
+						<h1 class="uk-text-lead uk-text-light uk-margin-medium-bottom">Please fill the information below to create a new ticket</h1>
+							<div class="uk-margin">
+								<label class="uk-form-label" for="title">Ticket Title: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:input class="uk-input uk-form-width-large" id="title"
+											type="text" path="title" required="true" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin">
+								<label class="uk-form-label" for="description">Description: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:textarea class="uk-input uk-form-width-large" id="description"
+											 rows="4" cols="50" path="description" required="true" />
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin">
+								<label class="uk-form-label" for="description">Priority: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:select class="uk-input uk-form-width-large" id="priority" path="priority" required="true">
+											<form:option value="" disabled="true" selected="true">Select a priority level</form:option>
+											<c:forEach items="${priorityList}" var="priority">
+												<form:option value="${priority}" />
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+							</div>
+							
+							<div class="uk-margin-large-bottom">
+								<label class="uk-form-label" for="category">Category: </label>
+								<div class="uk-form-controls">
+									<div class="uk-inline">
+										<form:select class="uk-input uk-form-width-large" id="category" path="category" required="true">
+											<form:option value="" disabled="true" selected="true">Select a category</form:option>
+											<c:forEach items="${categoryList}" var="category">
+												<form:option value="${category}" />
+											</c:forEach>
+										</form:select>
+									</div>
+								</div>
+							</div>
+							
+							<sec:authorize access="isAuthenticated()">
+								<form:input type="hidden" path="username" value="${loggedInUser.username}"/>
+							</sec:authorize>
+							
+							<div class="uk-modal-footer uk-text-right">
+								<button class="uk-button uk-button-default uk-modal-close"
+									type="button">Cancel</button>
+								<button class="uk-button uk-button-primary" type="submit">Create Ticket</button>
+							</div>
+						</div>
+					</form:form>		
+				</li>
+			</ul>
 
 
 	</div>

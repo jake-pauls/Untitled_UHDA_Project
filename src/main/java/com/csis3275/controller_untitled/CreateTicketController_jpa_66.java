@@ -12,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.csis3275.dao_untitled.TicketManagementDAOImpl_jpa_66;
 import com.csis3275.model_untitled.Ticket_untitled;
@@ -33,20 +36,16 @@ public class CreateTicketController_jpa_66 {
 	@Autowired 
 	TicketManagementDAOImpl_jpa_66 ticketManagementDAOImpl;
 	
-	@Autowired
-	UserAuthenticationUtilities_untitled authenticatedUser;
-	
 	@RequestMapping(value = "/createTicket", method = RequestMethod.POST) 
-	public ModelAndView createTicket(@ModelAttribute("ticket") Ticket_untitled createdTicket, HttpSession session, ModelAndView modelAndView, Principal principal) {
-		String principalRole = authenticatedUser.getLoggedInUserContext(principal).getRole();
-		if (principalRole.equals("admin") || principalRole.equals("employee")) { 
-			modelAndView.setViewName("employeeHomePage");
+	public RedirectView createTicket(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("ticket") Ticket_untitled createdTicket, RedirectAttributes redirectAttributes, HttpSession session, ModelAndView modelAndView, Principal principal) {
+		// Determine correct url
+		RedirectView redirectView =  new RedirectView("/"+redirectUrl, true);
+		if(ticketManagementDAOImpl.createTicket(createdTicket)) {
+			redirectAttributes.addFlashAttribute("successMessage", "Ticket created successfully");
 		} else {
-			// TODO: Set this view to a the user's ticket view
-			modelAndView.setViewName("");
+			redirectAttributes.addFlashAttribute("errorMessage", "Failed to create ticket, please try again");
 		}
-		ticketManagementDAOImpl.createTicket(createdTicket);
-		return modelAndView;
+		return redirectView;
 	}
 	
 }
