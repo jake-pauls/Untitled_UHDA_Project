@@ -5,7 +5,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,9 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
-import com.csis3275.model_untitled.UserRowMapper_mwi_18;
+
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
@@ -30,9 +30,9 @@ public class EmployeePageController_mwi_18 {
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
 	
+	
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
-	
 	
 	
 	@ModelAttribute("ticket")
@@ -67,23 +67,8 @@ public class EmployeePageController_mwi_18 {
 		return view;
 	}
 	
-	@GetMapping("/pickUp")
-	public ModelAndView grabTicket(int id,ModelAndView view,Principal principal) {
-		
-		try {
-			dao.pickUpTicket(id, authenticatedUser.getLoggedInUserContext(principal).getUsername());
-		}catch(Exception ex) {
-			view.addObject("test",ex.getMessage());
-		}
-			
-		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),"dateOpened");
-		view.addObject("assignedTickets",myList);
-		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
-		view.addObject("unAssignedTickets",unAssignedList);
-		
-		return view;
-	}
+	
+	
 	
 	
 	

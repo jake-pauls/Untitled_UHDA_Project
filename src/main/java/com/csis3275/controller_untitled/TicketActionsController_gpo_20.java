@@ -1,10 +1,12 @@
 package com.csis3275.controller_untitled;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +17,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.csis3275.dao_untitled.EmailServiceImpl_untitled;
 import com.csis3275.dao_untitled.TicketActionsDAO_Impl_gpo_20;
+import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 /**
  * 
@@ -53,6 +57,18 @@ public class TicketActionsController_gpo_20 {
 	@Autowired
 	TicketActionsDAO_Impl_gpo_20 ticketActionsDAOImpl;
 
+	/**
+	 * wire up and declare the ticket display sql class
+	 */
+	@Autowired
+	TicketDisplayDAO_mwi_18 dao;
+	
+	/**
+	 * wire up the authenticated user
+	 */
+	@Autowired
+	UserAuthenticationUtilities_untitled authenticatedUser;
+	
 	/**
 	 * wire up the email services class
 	 */
@@ -159,6 +175,55 @@ public class TicketActionsController_gpo_20 {
 		redirectAttributes.addFlashAttribute("successMessage", TICKET_PRIORITY_SUCCESS_MESSAGE);
 		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 		return redirectView;
+	}
+	
+	
+	/**
+	 * Model attribute bound to the Ticket_untitled object
+	 * 
+	 * @return the ticket object, binding the model attribute "ticket"
+	 */
+	@ModelAttribute("ticket")
+	public Ticket_untitled newTicket() {
+		return new Ticket_untitled();
+	}
+	
+	/**
+	 * Get request mapping for picking up a ticket
+	 * @param id The id of the ticket that was picked up
+	 * 
+	 * @param view The model and view
+	 * 
+	 * @param pricipal This allows us to get the logged in user context
+	 * 
+	 * @return
+	 */
+	@GetMapping("/pickUp")
+	public ModelAndView grabTicket(int id,ModelAndView view,Principal principal) {
+		
+		try {
+			dao.pickUpTicket(id, authenticatedUser.getLoggedInUserContext(principal).getUsername());
+		}catch(Exception ex) {
+			
+		}
+			
+		//update view
+		view.setViewName("employeeHomePage");
+		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),"dateOpened");
+		view.addObject("assignedTickets",myList);
+		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
+		view.addObject("unAssignedTickets",unAssignedList);
+		
+		//send email
+		Ticket_untitled ticket = dao.getOneTicket(id);
+		User_untitled user = ticketActionsDAOImpl.getUserProfileByUsername(ticket.getUsername());
+		User_untitled assignee = ticketActionsDAOImpl.getAssigneeProfileByUsername(ticket.getAssignee());
+		
+		String message = "Your ticket "+ticket.getTitle()+" has been picked up by the employee "+assignee.getFirstName()+". They are now in charge of your ticket";
+		
+		ticketActionEmail(user.getEmail(), assignee.getEmail(), "Ticket number: "+ticket.getTicketID()+" has been picked up", message);
+		
+		return view;
 	}
 
 	/**
