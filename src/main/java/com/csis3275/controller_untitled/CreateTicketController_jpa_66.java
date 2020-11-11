@@ -36,6 +36,13 @@ public class CreateTicketController_jpa_66 {
 	@Autowired 
 	TicketManagementDAOImpl_jpa_66 ticketManagementDAOImpl;
 	
+	/**
+	 * POST method that creates a ticket within the database
+	 * @param redirectUrl String HTTP parameter indicating the view to be redirected to once the create operation is completed
+	 * @param createdTicket 'Ticket_untitled' object with values bound from the data entered by the user in the 'Create Ticket' form
+	 * @param principal Principal object containing authentication details for the currently logged in user
+	 * @return A 'RedirectView' object containing the parameterized URL to redirect to, as well as any applicable success or error messages
+	 */
 	@RequestMapping(value = "/createTicket", method = RequestMethod.POST) 
 	public RedirectView createTicket(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("ticket") Ticket_untitled createdTicket, RedirectAttributes redirectAttributes, HttpSession session, ModelAndView modelAndView, Principal principal) {
 		// Determine correct url
