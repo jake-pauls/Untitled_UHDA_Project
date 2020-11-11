@@ -2,6 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +19,31 @@
 </head>
 <body>
 	<div class="uk-container uk-container-large">
+		<div class="uk-clearfix" id="top_margin_small">
+			<div class="uk-float-right" uk-grid>
 
+				<div>
+					<sec:authorize access="hasRole('ADMIN')">
+						<a href="${pageContext.request.contextPath}/AdminUserManagement"
+							class="uk-icon-button" uk-icon="icon: users; ratio: 1.25"
+							uk-tooltip="Manage Users"></a>
+					</sec:authorize>
+				</div>
+				<div>
+					<a href="${pageContext.request.contextPath}/UserHomePage"
+						class="uk-icon-button" uk-icon="icon: home; ratio: 1.25"
+						uk-tooltip="Home page"></a>
+				</div>
+				<div>
+					<h4 class="uk-text-lead">
+						<a class="uk-icon-button" uk-icon="icon: sign-out; ratio: 1.25"
+							href="${pageContext.request.contextPath}/logout"
+							uk-tooltip="Log Out"></a>
+					</h4>
+				</div>
+
+			</div>
+		</div>
 
 		<ul class="uk-tab" uk-tab>
 			<li class="uk-active"><a href="#">Assigned Tickets</a></li>
@@ -71,17 +97,18 @@
 								class="uk-slider-items uk-child-width-1-5@s uk-child-width-1-4@">
 								<c:forEach items="${assignedTickets }" var="ticket">
 									<li class="uk-padding-small">
-										<div>
+										<div id = "bor">
 											<h3>${ticket.title }</h3>
+											<hr>
 											<h4>${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
-										</div> <a class="uk-button uk-button-default"
+										 <a class="uk-button uk-button-default"
 										href="#my${ticket.ticketID }" uk-toggle>Open</a>
-
+										</div>
 										<div id="my${ticket.ticketID }" uk-modal>
 											<div class="uk-modal-dialog">
 												<button class="uk-modal-close-default" type="button"
@@ -206,17 +233,22 @@
 								class="uk-slider-items uk-child-width-1-5@s uk-child-width-1-4@">
 								<c:forEach items="${unAssignedTickets }" var="ticket">
 									<li class="uk-padding-small">
-										<div>
+										<div id = "bor">
 											<h3>${ticket.title }</h3>
+											<hr>
 											<h4>${ticket.username }</h4>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
 											<p>
 												Opened:<br> ${ticket.formDateOpen }
 											</p>
-										</div> <a class="uk-button uk-button-default"
+										 <a class="uk-button uk-button-default"
 										href="#my${ticket.ticketID }" uk-toggle>Open</a>
-
+										<hr> <a class="uk-button uk-button-default"
+										href="${pageContext.request.contextPath}/pickUp?id=${ticket.ticketID }">Pick
+											Up</a>
+										</div>
+										
 										<div id="my${ticket.ticketID }" uk-modal>
 											<div class="uk-modal-dialog">
 												<button class="uk-modal-close-default" type="button"
@@ -310,7 +342,12 @@
 				</div>
 
 			</li>
+			<li>
+				<!-- Create ticket form goes here -->
+
+			</li>
 		</ul>
+
 
 	</div>
 

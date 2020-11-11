@@ -23,6 +23,7 @@ import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 
 
+
 @Controller
 public class EmployeePageController_mwi_18 {
 	
@@ -32,7 +33,7 @@ public class EmployeePageController_mwi_18 {
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
 	
-	private String currentTab = "assigned";
+	
 	
 	@ModelAttribute("ticket")
 	public Ticket_untitled newTicket() {
@@ -48,7 +49,7 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("assignedTickets",myList);
 		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
 		view.addObject("unAssignedTickets",unAssignedList);
-		view.addObject("tab",this.currentTab);
+		
 		return view;
 	}
 	
@@ -66,7 +67,23 @@ public class EmployeePageController_mwi_18 {
 		return view;
 	}
 	
-	
+	@GetMapping("/pickUp")
+	public ModelAndView grabTicket(int id,ModelAndView view,Principal principal) {
+		
+		try {
+			dao.pickUpTicket(id, authenticatedUser.getLoggedInUserContext(principal).getUsername());
+		}catch(Exception ex) {
+			view.addObject("test",ex.getMessage());
+		}
+			
+		view.setViewName("employeeHomePage");
+		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),"dateOpened");
+		view.addObject("assignedTickets",myList);
+		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
+		view.addObject("unAssignedTickets",unAssignedList);
+		
+		return view;
+	}
 	
 	
 	

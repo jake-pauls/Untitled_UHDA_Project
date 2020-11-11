@@ -1,16 +1,22 @@
 package com.csis3275.controller_untitled;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
+
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -27,6 +33,15 @@ public class UserHomePageController_untitled {
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
 	
+	@Autowired
+	TicketDisplayDAO_mwi_18 dao;
+	
+	
+	@ModelAttribute("ticket")
+	public Ticket_untitled getTicketSetUp() {
+		return new Ticket_untitled();
+	}
+	
 	/**
 	 * GET request mapped to the user's home page view
 	 * @param session Currently observed HTTP session
@@ -38,8 +53,23 @@ public class UserHomePageController_untitled {
 		modelAndView.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
 		modelAndView.setViewName("UserHomePage");
 		
+		List<Ticket_untitled> myTickets = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(), "dateOpened");
+		modelAndView.addObject("createdList",myTickets);
 		
 		return modelAndView;
 	}
+	
+	@GetMapping("/sortUser")
+	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
+		view.setViewName("UserHomePage");
+		List<Ticket_untitled> myList = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		
+		view.addObject("createdList",myList);
+		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
+		
+		return view;
+	}
+	
+	
 	
 }
