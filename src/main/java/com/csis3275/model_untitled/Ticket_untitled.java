@@ -122,7 +122,7 @@ public class Ticket_untitled{
 	public void setFormattedDateOpen() {
 		
 		
-		String pattern = "yyyy/mm/dd hh:MM:ss";
+		String pattern = "yyyy/MM/dd hh:mm:ss";
 		SimpleDateFormat simple = new SimpleDateFormat(pattern);
 		
 		

@@ -99,8 +99,10 @@
 									<li class="uk-padding-small">
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
+											<h5>Assigned to: ${ticket.assignee }</h5>
 											<hr>
-											<h4>${ticket.username }</h4>
+											<h4>Author: ${ticket.username }</h4>
+											<p>Category: ${ticket.category }</p>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
 											<p>
@@ -235,8 +237,10 @@
 									<li class="uk-padding-small">
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
+											<h5>Not yet assigned</h5>
 											<hr>
-											<h4>${ticket.username }</h4>
+											<h4>Author: ${ticket.username }</h4>
+											<p>Category: ${ticket.category }</p>
 											<p>Status: ${ticket.status }</p>
 											<p>Priority: ${ticket.priority }</p>
 											<p>

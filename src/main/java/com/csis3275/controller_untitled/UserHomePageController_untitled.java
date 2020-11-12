@@ -30,13 +30,22 @@ import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 @Controller
 public class UserHomePageController_untitled {
 	
+	/**
+	 * wires the authenticated user
+	 */
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
 	
+	/**
+	 * wires the ticketDisplayDao
+	 */
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
 	
-	
+	/**
+	 * model for ticket under the name ticket
+	 * @return new ticket 
+	 */
 	@ModelAttribute("ticket")
 	public Ticket_untitled getTicketSetUp() {
 		return new Ticket_untitled();
@@ -59,6 +68,14 @@ public class UserHomePageController_untitled {
 		return modelAndView;
 	}
 	
+	
+	/**
+	 * Sorts the tickets as specified
+	 * @param order The order of the display
+	 * @param view The modelview used to set upview and models
+	 * @param principal Used to verify logged in user
+	 * @return ModelandView object containing info to display page
+	 */
 	@GetMapping("/sortUser")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("UserHomePage");
