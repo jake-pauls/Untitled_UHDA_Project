@@ -50,6 +50,7 @@ public class TicketActionsController_gpo_20 {
 	private final String TICKET_ASSIGNED_SUCCESS_MESSAGE = "Ticket has been assigned succesfully";
 	private final String TICKET_STATUS_SUCCESS_MESSAGE = "Ticket status has been updated succesfully";
 	private final String TICKET_PRIORITY_SUCCESS_MESSAGE = "Ticket priority has been updated succesfully";
+	private final String TICKET_PICKED_UP_SUCCESS = "Ticket has been picked up";
 
 	/**
 	 * wire up and declare the ticket action sql class
@@ -222,6 +223,8 @@ public class TicketActionsController_gpo_20 {
 		String message = "Your ticket "+ticket.getTitle()+" has been picked up by the employee "+assignee.getFirstName()+". They are now in charge of your ticket";
 		
 		ticketActionEmail(user.getEmail(), assignee.getEmail(), "Ticket number: "+ticket.getTicketID()+" has been picked up", message);
+		
+		view.addObject("successMessage",TICKET_PICKED_UP_SUCCESS);
 		
 		return view;
 	}
