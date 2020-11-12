@@ -1,3 +1,56 @@
+# v0.2 RELEASE - Untitled
+
+### Release Notes - Iteration 2
+
+#### Core Features
+
+* **Basic Ticketing Functionality:**  
+    + Help desk tickets can be created from the User home page
+        - Ticket fields include Title, Description, Priority, and Category  
+           * Tickets can be set with a Priority of _Trivial_, _Low_, _Normal_, _High_, and _Critical_
+           * Tickets can be set with a Category of _General_, _Software_, _Hardware_, _Internet_, or _Installation Request_
+    + Help desk tickets can also be created from the Employee home page 
+        - All created tickets _(regardless of being created by a User, Employee, or Administrator)_ are immediately added into the Employee ticket queue
+        - Employees and admins can 'Pickup' or 'Open'/Edit fields on newly created tickets (see _Ticket Actions_ below for more information)
+    + All created tickets have a unique colour for their _Priority_ or their Assignment Status (see _Ticketing Display_ below for more information)  
+
+* **Ticketing Display:**  
+    + Display the user home page 
+        - Tickets can be sorted from this view
+        - Tickets can be opened from this view
+        - All created tickets of the logged in user are displayed to the user
+        - There is a tab allowing navigation between ticket view and the create ticket form
+    + If the user is an employee they will be shown a link to the employee page
+        - Displays all assigned tickets to the logged in employee
+        - Displays all unassigned tickets in another tab 
+        - Tickets can be picked up from the unassigned tickets tab
+        - Tickets can be opened from either tab
+        - Tickets can be sorted from either tab
+    + If the user is an admin, they will be shown a link to the admin page  
+
+* **Ticket Actions:**  
+	* Allows help desk employees and admins to assign ticket  
+		* only an admin or the employee a ticket is assigned to can reassign a ticket
+		* Anyone employee can assign a unassigned ticket. 
+		* an email is sent to the author/creator of the ticket, and the person who is assigned is cc'ed
+	* update the status of a ticket
+		* an email is sent to the author/creator of the ticket, and the person who is assigned is cc'ed
+	* update the priority of a ticket
+		* an email is sent to the author/creator of the ticket, and the person who is assigned is cc'ed  
+  
+#### Supplemental Updates
+
+* **UHDA UI Rework:**
+    + Entire UI is redesigned with a sleek, robust, and intuitive feel
+    + Page layouts and routing re-configured with the end-user experience in mind
+
+#### Resolved Defects
+
+* **Updated User Login and User Authentication:**
+     + User Login and Authentication implemented with UI rework in mind
+          * Validation, for both success and failure results in secure authentication and clean UI messages
+     + Utilizes an updated and relevant authentication approach to make User and Employee use throughout the UHDA smoother
+
 # v0.1 RELEASE - Untitled
 
 ### Release Notes - Iteration 1
