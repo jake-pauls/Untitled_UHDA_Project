@@ -14,9 +14,9 @@ CREATE TABLE users(
 );
 
 INSERT INTO users(username, password, first_name, last_name, email, security_question, security_answer, role)
-	VALUES('admin', '$2a$10$j/x9DhaoTtpET9peZp9AOe1EhQQfscXvVj7FJ5QdzDe/Wyzrt/XfK', 'Tyler', 'Kronk', 'tKronker@gmail.com', 'What is the name of your first pet?', 'Bowser', 'admin' ),
-		  ('employee', '$2a$10$U3LA8nuobCKh9mN67/MXmu8D9yT0d3rFZsi/j77R93lq27jBzzHou', 'Gillian', 'Bunter', 'bunterG@gmail.com', 'What is the name of your first pet?', 'Banjo', 'employee' ),
-		  ('user', '$2a$10$d6JTmNpwizj2usF7ro751OMP3sWfey4THaORUgrcgK9zKxzFYVt7q', 'Nick', 'Young', 'NickYoung89@hotmail.com', 'What is the name of your primary school?', 'Apleton', 'user' );
+	VALUES('admin', '$2a$10$j/x9DhaoTtpET9peZp9AOe1EhQQfscXvVj7FJ5QdzDe/Wyzrt/XfK', 'Tyler', 'Kronk', 'admin@UHDATesting.com', 'What is the name of your first pet?', 'Bowser', 'admin' ),
+		  ('employee', '$2a$10$U3LA8nuobCKh9mN67/MXmu8D9yT0d3rFZsi/j77R93lq27jBzzHou', 'Gillian', 'Bunter', 'employeeeG@UHDATesting.com', 'What is the name of your first pet?', 'Banjo', 'employee' ),
+		  ('user', '$2a$10$d6JTmNpwizj2usF7ro751OMP3sWfey4THaORUgrcgK9zKxzFYVt7q', 'Nick', 'Young', 'user@UHDATesting.com', 'What is the name of your primary school?', 'Apleton', 'user' );
 
 -- Authorities
 CREATE TABLE authorities (
