@@ -200,7 +200,7 @@ public class TicketActionsController_gpo_20 {
 	 * @return
 	 */
 	@GetMapping("/pickUp")
-	public ModelAndView grabTicket(int id,ModelAndView view,Principal principal) {
+	public RedirectView grabTicket(int id,ModelAndView view, RedirectAttributes redirectAttributes, Principal principal) {
 		
 		try {
 			dao.pickUpTicket(id, authenticatedUser.getLoggedInUserContext(principal).getUsername());
@@ -209,11 +209,7 @@ public class TicketActionsController_gpo_20 {
 		}
 			
 		//update view
-		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),"dateOpened");
-		view.addObject("assignedTickets",myList);
-		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
-		view.addObject("unAssignedTickets",unAssignedList);
+		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 		
 		//send email
 		Ticket_untitled ticket = dao.getOneTicket(id);
@@ -224,9 +220,9 @@ public class TicketActionsController_gpo_20 {
 		
 		ticketActionEmail(user.getEmail(), assignee.getEmail(), "Ticket number: "+ticket.getTicketID()+" has been picked up", message);
 		
-		view.addObject("successMessage",TICKET_PICKED_UP_SUCCESS);
+		redirectAttributes.addFlashAttribute("successMessage",TICKET_PICKED_UP_SUCCESS);
 		
-		return view;
+		return redirectView;
 	}
 
 	/**
