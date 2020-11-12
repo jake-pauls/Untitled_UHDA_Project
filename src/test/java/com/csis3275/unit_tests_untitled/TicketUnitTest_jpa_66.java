@@ -93,7 +93,10 @@ class TicketUnitTest_jpa_66 {
 		final long fiveMinutesLater = ((5 * 60)*1000);
 		sampleTicketDateClosedTimestamp.setTime(sampleTicketDateOpenedTimestamp.getTime() + fiveMinutesLater);
 		sampleTicket.setDateClosed(sampleTicketDateClosedTimestamp);
+		
+		// The new dateClosed should be set properly
 		assertEquals(sampleTicketDateClosedTimestamp, sampleTicket.getDateClosed());
+		
 		// New dateClosed Timestamp should not match dateOpened Timestamp
 		assertNotEquals(sampleTicketDateClosedTimestamp, sampleTicketDateOpenedTimestamp);
 	}
@@ -102,7 +105,10 @@ class TicketUnitTest_jpa_66 {
 	void testFormDateOpen() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 		String formDateOpen = dateFormat.format(sampleTicketDateOpenedTimestamp);
+		
+		// Formatted dateOpened timestamp should match the object's formatted Timestamp
 		assertEquals(formDateOpen, sampleTicket.getFormDateOpen());
+		
 		// Formatted date should not match the database Timestamp
 		assertNotEquals(formDateOpen, sampleTicket.getDateOpened());
 	}
@@ -120,7 +126,11 @@ class TicketUnitTest_jpa_66 {
 		sampleTicket.setUsername("User #1");
 		sampleTicket.setAssignee("Assignee #1");
 		sampleTicket.setCategory(Ticket_untitled.TICKET_CATEGORY_GENERAL);
-		sampleTicket.setDateOpened(getCurrentTime());
+		
+		// Set the current date opened Timestamp
+		sampleTicketDateOpenedTimestamp = getCurrentTime();
+		sampleTicket.setDateOpened(sampleTicketDateOpenedTimestamp);
+		
 		sampleTicket.setFormattedDateOpen();
 	}
 	
@@ -129,8 +139,7 @@ class TicketUnitTest_jpa_66 {
 	 * @return Timestamp object representing the current time 
 	 */
 	public Timestamp getCurrentTime() {
-		sampleTicketDateOpenedTimestamp = new Timestamp(new Date().getTime());
-		return sampleTicketDateOpenedTimestamp;
+		return new Timestamp(new Date().getTime());
 	}
 
 }

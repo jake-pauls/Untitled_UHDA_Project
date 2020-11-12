@@ -1,11 +1,11 @@
-package com.csis3275.integration_tests_untitled;
+package com.csis3275.system_tests_untitled;
 
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +26,8 @@ import com.csis3275.test_config_untitled.TestDatabaseConfig_jpa_66;
 /**
  * @author Jacob Pauls Student ID 300273666
  * @date Nov 11, 2020
- * TicketIntegrationTest_jpa_66.java
- * com.csis3275.integration_tests_untitled
+ * UHDATicketSystemTest_untitled.java
+ * com.csis3275.system_tests_untitled
  * CSIS 3275 Group Project
  * Group Name: Untitled
  */
@@ -39,8 +39,8 @@ import com.csis3275.test_config_untitled.TestDatabaseConfig_jpa_66;
     @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:test-table-definitions.sql"),
     @Sql(executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD, scripts = "classpath:test-table-rollback.sql")
 })
-class TicketIntegrationTest_jpa_66 {
-	
+class UHDATicketSystemTest_untitled {
+
 	@Autowired
 	private TicketManagementDAOImpl_jpa_66 ticketDAO;
 	
@@ -217,4 +217,5 @@ class TicketIntegrationTest_jpa_66 {
 	public static Timestamp getCurrentTime() {
 		return new Timestamp(new Date().getTime());
 	}
+	
 }
