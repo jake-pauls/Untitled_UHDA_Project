@@ -25,19 +25,34 @@ import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 @Controller
 public class EmployeePageController_mwi_18 {
 	
+	/**
+	 * wires the ticketDisplayDao
+	 */
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
 	
-	
+	/**
+	 * wires the authenticated user
+	 */
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
 	
-	
+	/**
+	 * model for ticket under the name ticket
+	 * @return new ticket 
+	 */
 	@ModelAttribute("ticket")
 	public Ticket_untitled newTicket() {
 		return new Ticket_untitled();
 	}
 	
+	
+	/**
+	 * GET request mapped to the employee's page view
+	 * @param principal Object for the logged in user context
+	 * @param modelAndView Object containing the model and view attributes in scope
+	 * @return ModelAndView object containing the view name for the user home page
+	 */
 	@GetMapping("/employeeHomePage")
 	public ModelAndView openPage(ModelAndView view, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
@@ -52,6 +67,14 @@ public class EmployeePageController_mwi_18 {
 		return view;
 	}
 	
+	
+	/**
+	 * Sorts the tickets as specified
+	 * @param order The order of the display
+	 * @param view The modelview used to set upview and models
+	 * @param principal Used to verify logged in user
+	 * @return ModelandView object containing info to display page
+	 */
 	@GetMapping("/sort")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("employeeHomePage");
@@ -66,6 +89,14 @@ public class EmployeePageController_mwi_18 {
 		return view;
 	}
 	
+	
+	
+	
+	
+	/**
+	 * 
+	 * @return list of status options
+	 */
 	@ModelAttribute("statusList")
 	public List<String> getStatusList(){
 		List<String> myList = new ArrayList<String>();
@@ -87,6 +118,11 @@ public class EmployeePageController_mwi_18 {
 		return categoryList;
 	}
 
+	
+	/**
+	 * 
+	 * @return list of priority options
+	 */
 	@ModelAttribute("priorityList")
 	public List<String> getpriorityList(){
 		List<String> myList = new ArrayList<String>();
@@ -98,6 +134,11 @@ public class EmployeePageController_mwi_18 {
 		return myList;
 	}
 	
+	/**
+	 * Adds employee list to the model
+	 * @param modelMap
+	 * 
+	 */
 	@ModelAttribute("employeeList")
 	public void employeeAdminList(ModelMap modelMap){
 		List<User_untitled> employeeList = dao.getListOfEmployeesAndAdmins();

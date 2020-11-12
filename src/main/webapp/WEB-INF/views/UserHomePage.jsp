@@ -107,6 +107,13 @@
 									<li class="uk-padding-small">
 										<div id = "bor">
 											<h3>${ticket.title }</h3>
+											<c:choose>
+												<c:when  test="${ticket.assignee != null }">
+													<h5>Assigned to: ${ticket.assignee }</h5>
+												</c:when>
+												<c:otherwise><h5>Not yet assigned</h5></c:otherwise>
+											</c:choose>
+											
 											<hr>
 											<h4><span class="uk-text-light">Author: </span>${ticket.username }</h4>
 											<p>
