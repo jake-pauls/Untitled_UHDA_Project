@@ -2,6 +2,7 @@ package com.csis3275.controller_untitled;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csis3275.dao_untitled.SlackAssociationDAOImpl_jpa_66;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.SlackRestUtilityService_jpa_66;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 
@@ -43,6 +47,12 @@ public class UserHomePageController_untitled {
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
 	
+	@Autowired
+	SlackAssociationDAOImpl_jpa_66 slackAssociationDAO;
+	
+	@Autowired
+	SlackRestUtilityService_jpa_66 slackService;
+	
 	/**
 	 * model for ticket under the name ticket
 	 * @return new ticket 
@@ -60,7 +70,21 @@ public class UserHomePageController_untitled {
 	 */
 	@RequestMapping(value = "/UserHomePage", method = RequestMethod.GET)	
 	public ModelAndView userHomePage(HttpSession session, ModelAndView modelAndView, Principal principal) {
-		modelAndView.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
+		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
+		
+		HashMap<String, String> slackStatus = verifySlackAssociation(loggedInUser);
+		
+		// Send notification that Slack has been connected
+		if (slackStatus.containsKey("slackSuccessNotification")) 
+			modelAndView.addObject("slackSuccessNotification", slackStatus.get("slackSuccessNotification"));
+		
+		// Send notification that Slack has not been connected
+		if (slackStatus.containsKey("slackErrorNotification"))
+			modelAndView.addObject("slackErrorNotification", slackStatus.get("slackErrorNotification"));
+		
+		modelAndView.addObject("slackTooltip", slackStatus.get("slackTooltip"));
+	
+		modelAndView.addObject("loggedInUser", loggedInUser);
 		modelAndView.setViewName("UserHomePage");
 		
 		List<Ticket_untitled> myTickets = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(), "dateOpened");
@@ -68,7 +92,6 @@ public class UserHomePageController_untitled {
 		
 		return modelAndView;
 	}
-	
 	
 	/**
 	 * Sorts the tickets as specified
@@ -108,6 +131,29 @@ public class UserHomePageController_untitled {
 		priorityList.add(Ticket_untitled.TICKET_PRIORITY_HIGH);
 		priorityList.add(Ticket_untitled.TICKET_PRIORITY_CRITICAL);
 		return priorityList;
+	}
+	
+	private HashMap<String, String> verifySlackAssociation(User_untitled loggedInUser) {
+		HashMap<String, String> slackStatusMessages = new HashMap<String, String>();
+		String userEmail = loggedInUser.getEmail();
+		// If loggedInUser doesn't have a Slack association, call Slack to retrieve their UserID
+		if (!slackAssociationDAO.checkUserSlackAssociation(userEmail)) {
+			String slackUserId = slackService.getSlackUserId(loggedInUser.getEmail());
+			if (slackUserId != null) {
+				// Add their Slack UserID as an association
+				slackAssociationDAO.createSlackAssociation(userEmail, slackUserId);
+				// The account association was created
+				slackStatusMessages.put("slackSuccessNotification", SlackRestUtilityService_jpa_66.SUCCESS_NOTIFICATION_SLACK_ACCOUNT_CONNECTED);
+			} else {
+				// The account association was not created, because the user doesn't have a profile in the Slack workspace
+				slackStatusMessages.put("slackErrorNotification", SlackRestUtilityService_jpa_66.ERROR_NOTIFICATION_SLACK_ACCOUNT_NOT_FOUND);
+				slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_NOT_CONNECTED);
+				return slackStatusMessages;
+			}
+		}
+		// The account association is already present
+		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED);
+		return slackStatusMessages;
 	}
 	
 }

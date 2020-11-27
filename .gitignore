@@ -15,6 +15,9 @@ local.properties
 database.properties
 database-test.properties
 
+# Slack Info
+slack.properties
+
 # External tool builders
 .externalToolBuilders/
 

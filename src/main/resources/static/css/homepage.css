@@ -12,4 +12,6 @@
 #float_right{
 	float: right;
 }
-
+#slack_override {
+	text-decoration: none;
+}

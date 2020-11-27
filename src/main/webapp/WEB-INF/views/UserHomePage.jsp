@@ -10,6 +10,8 @@
 <meta charset="ISO-8859-1">
 <title>User Home Page</title>
 <link rel="stylesheet" href="css/homepage.css" />
+<!-- FontAwesome CDN for Slack Icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" /><!-- UIkit CSS/JS -->
 <!-- UIkit CSS/JS -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/css/uikit.min.css" />
@@ -18,11 +20,26 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 </head>
-<body>
+<body>		
 	<div class="uk-container uk-container-large">	
+			
+		<c:if test="${slackSuccessNotification != null}">
+			<div class="uk-alert-success uk-margin-small-top" uk-alert>
+				<a class="uk-alert-close" uk-close></a>
+				<p>${slackSuccessNotification}</p>
+			</div>
+		</c:if>
+	
+		<c:if test="${slackErrorNotification != null}">
+			<div class="uk-alert-danger uk-margin-small-top" uk-alert>
+				<a class="uk-alert-close" uk-close></a>
+				<p>${slackErrorNotification}</p>
+			</div>
+		</c:if>	
 			
 		<div class = "uk-clearfix" id = "top_margin_small">
 			<div class = "uk-float-right uk-grid-small" uk-grid>
+			
 				<c:if test="${loggedInUser.role == 'admin' }">
 					<div>
 						<sec:authorize access="hasRole('ADMIN')">
@@ -48,6 +65,23 @@
 						href="${pageContext.request.contextPath}/logout" 
 						uk-tooltip="Log Out"></a>
 				</div>
+				
+				<!-- Situational styling for Slack button based on user association -->
+				<c:choose>
+					<c:when test="${slackErrorNotification != null}">
+						<div>
+							<a class="uk-icon-button uk-button-danger uk-margin-large-left" id="slack_override" uk-icon="ratio: 2.5"
+								href="" uk-tooltip="${slackTooltip}"><i class="fab fa-slack fa-lg"></i></a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div>
+							<a class="uk-icon-button uk-button-primary uk-margin-large-left" id="slack_override" uk-icon="ratio: 2.5"
+								href="" uk-tooltip="${slackTooltip}"><i class="fab fa-slack fa-lg"></i></a>
+						</div>
+					</c:otherwise>
+				</c:choose>				
+				
 			</div>
 		</div>
 		
