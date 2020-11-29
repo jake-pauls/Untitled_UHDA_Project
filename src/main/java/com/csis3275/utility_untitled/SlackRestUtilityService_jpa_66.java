@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.User_untitled;
+
 /**
  * @author Jacob Pauls Student ID 300273666
  * @date Nov 24, 2020
@@ -30,12 +33,21 @@ public class SlackRestUtilityService_jpa_66 {
 	public static final String ERROR_NOTIFICATION_SLACK_ACCOUNT_NOT_FOUND = "Slack profile not found in workspace! Please join the Slack workspace with your UHDA email and try again.";
 	public static final String SLACK_ACCOUNT_CONNECTED = "Currently connected with Slack";
 	public static final String SLACK_ACCOUNT_NOT_CONNECTED = "Not connected with Slack";
-		
+	
+	// Fields Defining API Methods
+	private static final String CREATE_TICKET_API_METHOD = "CREATE_TICKET";
+	
 	// Slack API URLs
 	private final String GET_SLACK_USER_ID_URL = "https://slack.com/api/users.lookupByEmail";
 	
+	@Value("${SLACK_APP_NOTIFICATION_URL}")
+	private String slackAppNotificationUrl;
+	
 	@Value("${SLACK_BOT_TOKEN}")
 	private String slackBotToken;
+	
+	@Value("${SLACK_EMPLOYEE_CHANNEL_ID}")
+	private String slackEmployeeChannelId;
 	
 	private RestTemplate restTemplate;
 	
@@ -75,5 +87,27 @@ public class SlackRestUtilityService_jpa_66 {
 		}
 		
 		return slackUserId;
+	}
+	
+	public void createTicketNotification(User_untitled user, Ticket_untitled ticket) {
+		postSlackNotification(user, ticket, CREATE_TICKET_API_METHOD);
+	}
+	
+	private void postSlackNotification(User_untitled user, Ticket_untitled ticket, String slackNotificationType) {
+		HttpHeaders headers = new HttpHeaders();
+				
+		// Add parameters and encode URL
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(slackAppNotificationUrl)
+															.queryParam("channel", slackEmployeeChannelId)
+															.queryParam("username", user.getUsername())
+															.queryParam("description", ticket.getDescription())
+															.queryParam("title", ticket.getTitle())
+															.queryParam("priority", ticket.getPriority())
+															.queryParam("category", ticket.getCategory())
+															.queryParam("method", slackNotificationType);
+		
+		// Send out request
+		HttpEntity<String> request = new HttpEntity<>(headers);
+		restTemplate.exchange(builder.toUriString(), HttpMethod.POST, request, String.class);
 	}
 }

@@ -17,8 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.csis3275.dao_untitled.SlackAssociationDAOImpl_jpa_66;
 import com.csis3275.dao_untitled.TicketManagementDAOImpl_jpa_66;
 import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.SlackRestUtilityService_jpa_66;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 /**
@@ -36,6 +39,12 @@ public class CreateTicketController_jpa_66 {
 	@Autowired 
 	TicketManagementDAOImpl_jpa_66 ticketManagementDAOImpl;
 	
+	@Autowired
+	UserAuthenticationUtilities_untitled authenticatedUser;
+	
+	@Autowired
+	SlackRestUtilityService_jpa_66 slackService;
+	
 	/**
 	 * POST method that creates a ticket within the database
 	 * @param redirectUrl String HTTP parameter indicating the view to be redirected to once the create operation is completed
@@ -52,6 +61,11 @@ public class CreateTicketController_jpa_66 {
 		} else {
 			redirectAttributes.addFlashAttribute("errorMessage", "Failed to create ticket, please try again");
 		}
+		
+		// Post a created ticket notification to Slack
+		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
+		slackService.createTicketNotification(loggedInUser, createdTicket);
+		
 		return redirectView;
 	}
 	
