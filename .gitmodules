@@ -1,0 +1,3 @@
+[submodule "UHDASlackApp/uhda-slack-app"]
+	path = UHDASlackApp/uhda-slack-app
+	url = https://github.com/jacob-pauls/uhda-slack-app.git
