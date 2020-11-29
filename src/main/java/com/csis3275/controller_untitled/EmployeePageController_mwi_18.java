@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.csis3275.dao_untitled.CommentDAO_mwi_18;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.Comment_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
@@ -29,7 +30,10 @@ public class EmployeePageController_mwi_18 {
 	 * wires the ticketDisplayDao
 	 */
 	@Autowired
-	TicketDisplayDAO_mwi_18 dao;
+	TicketDisplayDAO_mwi_18 ticketDisplayDao;
+	
+	@Autowired
+	CommentDAO_mwi_18 commentDao;
 	
 	/**
 	 * wires the authenticated user
@@ -46,6 +50,11 @@ public class EmployeePageController_mwi_18 {
 		return new Ticket_untitled();
 	}
 	
+	@ModelAttribute("comment")
+	public Comment_mwi_18 setUpName() {
+		return new Comment_mwi_18();
+	}
+	
 	
 	/**
 	 * GET request mapped to the employee's page view
@@ -59,9 +68,15 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("loggedInUser", loggedInUser);
 		
 		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),"dateOpened");
+		List<Ticket_untitled> myList = ticketDisplayDao.getAssignedTickets(loggedInUser.getUsername(),"dateOpened");
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("assignedTickets",myList);
-		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
+		List<Ticket_untitled> unAssignedList = ticketDisplayDao.getAllUnassignedTickets("dateOpened");
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("unAssignedTickets",unAssignedList);
 		
 		return view;
@@ -78,14 +93,24 @@ public class EmployeePageController_mwi_18 {
 	@GetMapping("/sort")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		List<Ticket_untitled> myList = ticketDisplayDao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		
 		view.addObject("assignedTickets",myList);
 		
-		myList = dao.getAllUnassignedTickets(order);
+		
+		myList = ticketDisplayDao.getAllUnassignedTickets(order);
 		
 		
 		view.addObject("unAssignedTickets",myList);
+		
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
+		
 		return view;
 	}
 	
@@ -141,7 +166,7 @@ public class EmployeePageController_mwi_18 {
 	 */
 	@ModelAttribute("employeeList")
 	public void employeeAdminList(ModelMap modelMap){
-		List<User_untitled> employeeList = dao.getListOfEmployeesAndAdmins();
+		List<User_untitled> employeeList = ticketDisplayDao.getListOfEmployeesAndAdmins();
 		modelMap.addAttribute("employeeList", employeeList);
 	}
 }

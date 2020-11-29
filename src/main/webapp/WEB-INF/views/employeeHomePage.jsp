@@ -97,6 +97,7 @@
 									<li class="uk-padding-small">
 										<div id="bor">
 											<h3>${ticket.title }</h3>
+											${ticket.ticketID }
 											<h5>Assigned to: ${ticket.assignee }</h5>
 											<hr>
 											<h4>
@@ -197,13 +198,27 @@
 												<hr>
 												<ul class="uk-comment-list">
 													
+													<c:forEach items="${ticket.comments }" var="comment">
 													<li>
 														<article class="uk-comment"><ul class="uk-list">
-														<li>howdy</li>
-														<li>This is a comment</li>
+														<li>${comment.author}</li>
+														<li>${comment.value }</li>
 														</ul></article>
 													</li>
+													</c:forEach>
 												</ul>
+												<form:form action="${pageContext.request.contextPath}/createComment/?redirectUrl=employeeHomePage" 
+												method="post" modelAttribute="comment">
+												<table>
+													<tr>
+														<td><form:textarea path="value" required = "true"/></td>
+														<td><form:button class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
+													</tr>
+												</table>
+												<form:hidden path="ticketId" value="${ticket.ticketID }"/>
+												<form:hidden path="author" value="${ticket.assignee }"/>
+												
+												</form:form>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
 													<button class="uk-button uk-button-default uk-modal-close"

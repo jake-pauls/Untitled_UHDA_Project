@@ -3,6 +3,9 @@
  */
 package com.csis3275.controller_untitled;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -44,8 +47,12 @@ public class CommentController_mwi_18 {
 	
 	@PostMapping("/createComment")
 	public RedirectView createComment(@RequestParam("redirectUrl") String redirectUrl,RedirectAttributes redirectAttributes,
-			ModelAndView modelAndView, @ModelAttribute("comment")Comment_mwi_18 comment) {
+			ModelAndView modelAndView, @ModelAttribute("comment")Comment_mwi_18 newComment) {
 		RedirectView redirectView = new RedirectView("/"+redirectUrl,true);
+		
+		Comment_mwi_18 comment = newComment;
+		comment.setDateCreated(new Timestamp(new Date().getTime()));
+		
 		if(commentDao.insertComment(comment)) {
 			redirectAttributes.addFlashAttribute("successMessage", "Comment was written");
 		} else {
