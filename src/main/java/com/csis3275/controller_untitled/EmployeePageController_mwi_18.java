@@ -155,4 +155,5 @@ public class EmployeePageController_mwi_18 {
 		List<HardwareTypes_gpo_20> hardwareNameList = hardwareDAO.getListOfHardwareAvailable();
 		modelMap.addAttribute("hardwareNameList", hardwareNameList);
 	}
+
 }

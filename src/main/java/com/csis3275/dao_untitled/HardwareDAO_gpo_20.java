@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 import com.csis3275.model_untitled.HardwareList_gpo_20;
 import com.csis3275.model_untitled.HardwareTypeRowMapper_gpo_20;
 import com.csis3275.model_untitled.HardwareTypes_gpo_20;
-import com.csis3275.model_untitled.UserRowMapper_mwi_18;
-import com.csis3275.model_untitled.User_untitled;
 
 @Component
 public class HardwareDAO_gpo_20 {
@@ -22,8 +20,8 @@ public class HardwareDAO_gpo_20 {
 
 	//Tickets Table Queries
 	private final String SQL_INSERT_NEW_HARDWARE = "INSERT INTO hardwareassignment" + 
-			 "(hardwareTypeName, status, usernameAssignedTo, dateAssigned, dateReturned)" +
-			 " VALUES (?, ?, ?, ?, ?)";
+			 "(hardwareTypeName, status, usernameAssignedTo, dateAssigned)" +
+			 " VALUES (?, ?, ?, ?)";
 	private final String SQL_GET_LIST_OF_HARDWARE_TYPES = "SELECT * FROM HARDWARETYPE";
 	
 	@Autowired

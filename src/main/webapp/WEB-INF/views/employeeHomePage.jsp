@@ -192,6 +192,39 @@
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
+													<!-- This is the hardware stuff for unassigned hardware tickets!!!!!!-->
+													<c:if test="${ticket.category == 'Hardware'}">
+														<form:form class="uk-form-horizontal uk-margin-small"
+															method="post"
+															action="${pageContext.request.contextPath}/AssignHardware"
+															modelAttribute="hardware">
+															<br>
+															<p>Hardware Requests:</p>
+
+															<label class="uk-form-label" for="hardwareName">Hardware
+																Name:</label>
+															<div class="uk-form-controls">
+																<div class="uk-inline">
+																	<form:select
+																		class="uk-input uk-form-width-medium uk-margin-small-right"
+																		id="hardwareName" path="hardwareName">
+																		<form:option value="" />
+																		<c:forEach items="${hardwareNameList }"
+																			var="hardwareName">
+																			<form:option
+																				value="${hardwareName.hardwareTypeDescription }" />
+																		</c:forEach>
+																	</form:select>
+																	<br> <br>
+																	<form:button
+																		class="uk-button uk-button-primary uk-button-small">Assign Hardware</form:button>
+																</div>
+															</div>
+															<form:hidden path="status" value="Assigned" />
+															<form:hidden path="usernameAssignedTo"
+																value="${ticket.username }" />
+														</form:form>
+													</c:if>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
 													<button class="uk-button uk-button-default uk-modal-close"
@@ -350,34 +383,6 @@
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
-													<!-- This is the hardware stuff for unassigned hardware tickets!!!!!!-->
-													<c:if test="${ticket.category == 'Hardware'}">
-														<form:form class="uk-form-horizontal uk-margin-small"
-															method="post"
-															action="${pageContext.request.contextPath}/AssignHardware"
-															modelAttribute="hardware">
-															<br>
-															<p>Hardware Requests:</p>
-
-															<label class="uk-form-label" for="hardwareName">Hardware
-																Name:</label>
-															<div class="uk-form-controls">
-																<div class="uk-inline">
-																	<form:select
-																		class="uk-input uk-form-width-medium uk-margin-small-right"
-																		id="hardwareName" path="hardwareName">
-																		<form:option value="" />
-																		<c:forEach items="${hardwareNameList }" var="hardwareName">
-																			<form:option value="${hardwareName.hardwareTypeDescription }"/>
-																		</c:forEach>
-																	</form:select>
-																	<br> <br>
-																	<form:button
-																		class="uk-button uk-button-primary uk-button-small">save</form:button>
-																</div>
-															</div>
-														</form:form>
-													</c:if>
 												</div>
 
 												<div class="uk-modal-footer uk-text-right">

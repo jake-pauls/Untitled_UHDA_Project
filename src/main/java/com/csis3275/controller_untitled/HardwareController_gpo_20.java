@@ -108,6 +108,16 @@ public class HardwareController_gpo_20 {
 			return new Ticket_untitled();
 		}
 		
+		/**
+		 * Model attribute bound to the HardwareList object
+		 * 
+		 * @return the ticket object, binding the model attribute "hardware"
+		 */
+		@ModelAttribute("hardware")
+		public HardwareList_gpo_20 newHardwareAssigned() {
+			return new HardwareList_gpo_20();
+		}
+		
 
 		/**
 		 * Email service to send update emails based on the ticket action performed.
