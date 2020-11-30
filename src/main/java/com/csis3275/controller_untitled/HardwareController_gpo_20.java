@@ -120,7 +120,7 @@ public class HardwareController_gpo_20 {
 		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToReturn,
 				RedirectAttributes redirectAttributes, HttpSession session) {
 			hardwareDAO.returnHardware(hardwareToReturn);
-			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_RETURNED_SUCCESS_MESSAGE);
 			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
@@ -150,28 +150,6 @@ public class HardwareController_gpo_20 {
 		}
 		
 
-		/**
-		 * Email service to send update emails based on the ticket action performed.
-		 * 
-		 * @param userEmail,     gathered from the username from the ticket that is
-		 *                       being actioned
-		 * @param assigneeEmail, gathered from the assignee from the ticket that is
-		 *                       being actioned
-		 * @param subjectLine,   used to provide a customized subject line based on the
-		 *                       action performed on the ticket
-		 * @param message,       used to provide a customized message text based on the
-		 *                       action performed.
-		 */
-		public void ticketActionEmail(String userEmail, String assigneeEmail, String subjectLine, String message) {
-			SimpleMailMessage ticketActionEmail = new SimpleMailMessage();
-			ticketActionEmail.setFrom("uhda.untitled.csis3275@gmail.com");
-			ticketActionEmail.setTo(userEmail);
-			if (assigneeEmail != null) {
-				ticketActionEmail.setCc(assigneeEmail);
-			}
-			ticketActionEmail.setSubject(subjectLine);
-			ticketActionEmail.setText(message);
-			emailService.sendEmail(ticketActionEmail);
-		}
+
 }
 
