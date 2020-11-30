@@ -198,7 +198,7 @@ public class SlackRestUtilityService_jpa_66 {
 			}
 		}
 		// The account association is already present
-		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED);
+		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED + " as " + loggedInUser.getEmail());
 		return slackStatusMessages;
 	}
 }
