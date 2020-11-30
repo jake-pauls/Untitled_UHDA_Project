@@ -15,11 +15,11 @@ import java.sql.Timestamp;
 
 public class HardwareList_gpo_20 {
 	private int hardwareID;
-	private String hardwareName;
+	private String hardwareTypeName;
 	private String status;
 	private String usernameAssignedTo;
-	private Timestamp DateAssigned;
-	private Timestamp DateReturned;
+	private Timestamp dateAssigned;
+	private Timestamp dateReturned;
 	public int getHardwareID() {
 		return hardwareID;
 	}
@@ -27,10 +27,10 @@ public class HardwareList_gpo_20 {
 		this.hardwareID = hardwareID;
 	}
 	public String getHardwareName() {
-		return hardwareName;
+		return hardwareTypeName;
 	}
-	public void setHardwareName(String hardwareName) {
-		this.hardwareName = hardwareName;
+	public void setHardwareName(String hardwareTypeName) {
+		this.hardwareTypeName = hardwareTypeName;
 	}
 	public String getStatus() {
 		return status;
@@ -45,16 +45,16 @@ public class HardwareList_gpo_20 {
 		this.usernameAssignedTo = usernameAssignedTo;
 	}
 	public Timestamp getDateAssigned() {
-		return DateAssigned;
+		return dateAssigned;
 	}
 	public void setDateAssigned(Timestamp dateAssigned) {
-		DateAssigned = dateAssigned;
+		this.dateAssigned = dateAssigned;
 	}
 	public Timestamp getDateReturned() {
-		return DateReturned;
+		return dateReturned;
 	}
 	public void setDateReturned(Timestamp dateReturned) {
-		DateReturned = dateReturned;
+		this.dateReturned = dateReturned;
 	}
 	
 }

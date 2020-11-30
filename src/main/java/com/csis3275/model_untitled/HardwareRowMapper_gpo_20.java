@@ -21,11 +21,11 @@ public class HardwareRowMapper_gpo_20 implements RowMapper<HardwareList_gpo_20> 
 		HardwareList_gpo_20 hardware = new HardwareList_gpo_20();
 
 		hardware.setHardwareID(rs.getInt("hardwareID"));
-		hardware.setHardwareName(rs.getString("hardwareName"));
-		hardware.setStatus(rs.getString("hardwareStatus"));
-		hardware.setUsernameAssignedTo(rs.getString("hardwareUser"));
-		hardware.setDateAssigned(rs.getTimestamp("hardwareAssignedDate"));
-		hardware.setDateReturned(rs.getTimestamp("hardwareReturnedDate"));
+		hardware.setHardwareName(rs.getString("hardwareTypeName"));
+		hardware.setStatus(rs.getString("status"));
+		hardware.setUsernameAssignedTo(rs.getString("usernameAssignedTo"));
+		hardware.setDateAssigned(rs.getTimestamp("dateAssigned"));
+		hardware.setDateReturned(rs.getTimestamp("dateReturned"));
 
 		return hardware;
 	}

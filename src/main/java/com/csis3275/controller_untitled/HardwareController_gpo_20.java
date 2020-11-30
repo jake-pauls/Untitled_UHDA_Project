@@ -47,6 +47,7 @@ public class HardwareController_gpo_20 {
 		private final String HARDWARE_ASSIGNED_SUCCESS_MESSAGE = "Hardware has been assigned successfully, the ticket can now be closed!";
 		private final String HARDWARE_TYPE_CREATED_SUCCESS_MESSAGE = "New Hardware Type created";
 		private final String HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE = "Hardware Type has been deleted";
+		private final String HARDWARE_RETURNED_SUCCESS_MESSAGE = "Hardware has been returned";
 
 		/**
 		 * wire up and declare the ticket action sql class
@@ -115,6 +116,14 @@ public class HardwareController_gpo_20 {
 			return redirectView;
 		}
 	*/
+		@RequestMapping(value = "/ReturnHardware", method = RequestMethod.POST)
+		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToReturn,
+				RedirectAttributes redirectAttributes, HttpSession session) {
+			hardwareDAO.returnHardware(hardwareToReturn);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE);
+			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
+			return redirectView;
+		}
 		/**
 		 * Model attribute bound to the Ticket_untitled object
 		 * 

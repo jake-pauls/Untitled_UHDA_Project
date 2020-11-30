@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.csis3275.model_untitled.HardwareList_gpo_20;
+import com.csis3275.model_untitled.HardwareRowMapper_gpo_20;
 import com.csis3275.model_untitled.HardwareTypeRowMapper_gpo_20;
 import com.csis3275.model_untitled.HardwareTypes_gpo_20;
 import com.csis3275.model_untitled.User_untitled;
@@ -39,6 +40,8 @@ public class HardwareDAO_gpo_20 {
 	private final String SQL_GET_LIST_OF_HARDWARE_TYPES = "SELECT * FROM HARDWARETYPE";
 	private final String SQL_DELETE_HARDWARE_TYPE = "DELETE FROM HARDWARETYPE WHERE HARDWARETYPEID = ?";
 	private final String SQL_INSERT_NEW_HARDWARE_TYPE = "INSERT INTO HARDWARETYPE (HARDWARETYPEDESCRIPTION) VALUES (?)";
+	private final String SQL_GET_LIST_OF_ASSIGNED_HARDWARE = "SELECT * FROM HARDWAREASSIGNMENT";
+	private final String SQL_UPDATE_RETURN_HARDWARE = "UPDATE HARDWAREASSIGNMENT SET datereturned = ?, status = 'Returned' WHERE hardwareID = ?";
 	
 	@Autowired
 	public HardwareDAO_gpo_20(DataSource dataSource) {
@@ -62,11 +65,20 @@ public class HardwareDAO_gpo_20 {
 
 	/**
 	 * 
-	 * @return list of all hardware Names that can be assigned to employees
+	 * @return list of all hardware Names that can be assigned to users
 	 */
 	public List<HardwareTypes_gpo_20> getListOfHardwareAvailable(){
 		
 		return jdbcTicketManagementTemplate.query(SQL_GET_LIST_OF_HARDWARE_TYPES, new HardwareTypeRowMapper_gpo_20());
+	}
+	
+	/**
+	 * 
+	 * @return list of all hardware Assigned to users.
+	 */
+	public List<HardwareList_gpo_20> getListOfHardwareAssigned(){
+		
+		return jdbcTicketManagementTemplate.query(SQL_GET_LIST_OF_ASSIGNED_HARDWARE, new HardwareRowMapper_gpo_20());
 	}
 	
 	/**
@@ -76,6 +88,15 @@ public class HardwareDAO_gpo_20 {
 	 */
 	public boolean deleteHardwareType(HardwareTypes_gpo_20 hardwareType) {
 		return jdbcTicketManagementTemplate.update(SQL_DELETE_HARDWARE_TYPE, hardwareType.getHardwareTypeID()) > 0;
+	}
+	
+	/**
+	 * 
+	 * @param hardware being returned
+	 * @return updates theh ardware to indicate that the status is returned and the date it was returned
+	 */
+	public boolean returnHardware(HardwareList_gpo_20 hardware) {
+		return jdbcTicketManagementTemplate.update(SQL_UPDATE_RETURN_HARDWARE, getCurrentTime(),hardware.getHardwareID()) > 0;
 	}
 	/**
 	 * Creates a Timestamp object for the current time

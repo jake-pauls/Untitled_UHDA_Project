@@ -48,6 +48,7 @@
 			<li><a href="#">Available Tickets</a></li>
 			<li><a href="#">Create Ticket</a></li>
 			<li><a href="#">Available Hardware</a></li>
+			<li><a href="#">Assigned Hardware</a></li>
 		</ul>
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
@@ -483,6 +484,7 @@
 					</div>
 				</form:form></li>
 			<li>
+				<!-- Available Hardware List -->
 				<table class="uk-table uk-table-divider">
 					<thead>
 						<tr>
@@ -532,6 +534,85 @@
 						Hardware</button>
 				</div>
 
+			</li>
+			<li>
+				<!-- List of the Assigned Hardware -->
+				<table class="uk-table uk-table-divider">
+					<thead>
+						<tr>
+							<th>Hardware ID</th>
+							<th>Hardware Type</th>
+							<th>Status</th>
+							<th>User Assigned</th>
+							<th>Date Assigned</th>
+							<th>Date Returned</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="hardwareAssigned" items="${hardwareAssignedList }">
+
+							<tr>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-hardwareID"
+									class="uk-input hardwareID" type="text"
+									value="${hardwareAssigned.hardwareID}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-hardwareName"
+									class="uk-input hardwareTypeName" type="text"
+									value="${hardwareAssigned.hardwareName}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.status}-status"
+									class="uk-input status" type="text"
+									value="${hardwareAssigned.status}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-usernameAssignedTo"
+									class="uk-input usernameAssignedTo" type="text"
+									value="${hardwareAssigned.usernameAssignedTo}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-dateAssigned"
+									class="uk-input dateAssigned" type="text"
+									value="${hardwareAssigned.dateAssigned}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-dateReturned"
+									class="uk-input dateReturned" type="text"
+									value="${hardwareAssigned.dateReturned}" disabled /></td>
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/ReturnHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:input type="hidden" path="hardwareID"
+											value="${hardwareAssigned.hardwareID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="returnHardware">Hardware Returned</button>
+									</form:form></td>
+									 
+							</tr>
+
+						</c:forEach>
+						<!--  
+						<tr id="newTableRow" style="display: none;">
+
+							<form:form method="post"
+								action="${pageContext.request.contextPath}/CreateHardwareType?redirectUrl=employeeHomePage"
+								modelAttribute="hardwareType">
+								<td width="75%"><form:input
+										class="uk-input newHardware hardwareTypeDescription"
+										path="hardwareTypeDescription" type="text" /></td>
+								<td><form:button class="uk-button uk-button-primary">Submit</form:button>
+									<button class="uk-button uk-button-default" type="button"
+										onclick="cancelAddHardware()">Cancel</button></td>
+							</form:form>
+
+						</tr>
+					</tbody>
+				</table>
+				<div uk-margin>
+					<button class="uk-button uk-button-secondary uk-margin-left"
+						id="addNewHardware" onclick="addNewTableRow()">Add New
+						Hardware</button>
+				</div>
+				-->
+				</tbody>
+				</table>
 			</li>
 		</ul>
 

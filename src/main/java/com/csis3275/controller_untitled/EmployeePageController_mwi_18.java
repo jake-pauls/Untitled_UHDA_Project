@@ -71,8 +71,12 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("unAssignedTickets",unAssignedList);
 		List<HardwareTypes_gpo_20> hardwareTypeList = hardwareDAO.getListOfHardwareAvailable();
 		view.addObject("hardwareTypeList",hardwareTypeList);
+		List<HardwareList_gpo_20> hardwareAssignedList = hardwareDAO.getListOfHardwareAssigned();
+		view.addObject("hardwareAssignedList",hardwareAssignedList);
 		HardwareTypes_gpo_20 hardwareType = new HardwareTypes_gpo_20();
 		view.addObject("hardwareType",hardwareType);
+		HardwareList_gpo_20 assignedHardware = new HardwareList_gpo_20();
+		view.addObject("assignedHardware",assignedHardware);
 		return view;
 	}
 	
