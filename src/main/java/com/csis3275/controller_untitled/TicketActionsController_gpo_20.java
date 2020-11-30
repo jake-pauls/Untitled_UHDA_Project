@@ -20,6 +20,7 @@ import com.csis3275.dao_untitled.TicketActionsDAO_Impl_gpo_20;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.SlackRestUtilityService_jpa_66;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 /**
@@ -75,7 +76,13 @@ public class TicketActionsController_gpo_20 {
 	 */
 	@Autowired
 	private EmailServiceImpl_untitled emailService;
-
+	
+	/**
+	 * wire up the slack service class
+	 */
+	@Autowired
+	SlackRestUtilityService_jpa_66 slackService;
+	
 	/**
 	 * Model attribute bound to the User_untitled object
 	 * 
@@ -107,6 +114,15 @@ public class TicketActionsController_gpo_20 {
 		String emailText = "Your ticket has now been assigned, " + assigneeProfile.getFirstName()
 				+ " will be addressing your issue or concern and will update the ticket as progress is made";
 		ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+		
+		// Check if affected user has Slack association
+		String slackUserId = slackService.getSlackUserId(userProfile.getEmail());
+		if (slackUserId != null) {
+			// Post notification to Slack upon ticket assignment
+			slackService.assignedTicketNotification(assigneeProfile, ticketToAssign, slackUserId);
+			System.out.println(ticketToAssign.getTitle());
+		}
+		
 		redirectAttributes.addFlashAttribute("successMessage", TICKET_ASSIGNED_SUCCESS_MESSAGE);
 		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 		return redirectView;

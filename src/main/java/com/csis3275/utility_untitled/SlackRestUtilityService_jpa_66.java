@@ -36,6 +36,8 @@ public class SlackRestUtilityService_jpa_66 {
 	
 	// Fields Defining API Methods
 	private static final String CREATE_TICKET_API_METHOD = "CREATE_TICKET";
+	private static final String PICKUP_TICKET_API_METHOD = "PICKUP_TICKET";
+	private static final String ASSIGNED_TICKET_API_METHOD = "ASSIGNED_TICKET";
 	
 	// Slack API URLs
 	private final String GET_SLACK_USER_ID_URL = "https://slack.com/api/users.lookupByEmail";
@@ -90,15 +92,19 @@ public class SlackRestUtilityService_jpa_66 {
 	}
 	
 	public void createTicketNotification(User_untitled user, Ticket_untitled ticket) {
-		postSlackNotification(user, ticket, CREATE_TICKET_API_METHOD);
+		postSlackNotification(user, ticket, slackEmployeeChannelId, CREATE_TICKET_API_METHOD);
 	}
 	
-	private void postSlackNotification(User_untitled user, Ticket_untitled ticket, String slackNotificationType) {
+	public void assignedTicketNotification(User_untitled user, Ticket_untitled ticket, String slackUserId) {
+		postSlackNotification(user, ticket, slackUserId, ASSIGNED_TICKET_API_METHOD);
+	}
+	
+	private void postSlackNotification(User_untitled user, Ticket_untitled ticket, String slackChannel, String slackNotificationType) {
 		HttpHeaders headers = new HttpHeaders();
 				
 		// Add parameters and encode URL
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(slackAppNotificationUrl)
-															.queryParam("channel", slackEmployeeChannelId)
+															.queryParam("channel", slackChannel)
 															.queryParam("username", user.getUsername())
 															.queryParam("description", ticket.getDescription())
 															.queryParam("title", ticket.getTitle())
