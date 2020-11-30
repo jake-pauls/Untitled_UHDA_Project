@@ -181,7 +181,7 @@ public class TicketActionsController_gpo_20 {
 	 */
 	@RequestMapping(value = "/ChangeTicketPriority", method = RequestMethod.POST)
 	public RedirectView handleChangingTicketPriority(@ModelAttribute("ticket") Ticket_untitled ticket,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Principal principal) {
 		ticketActionsDAOImpl.changeTicketPriority(ticket);
 		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticket.getUsername());
 		if (ticket.getAssignee().isBlank()) {
@@ -198,6 +198,16 @@ public class TicketActionsController_gpo_20 {
 					+ " please review your ticket if further action is required, we look forward to assisting you as soon as possible";
 			ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
 		}
+		
+		// Check if affected user has Slack association
+		String slackUserId = slackService.getSlackUserId(userProfile.getEmail());
+		if (slackUserId != null) {
+			// Retrieve user who made the change
+			// Post notification to Slack upon ticket priority update update
+			User_untitled assigneeProfile = authenticatedUser.getLoggedInUserContext(principal);
+			slackService.priorityUpdateTicketNotification(assigneeProfile, ticket, slackUserId);
+		}
+		
 		redirectAttributes.addFlashAttribute("successMessage", TICKET_PRIORITY_SUCCESS_MESSAGE);
 		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 		return redirectView;

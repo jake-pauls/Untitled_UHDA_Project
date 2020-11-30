@@ -177,6 +177,7 @@
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
+														<form:hidden path="title" value="${ticket.title }" />
 													</form:form>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
@@ -320,6 +321,7 @@
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
+														<form:hidden path="title" value="${ticket.title }" />
 													</form:form>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
