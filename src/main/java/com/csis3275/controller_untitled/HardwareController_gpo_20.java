@@ -98,14 +98,14 @@ public class HardwareController_gpo_20 {
 		}
 		
 		@RequestMapping(value = "/CreateHardwareType", method = RequestMethod.POST)
-		public RedirectView createHardwareType(@ModelAttribute("hardwareTypes") HardwareTypes_gpo_20 hardwareType,
-				RedirectAttributes redirectAttributes) {
+		public RedirectView createHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("hardwareType") HardwareTypes_gpo_20 hardwareType,
+				RedirectAttributes redirectAttributes, HttpSession session) {
 			hardwareDAO.addNewHardWareType(hardwareType);
 			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_CREATED_SUCCESS_MESSAGE);
-			RedirectView redirectView = new RedirectView("/employeeHomePage", true);
+			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
-		
+		/* commented out the delete hardware type button as it causes referential integrity issues with DB
 		@RequestMapping(value = "/DeleteHardwareType", method = RequestMethod.POST)
 		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("hardwareType") HardwareTypes_gpo_20 hardwareTypeToDelete,
 				RedirectAttributes redirectAttributes, HttpSession session) {
@@ -114,7 +114,7 @@ public class HardwareController_gpo_20 {
 			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
-	
+	*/
 		/**
 		 * Model attribute bound to the Ticket_untitled object
 		 * 
@@ -136,8 +136,8 @@ public class HardwareController_gpo_20 {
 		}
 		
 		@ModelAttribute("hardwareType")
-		public User_untitled setupHardwareTypeModelAttribute() {
-			return new User_untitled();
+		public HardwareTypes_gpo_20 setupHardwareTypeModelAttribute() {
+			return new HardwareTypes_gpo_20();
 		}
 		
 

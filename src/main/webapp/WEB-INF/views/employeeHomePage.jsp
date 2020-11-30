@@ -15,6 +15,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 <meta charset="ISO-8859-1">
+<script src="<c:url value="/js/jquery-3.5.1.min.js" />"></script>
+<script src="<c:url value="/js/HardwareManagement_gpo_20.js" />"></script>
 <title>Employee</title>
 </head>
 <body>
@@ -495,6 +497,7 @@
 									id="row-reference-${hardwareTypes.hardwareTypeID}-hardwareTypeDesc"
 									class="uk-input hardwareTypeDes" type="text"
 									value="${hardwareTypes.hardwareTypeDescription}" disabled /></td>
+								<!-- commented out the delete button for this form as there are referential integrity issues
 								<td><form:form method="post"
 										action="${pageContext.request.contextPath}/DeleteHardwareType?redirectUrl=employeeHomePage"
 										modelAttribute="hardwareType">
@@ -503,11 +506,32 @@
 										<button class="uk-button uk-button-danger" type="submit"
 											name="deletehardware">Delete</button>
 									</form:form></td>
+									 -->
 							</tr>
 
 						</c:forEach>
+						<tr id="newTableRow" style="display: none;">
+
+							<form:form method="post"
+								action="${pageContext.request.contextPath}/CreateHardwareType?redirectUrl=employeeHomePage"
+								modelAttribute="hardwareType">
+								<td width="75%"><form:input
+										class="uk-input newHardware hardwareTypeDescription"
+										path="hardwareTypeDescription" type="text" /></td>
+								<td><form:button class="uk-button uk-button-primary">Submit</form:button>
+									<button class="uk-button uk-button-default" type="button"
+										onclick="cancelAddHardware()">Cancel</button></td>
+							</form:form>
+
+						</tr>
 					</tbody>
 				</table>
+				<div uk-margin>
+					<button class="uk-button uk-button-secondary uk-margin-left"
+						id="addNewHardware" onclick="addNewTableRow()">Add New
+						Hardware</button>
+				</div>
+
 			</li>
 		</ul>
 

@@ -51,10 +51,6 @@ public class EmployeePageController_mwi_18 {
 		return new Ticket_untitled();
 	}
 	
-	@ModelAttribute("hardwareType")
-	public User_untitled setupHardwareTypeModelAttribute() {
-		return new User_untitled();
-	}
 	
 	/**
 	 * GET request mapped to the employee's page view
