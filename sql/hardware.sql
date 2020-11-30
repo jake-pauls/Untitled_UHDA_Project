@@ -1,3 +1,20 @@
+-- Hardware	Type   
+DROP TABLE IF EXISTS hardwareType;
+
+CREATE TABLE hardwareType(
+    hardwareTypeId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
+	hardwareTypeDescription VARCHAR(100) NOT NULL ,
+);
+
+INSERT INTO hardwareType (hardwareTypeDescription) 
+		VALUES ('Dell Inspiron Desktop'),
+			   ('Dell 560 Laptop'),
+			   ('Lenovo Yoga 1090 Laptop'),
+			   ('Brother Printer'),
+			   ('IPhone 12'),
+			   ('IPhone 10');
+
+
 
 -- Hardware		   
 DROP TABLE IF EXISTS hardware;
@@ -25,21 +42,7 @@ INSERT INTO hardwareAssignment (hardwareTypeName, status, usernameAssignedTo, da
 			   ('IPhone 12', 'Assigned', 'admin', '2020-07-07 06:42:21', null);
 			   
 
--- Hardware	Type   
-DROP TABLE IF EXISTS hardwareType;
 
-CREATE TABLE hardwareType(
-    hardwareTypeId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
-	hardwareTypeDescription VARCHAR(100) NOT NULL ,
-);
-
-INSERT INTO hardwareType (hardwareTypeDescription) 
-		VALUES ('Dell Inspiron Desktop'),
-			   ('Dell 560 Laptop'),
-			   ('Lenovo Yoga 1090 Laptop'),
-			   ('Brother Printer'),
-			   ('IPhone 12'),
-			   ('IPhone 10');
 
 
 			   

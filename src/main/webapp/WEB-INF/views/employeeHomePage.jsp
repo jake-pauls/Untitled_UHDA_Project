@@ -588,29 +588,6 @@
 							</tr>
 
 						</c:forEach>
-						<!--  
-						<tr id="newTableRow" style="display: none;">
-
-							<form:form method="post"
-								action="${pageContext.request.contextPath}/CreateHardwareType?redirectUrl=employeeHomePage"
-								modelAttribute="hardwareType">
-								<td width="75%"><form:input
-										class="uk-input newHardware hardwareTypeDescription"
-										path="hardwareTypeDescription" type="text" /></td>
-								<td><form:button class="uk-button uk-button-primary">Submit</form:button>
-									<button class="uk-button uk-button-default" type="button"
-										onclick="cancelAddHardware()">Cancel</button></td>
-							</form:form>
-
-						</tr>
-					</tbody>
-				</table>
-				<div uk-margin>
-					<button class="uk-button uk-button-secondary uk-margin-left"
-						id="addNewHardware" onclick="addNewTableRow()">Add New
-						Hardware</button>
-				</div>
-				-->
 				</tbody>
 				</table>
 			</li>
