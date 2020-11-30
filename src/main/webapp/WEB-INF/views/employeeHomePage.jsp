@@ -45,7 +45,7 @@
 			<li class="uk-active"><a href="#">Assigned Tickets</a></li>
 			<li><a href="#">Available Tickets</a></li>
 			<li><a href="#">Create Ticket</a></li>
-
+			<li><a href="#">Available Hardware</a></li>
 		</ul>
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
@@ -438,8 +438,7 @@
 						</div>
 
 						<div class="uk-margin">
-							<label class="uk-form-label" for="description">Priority:
-							</label>
+							<label class="uk-form-label" for="priority">Priority: </label>
 							<div class="uk-form-controls">
 								<div class="uk-inline">
 									<form:select class="uk-input uk-form-width-large" id="priority"
@@ -481,6 +480,35 @@
 						</div>
 					</div>
 				</form:form></li>
+			<li>
+				<table class="uk-table uk-table-divider">
+					<thead>
+						<tr>
+							<th>Hardware Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="hardwareTypes" items="${hardwareTypeList }">
+
+							<tr>
+								<td><input
+									id="row-reference-${hardwareTypes.hardwareTypeID}-hardwareTypeDesc"
+									class="uk-input hardwareTypeDes" type="text"
+									value="${hardwareTypes.hardwareTypeDescription}" disabled /></td>
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/DeleteHardwareType?redirectUrl=employeeHomePage"
+										modelAttribute="hardwareType">
+										<form:input type="hidden" path="hardwareTypeID"
+											value="${hardwareTypes.hardwareTypeID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="deletehardware">Delete</button>
+									</form:form></td>
+							</tr>
+
+						</c:forEach>
+					</tbody>
+				</table>
+			</li>
 		</ul>
 
 

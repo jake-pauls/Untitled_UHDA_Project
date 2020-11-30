@@ -2,6 +2,17 @@ package com.csis3275.model_untitled;
 
 import java.sql.Timestamp;
 
+/**
+ * 
+ * @author Gregory Pohlod Student ID 300311820
+ * @date Nov 29, 2020
+ * HardwareList_gpo_20.java
+ * com.csis3275.model_untitled
+ * CSIS 3275 Group Project
+ * Group Name: Untitled
+ *
+ */
+
 public class HardwareList_gpo_20 {
 	private int hardwareID;
 	private String hardwareName;

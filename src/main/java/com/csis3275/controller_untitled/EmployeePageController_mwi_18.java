@@ -51,6 +51,10 @@ public class EmployeePageController_mwi_18 {
 		return new Ticket_untitled();
 	}
 	
+	@ModelAttribute("hardwareType")
+	public User_untitled setupHardwareTypeModelAttribute() {
+		return new User_untitled();
+	}
 	
 	/**
 	 * GET request mapped to the employee's page view
@@ -69,7 +73,10 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("assignedTickets",myList);
 		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
 		view.addObject("unAssignedTickets",unAssignedList);
-		
+		List<HardwareTypes_gpo_20> hardwareTypeList = hardwareDAO.getListOfHardwareAvailable();
+		view.addObject("hardwareTypeList",hardwareTypeList);
+		HardwareTypes_gpo_20 hardwareType = new HardwareTypes_gpo_20();
+		view.addObject("hardwareType",hardwareType);
 		return view;
 	}
 	

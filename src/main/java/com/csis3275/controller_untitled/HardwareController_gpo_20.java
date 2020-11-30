@@ -2,6 +2,8 @@ package com.csis3275.controller_untitled;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -19,6 +22,7 @@ import com.csis3275.dao_untitled.HardwareDAO_gpo_20;
 import com.csis3275.dao_untitled.TicketActionsDAO_Impl_gpo_20;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.HardwareList_gpo_20;
+import com.csis3275.model_untitled.HardwareTypes_gpo_20;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
@@ -41,6 +45,8 @@ public class HardwareController_gpo_20 {
 
 		// Success messages
 		private final String HARDWARE_ASSIGNED_SUCCESS_MESSAGE = "Hardware has been assigned successfully, the ticket can now be closed!";
+		private final String HARDWARE_TYPE_CREATED_SUCCESS_MESSAGE = "New Hardware Type created";
+		private final String HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE = "Hardware Type has been deleted";
 
 		/**
 		 * wire up and declare the ticket action sql class
@@ -86,15 +92,26 @@ public class HardwareController_gpo_20 {
 		public RedirectView handleAssigningHardware(@ModelAttribute("hardware") HardwareList_gpo_20 hardwareToAssign,
 				RedirectAttributes redirectAttributes) {
 			hardwareDAO.assignHardware(hardwareToAssign);
-			//User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(hardwareToAssign.getUsername());
-			//User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(hardwareToAssign.getAssignee());
-			//String subjectOfEmail = "Ticket Number: " + hardwareToAssign.getTicketID() + " has been assigned to "
-			//		+ assigneeProfile.getFirstName() + " " + assigneeProfile.getLastName();
-			//String emailText = "Your ticket has now been assigned, " + assigneeProfile.getFirstName()
-			//		+ " will be addressing your issue or concern and will update the ticket as progress is made";
-			//ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
 			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_ASSIGNED_SUCCESS_MESSAGE);
 			RedirectView redirectView = new RedirectView("/employeeHomePage", true);
+			return redirectView;
+		}
+		
+		@RequestMapping(value = "/CreateHardwareType", method = RequestMethod.POST)
+		public RedirectView createHardwareType(@ModelAttribute("hardwareTypes") HardwareTypes_gpo_20 hardwareType,
+				RedirectAttributes redirectAttributes) {
+			hardwareDAO.addNewHardWareType(hardwareType);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_CREATED_SUCCESS_MESSAGE);
+			RedirectView redirectView = new RedirectView("/employeeHomePage", true);
+			return redirectView;
+		}
+		
+		@RequestMapping(value = "/DeleteHardwareType", method = RequestMethod.POST)
+		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("hardwareType") HardwareTypes_gpo_20 hardwareTypeToDelete,
+				RedirectAttributes redirectAttributes, HttpSession session) {
+			hardwareDAO.deleteHardwareType(hardwareTypeToDelete);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE);
+			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
 	
@@ -116,6 +133,11 @@ public class HardwareController_gpo_20 {
 		@ModelAttribute("hardware")
 		public HardwareList_gpo_20 newHardwareAssigned() {
 			return new HardwareList_gpo_20();
+		}
+		
+		@ModelAttribute("hardwareType")
+		public User_untitled setupHardwareTypeModelAttribute() {
+			return new User_untitled();
 		}
 		
 
