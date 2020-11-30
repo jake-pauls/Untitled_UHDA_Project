@@ -138,7 +138,7 @@ public class TicketActionsController_gpo_20 {
 	 */
 	@RequestMapping(value = "/ChangeTicketStatus", method = RequestMethod.POST)
 	public RedirectView handleChangingTicketStatus(@ModelAttribute("ticket") Ticket_untitled ticket,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, Principal principal) {
 		ticketActionsDAOImpl.changeTicketStatus(ticket);
 		User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(ticket.getUsername());
 		if (ticket.getAssignee().isBlank()) {
@@ -155,6 +155,16 @@ public class TicketActionsController_gpo_20 {
 					+ " please review your ticket if further action is required";
 			ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
 		}
+		
+		// Check if affected user has Slack association
+		String slackUserId = slackService.getSlackUserId(userProfile.getEmail());
+		if (slackUserId != null) {
+			// Retrieve user who made the change
+			// Post notification to Slack upon ticket status update
+			User_untitled assigneeProfile = authenticatedUser.getLoggedInUserContext(principal);
+			slackService.statusUpdateTicketNotification(assigneeProfile, ticket, slackUserId);
+		}
+		
 		redirectAttributes.addFlashAttribute("successMessage", TICKET_STATUS_SUCCESS_MESSAGE);
 		RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 		return redirectView;

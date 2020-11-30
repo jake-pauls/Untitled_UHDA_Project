@@ -36,8 +36,9 @@ public class SlackRestUtilityService_jpa_66 {
 	
 	// Fields Defining API Methods
 	private static final String CREATE_TICKET_API_METHOD = "CREATE_TICKET";
-	private static final String ASSIGN_TICKET_API_METHOD = "ASSIGN_TICKET";
 	private static final String PICKUP_TICKET_API_METHOD = "PICKUP_TICKET";
+	private static final String ASSIGN_TICKET_API_METHOD = "ASSIGN_TICKET";
+	private static final String STATUS_UPDATE_API_METHOD = "STATUS_UPDATE";
 	
 	// Slack API URLs
 	private final String GET_SLACK_USER_ID_URL = "https://slack.com/api/users.lookupByEmail";
@@ -95,12 +96,16 @@ public class SlackRestUtilityService_jpa_66 {
 		postSlackNotification(user, ticket, slackEmployeeChannelId, CREATE_TICKET_API_METHOD);
 	}
 	
+	public void pickupTicketNotification(User_untitled user, Ticket_untitled ticket, String slackUserId) {
+		postSlackNotification(user, ticket, slackUserId, PICKUP_TICKET_API_METHOD);
+	}
+	
 	public void assignedTicketNotification(User_untitled user, Ticket_untitled ticket, String slackUserId) {
 		postSlackNotification(user, ticket, slackUserId, ASSIGN_TICKET_API_METHOD);
 	}
 	
-	public void pickupTicketNotification(User_untitled user, Ticket_untitled ticket, String slackUserId) {
-		postSlackNotification(user, ticket, slackUserId, PICKUP_TICKET_API_METHOD);
+	public void statusUpdateTicketNotification(User_untitled user, Ticket_untitled ticket, String slackUserId) {
+		postSlackNotification(user, ticket, slackUserId, STATUS_UPDATE_API_METHOD);
 	}
 	
 	private void postSlackNotification(User_untitled user, Ticket_untitled ticket, String slackChannel, String slackNotificationType) {
@@ -113,6 +118,7 @@ public class SlackRestUtilityService_jpa_66 {
 															.queryParam("description", ticket.getDescription())
 															.queryParam("title", ticket.getTitle())
 															.queryParam("priority", ticket.getPriority())
+															.queryParam("status", ticket.getStatus())
 															.queryParam("category", ticket.getCategory())
 															.queryParam("method", slackNotificationType);
 		

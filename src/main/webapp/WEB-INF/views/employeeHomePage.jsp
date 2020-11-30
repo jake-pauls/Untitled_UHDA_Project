@@ -137,6 +137,7 @@
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
+														<form:hidden path="title" value="${ticket.title }" />
 													</form:form>
 													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/AssignTicket"
@@ -279,6 +280,7 @@
 														<form:hidden path="ticketID" value="${ticket.ticketID }" />
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
+														<form:hidden path="title" value="${ticket.title }" />
 													</form:form>
 													<form:form class="uk-form-horizontal uk-margin-small" method="post"
 														action="${pageContext.request.contextPath}/AssignTicket"
