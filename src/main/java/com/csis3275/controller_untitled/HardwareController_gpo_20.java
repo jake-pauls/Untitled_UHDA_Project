@@ -15,8 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.csis3275.dao_untitled.EmailServiceImpl_untitled;
+import com.csis3275.dao_untitled.HardwareDAO_gpo_20;
 import com.csis3275.dao_untitled.TicketActionsDAO_Impl_gpo_20;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.HardwareList_gpo_20;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
@@ -38,13 +40,13 @@ public class HardwareController_gpo_20 {
 		// Error messages
 
 		// Success messages
-		private final String TICKET_ASSIGNED_SUCCESS_MESSAGE = "";
+		private final String HARDWARE_ASSIGNED_SUCCESS_MESSAGE = "Hardware has been assigned successfully, the ticket can now be closed!";
 
 		/**
 		 * wire up and declare the ticket action sql class
 		 */
 		@Autowired
-		TicketActionsDAO_Impl_gpo_20 ticketActionsDAOImpl;
+		HardwareDAO_gpo_20 hardwareDAO;
 
 		/**
 		 * wire up and declare the ticket display sql class
@@ -81,17 +83,17 @@ public class HardwareController_gpo_20 {
 		 */
 
 		@RequestMapping(value = "/AssignHardware", method = RequestMethod.POST)
-		public RedirectView handleAssigningHardware(@ModelAttribute("ticket") Ticket_untitled hardwareToAssign,
+		public RedirectView handleAssigningHardware(@ModelAttribute("hardware") HardwareList_gpo_20 hardwareToAssign,
 				RedirectAttributes redirectAttributes) {
-			ticketActionsDAOImpl.assignTicket(hardwareToAssign);
-			User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(hardwareToAssign.getUsername());
-			User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(hardwareToAssign.getAssignee());
-			String subjectOfEmail = "Ticket Number: " + hardwareToAssign.getTicketID() + " has been assigned to "
-					+ assigneeProfile.getFirstName() + " " + assigneeProfile.getLastName();
-			String emailText = "Your ticket has now been assigned, " + assigneeProfile.getFirstName()
-					+ " will be addressing your issue or concern and will update the ticket as progress is made";
-			ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
-			redirectAttributes.addFlashAttribute("successMessage", TICKET_ASSIGNED_SUCCESS_MESSAGE);
+			hardwareDAO.assignHardware(hardwareToAssign);
+			//User_untitled userProfile = ticketActionsDAOImpl.getUserProfileByUsername(hardwareToAssign.getUsername());
+			//User_untitled assigneeProfile = ticketActionsDAOImpl.getAssigneeProfileByUsername(hardwareToAssign.getAssignee());
+			//String subjectOfEmail = "Ticket Number: " + hardwareToAssign.getTicketID() + " has been assigned to "
+			//		+ assigneeProfile.getFirstName() + " " + assigneeProfile.getLastName();
+			//String emailText = "Your ticket has now been assigned, " + assigneeProfile.getFirstName()
+			//		+ " will be addressing your issue or concern and will update the ticket as progress is made";
+			//ticketActionEmail(userProfile.getEmail(), assigneeProfile.getEmail(), subjectOfEmail, emailText);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_ASSIGNED_SUCCESS_MESSAGE);
 			RedirectView redirectView = new RedirectView("/employeeHomePage", true);
 			return redirectView;
 		}

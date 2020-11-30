@@ -355,25 +355,27 @@
 														<form:form class="uk-form-horizontal uk-margin-small"
 															method="post"
 															action="${pageContext.request.contextPath}/AssignHardware"
-															modelAttribute="ticket">
-															<label class="uk-form-label" for="priority">Priority:</label>
+															modelAttribute="hardware">
+															<br>
+															<p>Hardware Requests:</p>
+
+															<label class="uk-form-label" for="hardwareName">Hardware
+																Name:</label>
 															<div class="uk-form-controls">
 																<div class="uk-inline">
 																	<form:select
 																		class="uk-input uk-form-width-medium uk-margin-small-right"
-																		id="priority" path="priority">
-																		<c:forEach items="${priorityList}" var="priority">
-																			<form:option value="${priority }"
-																				selected="${priority == ticket.priority ? 'selected' : ''}" />
+																		id="hardwareName" path="hardwareName">
+																		<form:option value="" />
+																		<c:forEach items="${hardwareNameList }" var="hardwareName">
+																			<form:option value="${hardwareName.hardwareTypeDescription }"/>
 																		</c:forEach>
 																	</form:select>
+																	<br> <br>
 																	<form:button
 																		class="uk-button uk-button-primary uk-button-small">save</form:button>
 																</div>
 															</div>
-															<form:hidden path="ticketID" value="${ticket.ticketID }" />
-															<form:hidden path="username" value="${ticket.username }" />
-															<form:hidden path="assignee" value="${ticket.assignee }" />
 														</form:form>
 													</c:if>
 												</div>

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.csis3275.dao_untitled.HardwareDAO_gpo_20;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.HardwareList_gpo_20;
+import com.csis3275.model_untitled.HardwareTypes_gpo_20;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
@@ -30,6 +32,9 @@ public class EmployeePageController_mwi_18 {
 	 */
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
+	
+	@Autowired
+	HardwareDAO_gpo_20 hardwareDAO;
 	
 	/**
 	 * wires the authenticated user
@@ -57,7 +62,8 @@ public class EmployeePageController_mwi_18 {
 	public ModelAndView openPage(ModelAndView view, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
 		view.addObject("loggedInUser", loggedInUser);
-		
+		HardwareList_gpo_20 hardware = new HardwareList_gpo_20();
+		view.addObject("hardware", hardware);
 		view.setViewName("employeeHomePage");
 		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),"dateOpened");
 		view.addObject("assignedTickets",myList);
@@ -143,5 +149,10 @@ public class EmployeePageController_mwi_18 {
 	public void employeeAdminList(ModelMap modelMap){
 		List<User_untitled> employeeList = dao.getListOfEmployeesAndAdmins();
 		modelMap.addAttribute("employeeList", employeeList);
+	}
+	@ModelAttribute("hardwareNameList")
+	public void nameOfHardware(ModelMap modelMap){
+		List<HardwareTypes_gpo_20> hardwareNameList = hardwareDAO.getListOfHardwareAvailable();
+		modelMap.addAttribute("hardwareNameList", hardwareNameList);
 	}
 }
