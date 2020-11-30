@@ -1,6 +1,9 @@
 package com.csis3275.utility_untitled;
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.csis3275.dao_untitled.SlackAssociationDAOImpl_jpa_66;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 
@@ -27,6 +31,9 @@ import com.csis3275.model_untitled.User_untitled;
 @Service
 @PropertySource("classpath:slack.properties")
 public class SlackRestUtilityService_jpa_66 {
+	
+	@Autowired
+	SlackAssociationDAOImpl_jpa_66 slackAssociationDAO;
 	
 	// Success and Error Messages for Verifying Slack Accounts with the UHDA
 	public static final String SUCCESS_NOTIFICATION_SLACK_ACCOUNT_CONNECTED = "Slack profile found in workspace! UHDA is now connected to your Slack account.";
@@ -56,40 +63,6 @@ public class SlackRestUtilityService_jpa_66 {
 	
 	public SlackRestUtilityService_jpa_66() {
 		restTemplate = new RestTemplate();
-	}
-	
-	/**
-	 * Sends a request to the SlackAPI to check if a UHDA user's email is present in the applicable slack workspace
-	 * @param email The user's email address matching their UHDA and Slack accounts
-	 * @return String value containing the Slack UserId
-	 */
-	public String getSlackUserId(String email) {
-		String slackUserId = null;
-		HttpHeaders headers = new HttpHeaders();
-		
-		// Add parameters and encode URL
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(GET_SLACK_USER_ID_URL)
-															.queryParam("token", slackBotToken)
-															.queryParam("email", email);
-		
-		// Send out request
-		HttpEntity<String> request = new HttpEntity<>(headers);
-		ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, request, String.class);
-		
-		// Verify response
-		if (response.getStatusCode() == HttpStatus.OK) {
-			// Parse response and extract the ID
-			JSONObject jsonResponse = new JSONObject(response.getBody());
-			// Check if user is in workspace
-			if (jsonResponse.getBoolean("ok") == true) {
-				JSONObject userResponse = jsonResponse.getJSONObject("user");
-				slackUserId = userResponse.getString("id");
-			} else {
-				slackUserId = null;
-			}
-		}
-		
-		return slackUserId;
 	}
 	
 	/**
@@ -165,5 +138,67 @@ public class SlackRestUtilityService_jpa_66 {
 		// Send out request
 		HttpEntity<String> request = new HttpEntity<>(headers);
 		restTemplate.exchange(builder.toUriString(), HttpMethod.POST, request, String.class);
+	}
+	
+	/**
+	 * Sends a request to the SlackAPI to check if a UHDA user's email is present in the applicable slack workspace
+	 * @param email The user's email address matching their UHDA and Slack accounts
+	 * @return String value containing the Slack UserId
+	 */
+	public String getSlackUserId(String email) {
+		String slackUserId = null;
+		HttpHeaders headers = new HttpHeaders();
+		
+		// Add parameters and encode URL
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(GET_SLACK_USER_ID_URL)
+															.queryParam("token", slackBotToken)
+															.queryParam("email", email);
+		
+		// Send out request
+		HttpEntity<String> request = new HttpEntity<>(headers);
+		ResponseEntity<String> response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, request, String.class);
+		
+		// Verify response
+		if (response.getStatusCode() == HttpStatus.OK) {
+			// Parse response and extract the ID
+			JSONObject jsonResponse = new JSONObject(response.getBody());
+			// Check if user is in workspace
+			if (jsonResponse.getBoolean("ok") == true) {
+				JSONObject userResponse = jsonResponse.getJSONObject("user");
+				slackUserId = userResponse.getString("id");
+			} else {
+				slackUserId = null;
+			}
+		}
+		
+		return slackUserId;
+	}
+	
+	/**
+	 * Verifies a user's association with Slack and UHDA by comparing their email in the UHDA with their email inside of the Slack workspace
+	 * @param loggedInUser The User_untitled object with an association in question
+	 * @return A HashMap containing a notification message and a tooltip message, a newly created connection is the only time a success message is posted
+	 */
+	public HashMap<String, String> verifySlackAssociation(User_untitled loggedInUser) {
+		HashMap<String, String> slackStatusMessages = new HashMap<String, String>();
+		String userEmail = loggedInUser.getEmail();
+		// If loggedInUser doesn't have a Slack association, call Slack to retrieve their UserID
+		if (!slackAssociationDAO.checkUserSlackAssociation(userEmail)) {
+			String slackUserId = getSlackUserId(loggedInUser.getEmail());
+			if (slackUserId != null) {
+				// Add their Slack UserID as an association
+				slackAssociationDAO.createSlackAssociation(userEmail, slackUserId);
+				// The account association was created
+				slackStatusMessages.put("slackSuccessNotification", SlackRestUtilityService_jpa_66.SUCCESS_NOTIFICATION_SLACK_ACCOUNT_CONNECTED);
+			} else {
+				// The account association was not created, because the user doesn't have a profile in the Slack workspace
+				slackStatusMessages.put("slackErrorNotification", SlackRestUtilityService_jpa_66.ERROR_NOTIFICATION_SLACK_ACCOUNT_NOT_FOUND);
+				slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_NOT_CONNECTED);
+				return slackStatusMessages;
+			}
+		}
+		// The account association is already present
+		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED);
+		return slackStatusMessages;
 	}
 }

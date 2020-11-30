@@ -72,7 +72,7 @@ public class UserHomePageController_untitled {
 	public ModelAndView userHomePage(HttpSession session, ModelAndView modelAndView, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
 		
-		HashMap<String, String> slackStatus = verifySlackAssociation(loggedInUser);
+		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
 		
 		// Send notification that Slack has been connected
 		if (slackStatus.containsKey("slackSuccessNotification")) 
@@ -131,29 +131,6 @@ public class UserHomePageController_untitled {
 		priorityList.add(Ticket_untitled.TICKET_PRIORITY_HIGH);
 		priorityList.add(Ticket_untitled.TICKET_PRIORITY_CRITICAL);
 		return priorityList;
-	}
-	
-	private HashMap<String, String> verifySlackAssociation(User_untitled loggedInUser) {
-		HashMap<String, String> slackStatusMessages = new HashMap<String, String>();
-		String userEmail = loggedInUser.getEmail();
-		// If loggedInUser doesn't have a Slack association, call Slack to retrieve their UserID
-		if (!slackAssociationDAO.checkUserSlackAssociation(userEmail)) {
-			String slackUserId = slackService.getSlackUserId(loggedInUser.getEmail());
-			if (slackUserId != null) {
-				// Add their Slack UserID as an association
-				slackAssociationDAO.createSlackAssociation(userEmail, slackUserId);
-				// The account association was created
-				slackStatusMessages.put("slackSuccessNotification", SlackRestUtilityService_jpa_66.SUCCESS_NOTIFICATION_SLACK_ACCOUNT_CONNECTED);
-			} else {
-				// The account association was not created, because the user doesn't have a profile in the Slack workspace
-				slackStatusMessages.put("slackErrorNotification", SlackRestUtilityService_jpa_66.ERROR_NOTIFICATION_SLACK_ACCOUNT_NOT_FOUND);
-				slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_NOT_CONNECTED);
-				return slackStatusMessages;
-			}
-		}
-		// The account association is already present
-		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED);
-		return slackStatusMessages;
 	}
 	
 }

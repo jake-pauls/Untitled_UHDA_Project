@@ -2,6 +2,7 @@ package com.csis3275.controller_untitled;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
+import com.csis3275.utility_untitled.SlackRestUtilityService_jpa_66;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
 
@@ -36,6 +38,9 @@ public class EmployeePageController_mwi_18 {
 	 */
 	@Autowired
 	UserAuthenticationUtilities_untitled authenticatedUser;
+	
+	@Autowired
+	SlackRestUtilityService_jpa_66 slackService;
 	
 	/**
 	 * model for ticket under the name ticket
@@ -57,6 +62,19 @@ public class EmployeePageController_mwi_18 {
 	public ModelAndView openPage(ModelAndView view, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
 		view.addObject("loggedInUser", loggedInUser);
+		
+		// Check employee user Slack association
+		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
+		
+		// Send notification that Slack has been newly connected
+		if (slackStatus.containsKey("slackSuccessNotification")) 
+			view.addObject("slackSuccessNotification", slackStatus.get("slackSuccessNotification"));
+		
+		// Send notification that Slack has not been connected, will trigger the red slack icon
+		if (slackStatus.containsKey("slackErrorNotification"))
+			view.addObject("slackErrorNotification", slackStatus.get("slackErrorNotification"));
+		
+		view.addObject("slackTooltip", slackStatus.get("slackTooltip"));
 		
 		view.setViewName("employeeHomePage");
 		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),"dateOpened");
