@@ -120,7 +120,6 @@ public class TicketActionsController_gpo_20 {
 		if (slackUserId != null) {
 			// Post notification to Slack upon ticket assignment
 			slackService.assignedTicketNotification(assigneeProfile, ticketToAssign, slackUserId);
-			System.out.println(ticketToAssign.getTitle());
 		}
 		
 		redirectAttributes.addFlashAttribute("successMessage", TICKET_ASSIGNED_SUCCESS_MESSAGE);
@@ -235,6 +234,13 @@ public class TicketActionsController_gpo_20 {
 		String message = "Your ticket "+ticket.getTitle()+" has been picked up by the employee "+assignee.getFirstName()+". They are now in charge of your ticket";
 		
 		ticketActionEmail(user.getEmail(), assignee.getEmail(), "Ticket number: "+ticket.getTicketID()+" has been picked up", message);
+		
+		// Check if affected user has Slack association
+		String slackUserId = slackService.getSlackUserId(user.getEmail());
+		if (slackUserId != null) {
+			// Post notification to Slack upon ticket being picked up
+			slackService.pickupTicketNotification(assignee, ticket, slackUserId);
+		}
 		
 		redirectAttributes.addFlashAttribute("successMessage",TICKET_PICKED_UP_SUCCESS);
 		
