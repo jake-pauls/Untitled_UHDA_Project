@@ -9,10 +9,14 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.csis3275.model_untitled.CommentRowMapper_mwi_18;
 import com.csis3275.model_untitled.Comment_mwi_18;
+import com.csis3275.model_untitled.Ticket_untitled;
+import com.csis3275.model_untitled.UserRowMapper_mwi_18;
+import com.csis3275.model_untitled.User_untitled;
 
 /**
  * @author Michael Wilson 300278118
@@ -30,6 +34,9 @@ public class CommentDAO_mwi_18 {
 	
 	private final String SQL_GET_COMMENTS = "SELECT * FROM Comments WHERE ticketId = ?;";
 	private final String SQL_CREATE_COMMENT = "INSERT INTO Comments(ticketId,author,value,dateCreated) VALUES (?,?,?,?);";
+	private final String SQL_GET_USER_EMAIL = "SELECT * FROM USERS WHERE username = (SELECT username FROM TICKETS WHERE "
+			+ " ticketId = ?)";
+	
 	
 	@Autowired
 	public CommentDAO_mwi_18(DataSource dataSource) {
@@ -43,4 +50,18 @@ public class CommentDAO_mwi_18 {
 	public List<Comment_mwi_18> getComments(int id){
 		return template.query(SQL_GET_COMMENTS, new CommentRowMapper_mwi_18(), id);
 	}
-}
+	
+	public String getEmail(Ticket_untitled ticket){
+		List<User_untitled> list = template.query(SQL_GET_USER_EMAIL, new UserRowMapper_mwi_18(),ticket.getTicketID());
+		
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			String email = list.get(0).getEmail();
+			return email;
+		}
+		
+		
+				
+	}
+ }

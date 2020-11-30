@@ -13,3 +13,9 @@
 	float: right;
 }
 
+#comment_body{
+	border: 1px solid #d8d8d8;
+	width:200px;
+	padding:2px;
+}
+

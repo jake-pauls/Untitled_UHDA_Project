@@ -17,8 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.csis3275.dao_untitled.CommentDAO_mwi_18;
+import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
 import com.csis3275.model_untitled.Comment_mwi_18;
 import com.csis3275.model_untitled.EmailService_untitled;
+import com.csis3275.model_untitled.Ticket_untitled;
 
 /**
  * @author Michael Wilson 300278118
@@ -32,8 +34,17 @@ import com.csis3275.model_untitled.EmailService_untitled;
 @Controller
 public class CommentController_mwi_18 {
 	
+	
+	//create comment messages
+	private final String COMMENT_SUCCESS_MESSAGE = "Comment was written";
+	private final String COMMENT_FAILURE_MESSAGE = "Failed to write comment";
+	
+	
 	@Autowired
 	CommentDAO_mwi_18 commentDao;
+	
+	@Autowired
+	TicketDisplayDAO_mwi_18 ticketDisplayDao;
 	
 	@Autowired
 	EmailService_untitled emailService;
@@ -51,15 +62,29 @@ public class CommentController_mwi_18 {
 		RedirectView redirectView = new RedirectView("/"+redirectUrl,true);
 		
 		Comment_mwi_18 comment = newComment;
+		
+		//sets the current time to time created in the comment
 		comment.setDateCreated(new Timestamp(new Date().getTime()));
 		
 		if(commentDao.insertComment(comment)) {
-			redirectAttributes.addFlashAttribute("successMessage", "Comment was written");
+			redirectAttributes.addFlashAttribute("successMessage", COMMENT_SUCCESS_MESSAGE);
 		} else {
-			redirectAttributes.addFlashAttribute("errorMessage", "Failed to write comment");
+			redirectAttributes.addFlashAttribute("errorMessage", COMMENT_FAILURE_MESSAGE);
 		}
 		
+		Ticket_untitled ticketInUse = ticketDisplayDao.getOneTicket(comment.getTicketId());
 		
+		if(redirectUrl.equals("employeeHomePage")) {
+			String subjectLine = "Ticket: "+ticketInUse.getTicketID()+" has a new comment from "+ticketInUse.getAssignee();
+			String message = "The following comment was added to ticket number: "+ticketInUse.getTicketID()+". Title: "+ticketInUse.getTitle()
+				+ "\n"+comment.getValue();
+			commentCreateEmail(commentDao.getEmail(ticketInUse), subjectLine, message);
+		}else if(redirectUrl.equals("UserHomePage")) {
+			String subjectLine = "Ticket: "+ticketInUse.getTicketID()+" has a new comment from "+ticketInUse.getUsername();
+			String message = "The following comment was added to ticket number: "+ticketInUse.getTicketID()+". Title: "+ticketInUse.getTitle()
+				+ "\n"+comment.getValue();
+			commentCreateEmail(ticketInUse.getUsername(), subjectLine, message);
+		}
 		
 		
 		return redirectView;

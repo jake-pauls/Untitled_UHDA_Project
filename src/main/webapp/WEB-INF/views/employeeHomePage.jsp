@@ -196,14 +196,14 @@
 												
 												<h3>Comments</h3>
 												<hr>
-												<ul class="uk-comment-list">
+												<ul class = "uk-list">
 													
 													<c:forEach items="${ticket.comments }" var="comment">
 													<li>
-														<article class="uk-comment"><ul class="uk-list">
-														<li>${comment.author}</li>
-														<li>${comment.value }</li>
-														</ul></article>
+														
+															${comment.author}
+															${comment.value}
+														
 													</li>
 													</c:forEach>
 												</ul>
