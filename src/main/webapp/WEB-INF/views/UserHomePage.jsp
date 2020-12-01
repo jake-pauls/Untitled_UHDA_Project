@@ -196,10 +196,9 @@
 								<span class="uk-text-meta">Oh no! You haven't created any tickets yet!</span>
 							</c:when>
 							<c:otherwise>
-								<span class="uk-text-bold">Featured Tickets</span>
+								<span class="uk-text-bold">All Tickets</span>
 								<br />
-								<span class="uk-text-meta">Your most recently created
-									tickets.</span>
+								<span class="uk-text-meta">Your collection of created tickets.</span>
 							</c:otherwise>
 						</c:choose>
 					<p>
