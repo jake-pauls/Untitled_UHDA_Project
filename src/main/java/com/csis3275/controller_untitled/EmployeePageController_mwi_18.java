@@ -81,6 +81,11 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("assignedTickets",myList);
 		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
 		view.addObject("unAssignedTickets",unAssignedList);
+		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		view.addObject("topPriorityTickets", topPriorityTickets);
+		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
+
 		
 		return view;
 	}
@@ -96,14 +101,19 @@ public class EmployeePageController_mwi_18 {
 	@GetMapping("/sort")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
 		
+		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),order);
 		view.addObject("assignedTickets",myList);
 		
 		myList = dao.getAllUnassignedTickets(order);
-		
-		
 		view.addObject("unAssignedTickets",myList);
+		
+		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		view.addObject("topPriorityTickets", topPriorityTickets);
+		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
+		
 		return view;
 	}
 	

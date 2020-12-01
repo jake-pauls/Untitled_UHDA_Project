@@ -71,6 +71,7 @@ public class UserHomePageController_untitled {
 	@RequestMapping(value = "/UserHomePage", method = RequestMethod.GET)	
 	public ModelAndView userHomePage(HttpSession session, ModelAndView modelAndView, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
+		String loggedInUsername = loggedInUser.getUsername();
 		
 		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
 		
@@ -87,8 +88,10 @@ public class UserHomePageController_untitled {
 		modelAndView.addObject("loggedInUser", loggedInUser);
 		modelAndView.setViewName("UserHomePage");
 		
-		List<Ticket_untitled> myTickets = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(), "dateOpened");
+		List<Ticket_untitled> myTickets = dao.getCreatedTickets(loggedInUsername, "dateOpened");
+		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(loggedInUsername);
 		modelAndView.addObject("createdList",myTickets);
+		modelAndView.addObject("mostRecentTickets", mostRecentTickets);
 		
 		return modelAndView;
 	}
@@ -103,9 +106,13 @@ public class UserHomePageController_untitled {
 	@GetMapping("/sortUser")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("UserHomePage");
-		List<Ticket_untitled> myList = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		String username = authenticatedUser.getLoggedInUserContext(principal).getUsername();
 		
-		view.addObject("createdList",myList);
+		List<Ticket_untitled> ticketList = dao.getCreatedTickets(username, order);
+		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(username);
+		
+		view.addObject("createdList",ticketList);
+		view.addObject("mostRecentTickets", mostRecentTickets);
 		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
 		
 		return view;
