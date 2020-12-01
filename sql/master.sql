@@ -177,7 +177,7 @@ SELECT * FROM users;
 SELECT * FROM authorities;
 SELECT * FROM tickets;
 SELECT * FROM comments;
-SELECT * FROM slack_associations;
+SELECT * FROM slack_association;
 SELECT * FROM hardwareType;
 SELECT * FROM hardwareAssignment;
 
