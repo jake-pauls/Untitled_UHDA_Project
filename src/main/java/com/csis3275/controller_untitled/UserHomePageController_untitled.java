@@ -71,6 +71,7 @@ public class UserHomePageController_untitled {
 	@RequestMapping(value = "/UserHomePage", method = RequestMethod.GET)	
 	public ModelAndView userHomePage(HttpSession session, ModelAndView modelAndView, Principal principal) {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
+		String loggedInUsername = loggedInUser.getUsername();
 		
 		// Check employee user Slack association and update Slack icon status in UI
 		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
@@ -79,8 +80,10 @@ public class UserHomePageController_untitled {
 		modelAndView.addObject("loggedInUser", loggedInUser);
 		modelAndView.setViewName("UserHomePage");
 		
-		List<Ticket_untitled> myTickets = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(), "dateOpened");
+		List<Ticket_untitled> myTickets = dao.getCreatedTickets(loggedInUsername, "dateOpened");
+		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(loggedInUsername);
 		modelAndView.addObject("createdList",myTickets);
+		modelAndView.addObject("mostRecentTickets", mostRecentTickets);
 		
 		return modelAndView;
 	}
@@ -101,9 +104,12 @@ public class UserHomePageController_untitled {
 		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
 		view = slackService.updateSlackIconStatusForView(slackStatus, view);
 		
-		List<Ticket_untitled> myList = dao.getCreatedTickets(loggedInUser.getUsername(),order);		
-		view.addObject("createdList",myList);
-		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
+		List<Ticket_untitled> ticketList = dao.getCreatedTickets(loggedInUser.getUsername(), order);
+		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(loggedInUser.getUsername());
+		
+		view.addObject("createdList",ticketList);
+		view.addObject("mostRecentTickets", mostRecentTickets);
+		view.addObject("loggedInUser", loggedInUser);
 		
 		return view;
 	}

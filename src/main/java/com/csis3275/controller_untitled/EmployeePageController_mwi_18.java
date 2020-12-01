@@ -72,6 +72,11 @@ public class EmployeePageController_mwi_18 {
 		view.addObject("assignedTickets",myList);
 		List<Ticket_untitled> unAssignedList = dao.getAllUnassignedTickets("dateOpened");
 		view.addObject("unAssignedTickets",unAssignedList);
+		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		view.addObject("topPriorityTickets", topPriorityTickets);
+		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
+
 		
 		return view;
 	}
@@ -92,15 +97,18 @@ public class EmployeePageController_mwi_18 {
 		// Refresh Slack icon status 
 		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
 		view = slackService.updateSlackIconStatusForView(slackStatus, view);
-
-		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),order);
 		
+		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),order);
 		view.addObject("assignedTickets",myList);
 		
 		myList = dao.getAllUnassignedTickets(order);
-		
-		
 		view.addObject("unAssignedTickets",myList);
+		
+		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		view.addObject("topPriorityTickets", topPriorityTickets);
+		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
+		
 		return view;
 	}
 	
