@@ -115,12 +115,6 @@ CREATE TABLE comments(
     FOREIGN KEY(ticketId) REFERENCES tickets(ticketId)
 );
 
--- Queries
-SELECT * FROM users;
-SELECT * FROM authorities;
-SELECT * FROM tickets;
-SELECT * FROM comments;
-
 -- Hardware	Type   
 DROP TABLE IF EXISTS hardwareType;
 
@@ -163,6 +157,14 @@ INSERT INTO hardwareAssignment (hardwareTypeName, status, usernameAssignedTo, da
 			   ('IPhone 12', 'Lost', 'employee', '2020-07-07 06:42:21', null),
 			   ('IPhone 12', 'Assigned', 'admin', '2020-07-07 06:42:21', null);
 			   
+
+
+-- Queries
+SELECT * FROM users;
+SELECT * FROM authorities;
+SELECT * FROM tickets;
+SELECT * FROM comments;
+
 
 
 
