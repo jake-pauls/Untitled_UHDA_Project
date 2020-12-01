@@ -21,6 +21,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/uikit@3.5.9/dist/js/uikit-icons.min.js"></script>
 <meta charset="ISO-8859-1">
+<script src="<c:url value="/js/jquery-3.5.1.min.js" />"></script>
+<script src="<c:url value="/js/HardwareManagement_gpo_20.js" />"></script>
 <title>Employee</title>
 </head>
 <body>
@@ -76,7 +78,8 @@
 			<li class="uk-active"><a href="#">Assigned Tickets</a></li>
 			<li><a href="#">Available Tickets</a></li>
 			<li><a href="#">Create Ticket</a></li>
-
+			<li><a href="#">Available Hardware</a></li>
+			<li><a href="#">Assigned Hardware</a></li>
 		</ul>
 		<c:if test="${errorMessage != null}">
 			<div class="uk-alert-danger" uk-alert>
@@ -555,8 +558,7 @@
 						</div>
 
 						<div class="uk-margin">
-							<label class="uk-form-label" for="description">Priority:
-							</label>
+							<label class="uk-form-label" for="priority">Priority: </label>
 							<div class="uk-form-controls">
 								<div class="uk-inline">
 									<form:select class="uk-input uk-form-width-large" id="priority"
@@ -598,6 +600,143 @@
 						</div>
 					</div>
 				</form:form></li>
+			<li>
+				<!-- Available Hardware List -->
+				<table class="uk-table uk-table-divider">
+					<thead>
+						<tr>
+							<th>Hardware Name</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="hardwareTypes" items="${hardwareTypeList }">
+
+							<tr>
+								<td><input
+									id="row-reference-${hardwareTypes.hardwareTypeID}-hardwareTypeDesc"
+									class="uk-input hardwareTypeDes" type="text"
+									value="${hardwareTypes.hardwareTypeDescription}" disabled /></td>
+								<!-- commented out the delete button for this form as there are referential integrity issues
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/DeleteHardwareType?redirectUrl=employeeHomePage"
+										modelAttribute="hardwareType">
+										<form:input type="hidden" path="hardwareTypeID"
+											value="${hardwareTypes.hardwareTypeID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="deletehardware">Delete</button>
+									</form:form></td>
+									 -->
+							</tr>
+
+						</c:forEach>
+						<tr id="newTableRow" style="display: none;">
+
+							<form:form method="post"
+								action="${pageContext.request.contextPath}/CreateHardwareType?redirectUrl=employeeHomePage"
+								modelAttribute="hardwareType">
+								<td width="75%"><form:input
+										class="uk-input newHardware hardwareTypeDescription"
+										path="hardwareTypeDescription" type="text" /></td>
+								<td><form:button class="uk-button uk-button-primary">Submit</form:button>
+									<button class="uk-button uk-button-default" type="button"
+										onclick="cancelAddHardware()">Cancel</button></td>
+							</form:form>
+
+						</tr>
+					</tbody>
+				</table>
+				<div uk-margin>
+					<button class="uk-button uk-button-secondary uk-margin-left"
+						id="addNewHardware" onclick="addNewTableRow()">Add New
+						Hardware</button>
+				</div>
+
+			</li>
+			<li>
+				<!-- List of the Assigned Hardware -->
+				<table class="uk-table uk-table-divider">
+					<thead>
+						<tr>
+							<th>Hardware ID</th>
+							<th>Hardware Type</th>
+							<th>Status</th>
+							<th>User Assigned</th>
+							<th>Date Assigned</th>
+							<th>Date Returned</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="hardwareAssigned" items="${hardwareAssignedList }">
+
+							<tr>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-hardwareID"
+									class="uk-input hardwareID" type="text"
+									value="${hardwareAssigned.hardwareID}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-hardwareName"
+									class="uk-input hardwareTypeName" type="text"
+									value="${hardwareAssigned.hardwareName}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.status}-status"
+									class="uk-input status" type="text"
+									value="${hardwareAssigned.status}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-usernameAssignedTo"
+									class="uk-input ${hardwareAssigned.hardwareID} usernameAssignedTo"
+									type="text" value="${hardwareAssigned.usernameAssignedTo}"
+									disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-dateAssigned"
+									class="uk-input dateAssigned" type="text"
+									value="${hardwareAssigned.dateAssigned}" disabled /></td>
+								<td><input
+									id="row-reference-${hardwareAssigned.hardwareID}-dateReturned"
+									class="uk-input dateReturned" type="text"
+									value="${hardwareAssigned.dateReturned}" disabled /></td>
+							</tr>
+							<tr>
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/ReturnHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:input type="hidden" path="hardwareID"
+											value="${hardwareAssigned.hardwareID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="returnHardware">Hardware Returned</button>
+									</form:form></td>
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/LostHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:input type="hidden" path="hardwareID"
+											value="${hardwareAssigned.hardwareID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="returnHardware">Mark Hardware Lost</button>
+									</form:form></td>
+								<!-- edited out the reassign hardware as could not get this feature to work -->
+								<!--  
+								<td><button class="uk-button uk-button-default"
+										onclick="editTableRow('${hardwareAssigned.hardwareID}')">Reassign Hardware</button></td>
+								
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/ReassignHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:hidden id="hidden-hardwareID" path="hardwareID" value="" />
+										<form:hidden id="hidden-usernameAssignedTo"
+											path="usernameAssignedTo" value="" />
+
+										<div uk-margin>
+											<form:button class="uk-button uk-button-primary"
+												id="button-reference${hardwareAssigned.hardwareID}" type="submit"
+												name="saveReasignHardware" disabled="true">Save Changes</form:button>
+										</div>
+
+									</form:form></td>-->
+							</tr>
+
+						</c:forEach>
+					</tbody>
+				</table>
+			</li>
 		</ul>
 
 
