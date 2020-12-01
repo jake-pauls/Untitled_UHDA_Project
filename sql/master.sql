@@ -177,13 +177,12 @@ SELECT * FROM users;
 SELECT * FROM authorities;
 SELECT * FROM tickets;
 SELECT * FROM comments;
-<<<<<<< HEAD
 SELECT * FROM slack_associations;
-=======
+SELECT * FROM hardwareType;
+SELECT * FROM hardwareAssignment;
 
 
 
 
 
 			   
->>>>>>> Hardware_Requests_FEATURE_gpo_20
