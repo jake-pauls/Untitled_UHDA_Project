@@ -4,6 +4,7 @@
 package com.csis3275.model_untitled;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Michael Wilson 300278118
@@ -19,6 +20,7 @@ public class Comment_mwi_18 {
 	private String author;
 	private String value;
 	private Timestamp dateCreated;
+	private String formattedDateCreated;
 	
 	public int getCommentId() {
 		return commentId;
@@ -49,6 +51,14 @@ public class Comment_mwi_18 {
 	}
 	public void setDateCreated(Timestamp dateCreated) {
 		this.dateCreated = dateCreated;
+	}
+	
+	public void formatDate() {
+		SimpleDateFormat dFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm aa");
+		this.formattedDateCreated = dFormat.format(dateCreated);
+	}
+	public String getFormattedDateCreated() {
+		return formattedDateCreated;
 	}
 	
 	

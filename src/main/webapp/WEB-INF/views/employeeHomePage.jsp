@@ -193,32 +193,59 @@
 														<form:hidden path="username" value="${ticket.username }" />
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
-												
-												<h3>Comments</h3>
-												<hr>
-												<ul class = "uk-list">
-													
-													<c:forEach items="${ticket.comments }" var="comment">
-													<li>
-														
-															${comment.author}
-															${comment.value}
-														
-													</li>
-													</c:forEach>
-												</ul>
-												<form:form action="${pageContext.request.contextPath}/createComment/?redirectUrl=employeeHomePage" 
-												method="post" modelAttribute="comment">
-												<table>
-													<tr>
-														<td><form:textarea path="value" required = "true"/></td>
-														<td><form:button class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
-													</tr>
-												</table>
-												<form:hidden path="ticketId" value="${ticket.ticketID }"/>
-												<form:hidden path="author" value="${ticket.assignee }"/>
-												
-												</form:form>
+
+													<h3>Comments</h3>
+													<hr>
+													<div class="outer_wrapper">
+														<div class="comment_container">
+															<ul class="uk-list">
+
+																<c:choose>
+															<c:when test="${empty ticket.comments}">
+																<p id="no_comments_message">There are no comments at the moment</p>
+															</c:when>
+															<c:otherwise>
+																<c:forEach items="${ticket.comments }" var="comment">
+																<li class ="comment_organ">
+																	<div class="comment">
+																		
+																			<p id ="comment_author"><i>${comment.author }</i></p> 
+																			<p id ="comment_text">${comment.value }</p>
+																			<p id ="comment_date">${comment.formattedDateCreated }</p>
+																			<c:if
+																				test="${loggedInUser.username == comment.author}">
+																				<a
+																					href="${pageContext.request.contextPath}/deleteComment/?id=${comment.commentId}&redirectUrl=employeeHomePage">
+																					<em>delete</em>
+																				</a>
+																			</c:if>
+																		
+																	</div>
+
+																</li>
+															</c:forEach>
+															</c:otherwise>
+															</c:choose>
+															</ul>
+														</div>
+													</div>
+													<hr>
+													<div class="create_comment_container">
+													<form:form
+														action="${pageContext.request.contextPath}/createComment/?redirectUrl=employeeHomePage"
+														method="post" modelAttribute="comment">
+														<table>
+															<tr>
+																<td><form:textarea path="value" required="true" /></td>
+																<td><form:button
+																		class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
+															</tr>
+														</table>
+														<form:hidden path="ticketId" value="${ticket.ticketID }" />
+														<form:hidden path="author" value="${ticket.assignee }" />
+
+													</form:form>
+													</div>
 												</div>
 												<div class="uk-modal-footer uk-text-right">
 													<button class="uk-button uk-button-default uk-modal-close"
@@ -378,6 +405,7 @@
 														<form:hidden path="assignee" value="${ticket.assignee }" />
 													</form:form>
 												</div>
+												
 												<div class="uk-modal-footer uk-text-right">
 													<button class="uk-button uk-button-default uk-modal-close"
 														type="button">Cancel</button>

@@ -35,7 +35,10 @@ public class CommentDAO_mwi_18 {
 	private final String SQL_GET_COMMENTS = "SELECT * FROM Comments WHERE ticketId = ?;";
 	private final String SQL_CREATE_COMMENT = "INSERT INTO Comments(ticketId,author,value,dateCreated) VALUES (?,?,?,?);";
 	private final String SQL_GET_USER_EMAIL = "SELECT * FROM USERS WHERE username = (SELECT username FROM TICKETS WHERE "
-			+ " ticketId = ?)";
+			+ " ticketId = ?);";
+	private final String SQL_GET_EMPLOYEE_EMAIL = "SELECT * FROM USERS WHERE username = (SELECT assignee FROM TICKETS WHERE "
+			+ " ticketId = ?);";
+	private final String SQL_DELETE_COMMENT = "DELETE FROM Comments WHERE commentId = ?;";
 	
 	
 	@Autowired
@@ -51,7 +54,7 @@ public class CommentDAO_mwi_18 {
 		return template.query(SQL_GET_COMMENTS, new CommentRowMapper_mwi_18(), id);
 	}
 	
-	public String getEmail(Ticket_untitled ticket){
+	public String getUserEmail(Ticket_untitled ticket){
 		List<User_untitled> list = template.query(SQL_GET_USER_EMAIL, new UserRowMapper_mwi_18(),ticket.getTicketID());
 		
 		if(list.isEmpty()) {
@@ -60,8 +63,21 @@ public class CommentDAO_mwi_18 {
 			String email = list.get(0).getEmail();
 			return email;
 		}
-		
-		
 				
+	}
+	public String getEmployeeEmail(Ticket_untitled ticket){
+		List<User_untitled> list = template.query(SQL_GET_EMPLOYEE_EMAIL, new UserRowMapper_mwi_18(),ticket.getTicketID());
+		
+		if(list.isEmpty()) {
+			return null;
+		}else {
+			String email = list.get(0).getEmail();
+			return email;
+		}
+				
+	}
+	
+	public boolean deleteComment(int id) {
+		return template.update(SQL_DELETE_COMMENT,id) > 0;
 	}
  }

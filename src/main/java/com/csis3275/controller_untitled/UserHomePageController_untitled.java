@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.csis3275.dao_untitled.CommentDAO_mwi_18;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.Comment_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.utility_untitled.UserAuthenticationUtilities_untitled;
 
@@ -43,6 +45,10 @@ public class UserHomePageController_untitled {
 	@Autowired
 	TicketDisplayDAO_mwi_18 dao;
 	
+	
+	@Autowired
+	CommentDAO_mwi_18 commentDao;
+	
 	/**
 	 * model for ticket under the name ticket
 	 * @return new ticket 
@@ -51,6 +57,12 @@ public class UserHomePageController_untitled {
 	public Ticket_untitled getTicketSetUp() {
 		return new Ticket_untitled();
 	}
+	
+	@ModelAttribute("comment")
+	public Comment_mwi_18 setUpName() {
+		return new Comment_mwi_18();
+	}
+	
 	
 	/**
 	 * GET request mapped to the user's home page view
@@ -64,6 +76,9 @@ public class UserHomePageController_untitled {
 		modelAndView.setViewName("UserHomePage");
 		
 		List<Ticket_untitled> myTickets = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(), "dateOpened");
+		for (Ticket_untitled ticket_untitled : myTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		modelAndView.addObject("createdList",myTickets);
 		
 		return modelAndView;
@@ -81,7 +96,9 @@ public class UserHomePageController_untitled {
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("UserHomePage");
 		List<Ticket_untitled> myList = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
-		
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("createdList",myList);
 		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
 		

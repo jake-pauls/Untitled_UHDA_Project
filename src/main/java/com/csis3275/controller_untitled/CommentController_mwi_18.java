@@ -9,6 +9,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,6 +40,9 @@ public class CommentController_mwi_18 {
 	private final String COMMENT_SUCCESS_MESSAGE = "Comment was written";
 	private final String COMMENT_FAILURE_MESSAGE = "Failed to write comment";
 	
+	//delete comment messages
+	private final String COMMENT_DELETE_MEASSAGE = "Comment was deleted";
+	private final String COMMENT_DELETE_FAILURE = "Unable to delete comment";
 	
 	@Autowired
 	CommentDAO_mwi_18 commentDao;
@@ -78,18 +82,32 @@ public class CommentController_mwi_18 {
 			String subjectLine = "Ticket: "+ticketInUse.getTicketID()+" has a new comment from "+ticketInUse.getAssignee();
 			String message = "The following comment was added to ticket number: "+ticketInUse.getTicketID()+". Title: "+ticketInUse.getTitle()
 				+ "\n"+comment.getValue();
-			commentCreateEmail(commentDao.getEmail(ticketInUse), subjectLine, message);
+			commentCreateEmail(commentDao.getUserEmail(ticketInUse), subjectLine, message);
 		}else if(redirectUrl.equals("UserHomePage")) {
 			String subjectLine = "Ticket: "+ticketInUse.getTicketID()+" has a new comment from "+ticketInUse.getUsername();
 			String message = "The following comment was added to ticket number: "+ticketInUse.getTicketID()+". Title: "+ticketInUse.getTitle()
 				+ "\n"+comment.getValue();
-			commentCreateEmail(ticketInUse.getUsername(), subjectLine, message);
+			commentCreateEmail(commentDao.getEmployeeEmail(ticketInUse), subjectLine, message);
 		}
 		
 		
 		return redirectView;
 	}
 	
+	
+	@GetMapping("/deleteComment")
+	public RedirectView deleteComment(@RequestParam("redirectUrl") String redirectUrl, @RequestParam("id") int id,
+	RedirectAttributes redirectAttributes) {
+		RedirectView redirectView = new RedirectView("/"+redirectUrl,true);
+		
+		if(commentDao.deleteComment(id)) {
+			redirectAttributes.addFlashAttribute("successMessage", COMMENT_DELETE_MEASSAGE);
+		}else {
+			redirectAttributes.addFlashAttribute("errorMessage", COMMENT_DELETE_FAILURE);
+		}
+		
+		return redirectView;
+	}
 	
 	
 	public void commentCreateEmail(String userEmail, String subjectLine, String message) {

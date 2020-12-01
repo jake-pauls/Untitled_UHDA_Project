@@ -27,7 +27,7 @@ public class CommentRowMapper_mwi_18 implements RowMapper<Comment_mwi_18>{
 		comment.setAuthor(rs.getString("author"));
 		comment.setValue(rs.getString("value"));
 		comment.setDateCreated(rs.getTimestamp("dateCreated"));
-		
+		comment.formatDate();
 		return comment;
 	}
 
