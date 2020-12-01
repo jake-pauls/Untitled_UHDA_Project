@@ -17,7 +17,6 @@ INSERT INTO hardwareType (hardwareTypeDescription)
 
 
 -- Hardware		   
-DROP TABLE IF EXISTS hardware;
 DROP TABLE IF EXISTS hardwareAssignment;
 
 CREATE TABLE hardwareAssignment(
