@@ -63,18 +63,9 @@ public class EmployeePageController_mwi_18 {
 		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
 		view.addObject("loggedInUser", loggedInUser);
 		
-		// Check employee user Slack association
+		// Check employee user Slack association and update Slack icon status in UI
 		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
-		
-		// Send notification that Slack has been newly connected
-		if (slackStatus.containsKey("slackSuccessNotification")) 
-			view.addObject("slackSuccessNotification", slackStatus.get("slackSuccessNotification"));
-		
-		// Send notification that Slack has not been connected, will trigger the red slack icon
-		if (slackStatus.containsKey("slackErrorNotification"))
-			view.addObject("slackErrorNotification", slackStatus.get("slackErrorNotification"));
-		
-		view.addObject("slackTooltip", slackStatus.get("slackTooltip"));
+		view = slackService.updateSlackIconStatusForView(slackStatus, view);
 		
 		view.setViewName("employeeHomePage");
 		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),"dateOpened");
@@ -96,7 +87,13 @@ public class EmployeePageController_mwi_18 {
 	@GetMapping("/sort")
 	public ModelAndView sortTickets(String order,ModelAndView view,Principal principal) {
 		view.setViewName("employeeHomePage");
-		List<Ticket_untitled> myList = dao.getAssignedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		User_untitled loggedInUser = authenticatedUser.getLoggedInUserContext(principal);
+		
+		// Refresh Slack icon status 
+		HashMap<String, String> slackStatus = slackService.verifySlackAssociation(loggedInUser);
+		view = slackService.updateSlackIconStatusForView(slackStatus, view);
+
+		List<Ticket_untitled> myList = dao.getAssignedTickets(loggedInUser.getUsername(),order);
 		
 		view.addObject("assignedTickets",myList);
 		

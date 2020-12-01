@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.csis3275.dao_untitled.SlackAssociationDAOImpl_jpa_66;
@@ -200,5 +201,24 @@ public class SlackRestUtilityService_jpa_66 {
 		// The account association is already present
 		slackStatusMessages.put("slackTooltip", SlackRestUtilityService_jpa_66.SLACK_ACCOUNT_CONNECTED + " as " + loggedInUser.getEmail());
 		return slackStatusMessages;
+	}
+	
+	/**
+	 * Modifies the passed model and view to include data based on the result of 'verifySlackAssociation'
+	 * @param slackStatus A HashMap of data resulting from the 'verifySlackAssociation' method
+	 * @param modelAndView The model and view for which the situational parameters should be appended to
+	 * @return The ModelAndView object containing the new parameters
+	 */
+	public ModelAndView updateSlackIconStatusForView(HashMap<String, String> slackStatus, ModelAndView modelAndView) {
+		// Send notification that Slack has been newly connected
+		if (slackStatus.containsKey("slackSuccessNotification")) 
+			modelAndView.addObject("slackSuccessNotification", slackStatus.get("slackSuccessNotification"));
+		
+		// Send notification that Slack has not been connected, will trigger the red slack icon
+		if (slackStatus.containsKey("slackErrorNotification"))
+			modelAndView.addObject("slackErrorNotification", slackStatus.get("slackErrorNotification"));
+		
+		modelAndView.addObject("slackTooltip", slackStatus.get("slackTooltip"));
+		return modelAndView;
 	}
 }
