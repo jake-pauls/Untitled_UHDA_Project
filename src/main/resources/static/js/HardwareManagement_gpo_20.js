@@ -23,6 +23,16 @@ function addNewTableRow() {
 	$("#addNewHardware").attr("disabled", true);
 }
 
+// Enables inputs on form for editing
+function editTableRow(hardwareID) {
+	// Pre-populate hidden fields with current row values
+	$("#hidden-hardwareID").val($("#row-reference-"+hardwareID+"-hardwareID").val());
+	$("#hidden-usernameAssignedTo").val($("#row-reference-"+hardwareID+"-usernameAssignedTo").val());
+	// Update form buttons
+	$("."+hardwareID).removeAttr("disabled");
+	$("#button-reference"+hardwareID).attr("disabled", false);
+}
+
 
 // Manipulates display to disappear add form
 function cancelAddHardware(e) {

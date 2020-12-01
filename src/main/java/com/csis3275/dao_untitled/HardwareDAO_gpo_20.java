@@ -42,6 +42,8 @@ public class HardwareDAO_gpo_20 {
 	private final String SQL_INSERT_NEW_HARDWARE_TYPE = "INSERT INTO HARDWARETYPE (HARDWARETYPEDESCRIPTION) VALUES (?)";
 	private final String SQL_GET_LIST_OF_ASSIGNED_HARDWARE = "SELECT * FROM HARDWAREASSIGNMENT";
 	private final String SQL_UPDATE_RETURN_HARDWARE = "UPDATE HARDWAREASSIGNMENT SET datereturned = ?, status = 'Returned' WHERE hardwareID = ?";
+	private final String SQL_UPDATE_LOST_HARDWARE = "UPDATE HARDWAREASSIGNMENT SET status = 'Lost' WHERE hardwareID = ?";
+	private final String SQL_UPDATE_REASSIGN_HARDWARE = "UPDATE HARDWAREASSIGNMENT SET dateReturned=NULL, status = 'Assigned', usernameAssignedTo = ?, dateAssigned = ? WHERE hardwareID = ?";
 	
 	@Autowired
 	public HardwareDAO_gpo_20(DataSource dataSource) {
@@ -98,6 +100,23 @@ public class HardwareDAO_gpo_20 {
 	public boolean returnHardware(HardwareList_gpo_20 hardware) {
 		return jdbcTicketManagementTemplate.update(SQL_UPDATE_RETURN_HARDWARE, getCurrentTime(),hardware.getHardwareID()) > 0;
 	}
+	/**
+	 * 
+	 * @param hardware is lost
+	 * @return updates the hardware to indicate that the status is lost
+	 */
+	public boolean lostHardware(HardwareList_gpo_20 hardware) {
+		return jdbcTicketManagementTemplate.update(SQL_UPDATE_LOST_HARDWARE, hardware.getHardwareID()) > 0;
+	}
+	/**
+	 * 
+	 * @param hardware is reassigned
+	 * @return updates the hardware to indicate that the status is lost
+	 */
+	public boolean reassignHardware(HardwareList_gpo_20 hardware) {
+		return jdbcTicketManagementTemplate.update(SQL_UPDATE_REASSIGN_HARDWARE, hardware.getUsernameAssignedTo(), getCurrentTime(), hardware.getHardwareID()) > 0;
+	}
+	
 	/**
 	 * Creates a Timestamp object for the current time
 	 * @return Timestamp object representing the current time 

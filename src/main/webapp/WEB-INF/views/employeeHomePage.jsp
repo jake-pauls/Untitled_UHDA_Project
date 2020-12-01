@@ -566,8 +566,9 @@
 									value="${hardwareAssigned.status}" disabled /></td>
 								<td><input
 									id="row-reference-${hardwareAssigned.hardwareID}-usernameAssignedTo"
-									class="uk-input usernameAssignedTo" type="text"
-									value="${hardwareAssigned.usernameAssignedTo}" disabled /></td>
+									class="uk-input ${hardwareAssigned.hardwareID} usernameAssignedTo"
+									type="text" value="${hardwareAssigned.usernameAssignedTo}"
+									disabled /></td>
 								<td><input
 									id="row-reference-${hardwareAssigned.hardwareID}-dateAssigned"
 									class="uk-input dateAssigned" type="text"
@@ -576,6 +577,8 @@
 									id="row-reference-${hardwareAssigned.hardwareID}-dateReturned"
 									class="uk-input dateReturned" type="text"
 									value="${hardwareAssigned.dateReturned}" disabled /></td>
+							</tr>
+							<tr>
 								<td><form:form method="post"
 										action="${pageContext.request.contextPath}/ReturnHardware?redirectUrl=employeeHomePage"
 										modelAttribute="assignedHardware">
@@ -584,11 +587,37 @@
 										<button class="uk-button uk-button-danger" type="submit"
 											name="returnHardware">Hardware Returned</button>
 									</form:form></td>
-									 
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/LostHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:input type="hidden" path="hardwareID"
+											value="${hardwareAssigned.hardwareID}" />
+										<button class="uk-button uk-button-danger" type="submit"
+											name="returnHardware">Mark Hardware Lost</button>
+									</form:form></td>
+								<!-- edited out the reassign hardware as could not get this feature to work -->
+								<!--  
+								<td><button class="uk-button uk-button-default"
+										onclick="editTableRow('${hardwareAssigned.hardwareID}')">Reassign Hardware</button></td>
+								
+								<td><form:form method="post"
+										action="${pageContext.request.contextPath}/ReassignHardware?redirectUrl=employeeHomePage"
+										modelAttribute="assignedHardware">
+										<form:hidden id="hidden-hardwareID" path="hardwareID" value="" />
+										<form:hidden id="hidden-usernameAssignedTo"
+											path="usernameAssignedTo" value="" />
+
+										<div uk-margin>
+											<form:button class="uk-button uk-button-primary"
+												id="button-reference${hardwareAssigned.hardwareID}" type="submit"
+												name="saveReasignHardware" disabled="true">Save Changes</form:button>
+										</div>
+
+									</form:form></td>-->
 							</tr>
 
 						</c:forEach>
-				</tbody>
+					</tbody>
 				</table>
 			</li>
 		</ul>

@@ -46,8 +46,9 @@ public class HardwareController_gpo_20 {
 		// Success messages
 		private final String HARDWARE_ASSIGNED_SUCCESS_MESSAGE = "Hardware has been assigned successfully, the ticket can now be closed!";
 		private final String HARDWARE_TYPE_CREATED_SUCCESS_MESSAGE = "New Hardware Type created";
-		private final String HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE = "Hardware Type has been deleted";
 		private final String HARDWARE_RETURNED_SUCCESS_MESSAGE = "Hardware has been returned";
+		private final String HARDWARE_LOST_SUCCESS_MESSAGE = "Hardware has recorded as lost";
+		private final String HARDWARE_REASSIGNED_SUCCESS_MESSAGE = "Hardware Reassigned Successfully";
 
 		/**
 		 * wire up and declare the ticket action sql class
@@ -88,7 +89,13 @@ public class HardwareController_gpo_20 {
 		 * 
 		 * @return the ticket object, binding the model attribute "ticket"
 		 */
-
+		
+/**
+ * 
+ * @param hardwareToAssign to a user
+ * @param redirectAttributes to send success message
+ * @return adds a new hardware to the hardware assignment table from a hardware request ticket
+ */
 		@RequestMapping(value = "/AssignHardware", method = RequestMethod.POST)
 		public RedirectView handleAssigningHardware(@ModelAttribute("hardware") HardwareList_gpo_20 hardwareToAssign,
 				RedirectAttributes redirectAttributes) {
@@ -98,6 +105,14 @@ public class HardwareController_gpo_20 {
 			return redirectView;
 		}
 		
+		/**
+		 * 
+		 * @param redirectUrl to redirect to employeehomepage
+		 * @param hardwareType a new hardware type created
+		 * @param redirectAttributes sends success message
+		 * @param session
+		 * @return adds a new hardware type.
+		 */
 		@RequestMapping(value = "/CreateHardwareType", method = RequestMethod.POST)
 		public RedirectView createHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("hardwareType") HardwareTypes_gpo_20 hardwareType,
 				RedirectAttributes redirectAttributes, HttpSession session) {
@@ -106,21 +121,38 @@ public class HardwareController_gpo_20 {
 			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
-		/* commented out the delete hardware type button as it causes referential integrity issues with DB
-		@RequestMapping(value = "/DeleteHardwareType", method = RequestMethod.POST)
-		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("hardwareType") HardwareTypes_gpo_20 hardwareTypeToDelete,
-				RedirectAttributes redirectAttributes, HttpSession session) {
-			hardwareDAO.deleteHardwareType(hardwareTypeToDelete);
-			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_TYPE_DELETED_SUCCESS_MESSAGE);
-			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
-			return redirectView;
-		}
-	*/
+
+		/**
+		 * 
+		 * @param redirectUrl to redirect to employeehomepage
+		 * @param hardwareToReturn the hardwareID that is being returned
+		 * @param redirectAttributes to send the success mession
+		 * @param session
+		 * @return updates the hardwareassignment table to return the hardware
+		 */
 		@RequestMapping(value = "/ReturnHardware", method = RequestMethod.POST)
-		public RedirectView deleteHardwareType(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToReturn,
+		public RedirectView returnHardware(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToReturn,
 				RedirectAttributes redirectAttributes, HttpSession session) {
 			hardwareDAO.returnHardware(hardwareToReturn);
 			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_RETURNED_SUCCESS_MESSAGE);
+			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
+			return redirectView;
+		}
+		
+		@RequestMapping(value = "/LostHardware", method = RequestMethod.POST)
+		public RedirectView lostHardwareStatus(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToRecordAsLost,
+				RedirectAttributes redirectAttributes, HttpSession session) {
+			hardwareDAO.lostHardware(hardwareToRecordAsLost);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_LOST_SUCCESS_MESSAGE);
+			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
+			return redirectView;
+		}
+		
+		@RequestMapping(value = "/ReassignHardware", method = RequestMethod.POST)
+		public RedirectView reassignHardware(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("assignedHardware") HardwareList_gpo_20 hardwareToReassign,
+				RedirectAttributes redirectAttributes, HttpSession session) {
+			hardwareDAO.reassignHardware(hardwareToReassign);
+			redirectAttributes.addFlashAttribute("successMessage", HARDWARE_REASSIGNED_SUCCESS_MESSAGE);
 			RedirectView redirectView = new RedirectView("/"+redirectUrl, true);
 			return redirectView;
 		}
@@ -137,13 +169,17 @@ public class HardwareController_gpo_20 {
 		/**
 		 * Model attribute bound to the HardwareList object
 		 * 
-		 * @return the ticket object, binding the model attribute "hardware"
+		 * @return the hardware object, binding the model attribute "hardware"
 		 */
 		@ModelAttribute("hardware")
 		public HardwareList_gpo_20 newHardwareAssigned() {
 			return new HardwareList_gpo_20();
 		}
-		
+		/**
+		 * Model attribute bound to the HardwareType object
+		 * 
+		 * @return the hardwareType object, binding the model attribute "hardwareType"
+		 */
 		@ModelAttribute("hardwareType")
 		public HardwareTypes_gpo_20 setupHardwareTypeModelAttribute() {
 			return new HardwareTypes_gpo_20();
