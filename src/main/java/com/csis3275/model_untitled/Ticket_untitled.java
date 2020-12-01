@@ -37,12 +37,14 @@ public class Ticket_untitled{
 	 * TICKET_STATUS - Indicates the possible status values for a ticket
 	 * TICKET_CATEGORY - Indicates the possible category values for a ticket
 	 */
+	public static final String TICKET_PRIORITY_UNDER_REVIEW = "Under Review";
 	public static final String TICKET_PRIORITY_TRIVIAL = "Trivial";
 	public static final String TICKET_PRIORITY_LOW = "Low";
 	public static final String TICKET_PRIORITY_NORMAL = "Normal";
 	public static final String TICKET_PRIORITY_HIGH = "High";
 	public static final String TICKET_PRIORITY_CRITICAL = "Critical";
 
+	public static final String TICKET_PRIORITY_COLOUR_UNDER_REVIEW = "#792fe0";
 	public static final String TICKET_PRIORITY_COLOUR_TRIVIAL = "#00ace6";
 	public static final String TICKET_PRIORITY_COLOUR_LOW = "#009933";
 	public static final String TICKET_PRIORITY_COLOUR_NORMAL = "#1a1a1a";
@@ -83,6 +85,9 @@ public class Ticket_untitled{
 	}
 	public void setPriority(String priority) {
 		switch(priority) {
+		case TICKET_PRIORITY_UNDER_REVIEW:
+			setPriorityColour(TICKET_PRIORITY_COLOUR_UNDER_REVIEW);
+			break;
 		case TICKET_PRIORITY_TRIVIAL:
 			setPriorityColour(TICKET_PRIORITY_COLOUR_TRIVIAL);
 			break;

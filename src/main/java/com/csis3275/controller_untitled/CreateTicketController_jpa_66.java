@@ -56,6 +56,10 @@ public class CreateTicketController_jpa_66 {
 	public RedirectView createTicket(@RequestParam("redirectUrl") String redirectUrl, @ModelAttribute("ticket") Ticket_untitled createdTicket, RedirectAttributes redirectAttributes, HttpSession session, ModelAndView modelAndView, Principal principal) {
 		// Determine correct url
 		RedirectView redirectView =  new RedirectView("/"+redirectUrl, true);
+		
+		// All new User-created tickets should be initialized to have the priority 'Under Review'
+		createdTicket.setPriority(Ticket_untitled.TICKET_PRIORITY_UNDER_REVIEW);
+		
 		if(ticketManagementDAOImpl.createTicket(createdTicket)) {
 			redirectAttributes.addFlashAttribute("successMessage", "Ticket created successfully");
 		} else {

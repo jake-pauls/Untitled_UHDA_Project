@@ -307,22 +307,6 @@
 							</div>
 						</div>
 
-						<div class="uk-margin">
-							<label class="uk-form-label" for="description">Priority:
-							</label>
-							<div class="uk-form-controls">
-								<div class="uk-inline">
-									<form:select class="uk-input uk-form-width-large required"
-										id="priority" path="priority" required="true">
-										<form:option value="" disabled="true" selected="true">Select a priority level</form:option>
-										<c:forEach items="${priorityList}" var="priority">
-											<form:option value="${priority}" />
-										</c:forEach>
-									</form:select>
-								</div>
-							</div>
-						</div>
-
 						<div class="uk-margin-large-bottom">
 							<label class="uk-form-label" for="category">Category: </label>
 							<div class="uk-form-controls">
