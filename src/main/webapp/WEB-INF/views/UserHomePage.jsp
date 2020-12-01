@@ -116,8 +116,19 @@
 			<li class="uk-active">
 				<div uk-slider="finite: true">
 					<p class="uk-text-large">
-						<span class="uk-text-bold">Featured Tickets</span> <br /> <span
-							class="uk-text-meta">Your most recently created tickets.</span>
+						<c:choose>
+							<c:when test="${empty mostRecentTickets}">
+								<span class="uk-text-bold">Featured Tickets</span>
+								<br />
+								<span class="uk-text-meta">Oh no! There's nothing to show here!</span>
+							</c:when>
+							<c:otherwise>
+								<span class="uk-text-bold">Featured Tickets</span>
+								<br />
+								<span class="uk-text-meta">Your most recently created
+									tickets.</span>
+							</c:otherwise>
+						</c:choose>
 					<p>
 					<div class="uk-slider-container">
 						<div class="uk-position-relative uk-visible-toggle" tabindex="-1">
@@ -178,8 +189,19 @@
 						</div>
 					</div>
 					<p class="uk-text-large">
-						<span class="uk-text-bold">All Tickets</span> <br /> <span
-							class="uk-text-meta">Your collection of created tickets.</span>
+						<c:choose>
+							<c:when test="${empty createdList}">
+								<span class="uk-text-bold">Featured Tickets</span>
+								<br />
+								<span class="uk-text-meta">Oh no! You haven't created any tickets yet!</span>
+							</c:when>
+							<c:otherwise>
+								<span class="uk-text-bold">Featured Tickets</span>
+								<br />
+								<span class="uk-text-meta">Your most recently created
+									tickets.</span>
+							</c:otherwise>
+						</c:choose>
 					<p>
 					<ul class="uk-tab">
 						<li><a href="#">Sort By <span

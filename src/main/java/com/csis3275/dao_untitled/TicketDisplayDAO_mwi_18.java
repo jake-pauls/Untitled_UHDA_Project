@@ -114,7 +114,6 @@ public class TicketDisplayDAO_mwi_18 {
 			formattedSQL = String.format(SQL_GET_CREATED_TICKETS, order);
 		}
 		
-		System.out.println("SQL->" + formattedSQL);
 		return jdbcTemplate.query(formattedSQL, new TicketRowMapper_jpa_66(),assignee);
 	}
 	

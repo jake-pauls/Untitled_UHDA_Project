@@ -97,9 +97,20 @@
 			<!-- Assigned Ticket display -->
 			<li class="uk-active">
 				<p class="uk-text-large">
-					<span class="uk-text-bold">Top Priority</span> <br /> <span
-						class="uk-text-meta">Your assigned tickets with the highest
-						priority.</span>
+					<c:choose>
+						<c:when test="${empty topPriorityTickets}">
+							<span class="uk-text-bold">Top Priority</span>
+							<br />
+							<span class="uk-text-meta">Oh no! There's nothing to show
+								here!</span>
+						</c:when>
+						<c:otherwise>
+							<span class="uk-text-bold">Top Priority</span>
+							<br />
+							<span class="uk-text-meta">Your assigned tickets with the
+								highest priority.</span>
+						</c:otherwise>
+					</c:choose>
 				<p>
 				<div uk-slider="finite: true">
 					<div class="uk-slider-container">
@@ -145,8 +156,20 @@
 						</div>
 					</div>
 					<p class="uk-text-large">
-						<span class="uk-text-bold">All Tickets</span> <br /> <span
-							class="uk-text-meta">Your collection of assigned tickets.</span>
+						<c:choose>
+							<c:when test="${empty assignedTickets}">
+								<span class="uk-text-bold">All Tickets</span>
+								<br />
+								<span class="uk-text-meta">Oh no! You don't have any
+									assigned tickets yet!</span>
+							</c:when>
+							<c:otherwise>
+								<span class="uk-text-bold">All Tickets</span>
+								<br />
+								<span class="uk-text-meta">Your collection of assigned
+									tickets.</span>
+							</c:otherwise>
+						</c:choose>
 					<p>
 					<ul class="uk-tab">
 						<li><a href="#">Sort By <span
@@ -291,8 +314,19 @@
 			<li>
 				<div uk-slider="finite: true">
 					<p class="uk-text-large">
-						<span class="uk-text-bold">Most Recent</span> <br /> <span
-							class="uk-text-meta">Brand new tickets.</span>
+						<c:choose>
+							<c:when test="${empty mostRecentUnassignedTickets}">
+								<span class="uk-text-bold">Most Recent</span>
+								<br />
+								<span class="uk-text-meta">Oh no! There's nothing to show
+									here!</span>
+							</c:when>
+							<c:otherwise>
+								<span class="uk-text-bold">Most Recent</span>
+								<br />
+								<span class="uk-text-meta">Brand new tickets.</span>
+							</c:otherwise>
+						</c:choose>
 					<p>
 					<div class="uk-slider-container">
 						<div class="uk-position-relative uk-visible-toggle" tabindex="-1">
@@ -340,8 +374,18 @@
 						</div>
 					</div>
 					<p class="uk-text-large">
-						<span class="uk-text-bold">All Tickets</span> <br /> <span
-							class="uk-text-meta">Your collection of available tickets.</span>
+						<c:choose>
+							<c:when test="${empty unAssignedTickets}">
+								<span class="uk-text-bold">All Tickets</span>
+								<br />
+								<span class="uk-text-meta">There aren't any unassigned tickets.</span>
+							</c:when>
+							<c:otherwise>
+								<span class="uk-text-bold">All Tickets</span>
+								<br />
+								<span class="uk-text-meta">Your collection of available tickets.</span>
+							</c:otherwise>
+						</c:choose>
 					<p>
 					<ul class="uk-tab">
 						<li><a href="#">Sort By <span
