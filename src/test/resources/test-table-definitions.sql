@@ -1,3 +1,9 @@
+-- @author Jacob Pauls Student ID 300273666
+-- @date Nov 11, 2020
+-- test-table-definitions.sql
+-- CSIS 3275 Group Project
+-- Group Name: Untitled
+
 -- Test Table Definitions and Insert Data
 
 -- Users
