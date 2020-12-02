@@ -16,7 +16,13 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.jdbc.Sql;
+
+import com.csis3275.dao_untitled.HardwareDAO_gpo_20;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
@@ -28,6 +34,9 @@ public class HardwareFeatureTest {
 	private WebDriver driver;
 	private Map<String, Object> vars;
 	JavascriptExecutor js;
+	
+	@Autowired
+	HardwareDAO_gpo_20 hardwareDAO;
 
 	@Before
 	public void setUp() {
@@ -70,8 +79,7 @@ public class HardwareFeatureTest {
 		driver.findElement(By.id("description")).click();
 		// 12 | type | id=description | To blackbox test the hardware features
 		driver.findElement(By.id("description")).sendKeys("To blackbox test the hardware features");
-		// 13 | click | id=category |
-		driver.findElement(By.id("category")).click();
+
 		// 14 | select | id=category | label=Hardware
 		{
 			WebElement dropdown = driver.findElement(By.id("category"));
@@ -101,46 +109,77 @@ public class HardwareFeatureTest {
 		}
 		// 22 | click | xpath=//a[contains(@href, '#my26')] |
 		driver.findElement(By.xpath("//a[contains(@href, \'#my26\')]")).click();
-		// 23 | click | css=#my26 #hardwareNameSelector |
-		driver.findElement(By.cssSelector("#my26 #hardwareNameSelector")).click();
-		// 24 | select | css=#my26 #hardwareNameSelector | label=Lenovo Yoga 1090 Laptop
+
+		// 24 | select | xpath=//div[2]/div/div[2]/form[4]/div/div/select | label=Lenovo
+		// Yoga 1090 Laptop
 		{
-			WebElement dropdown = driver.findElement(By.cssSelector("#my26 #hardwareNameSelector"));
-			dropdown.findElement(By.xpath("//option[. = 'Lenovo Yoga 1090 Laptop']")).click();
+			Select select = new Select(driver.findElement(By.cssSelector("#my26 #hardwareNameSelector")));
+            // Desired dropdown index
+            select.selectByIndex(3);
 		}
-		// 25 | click | css=#my26 #hardware .uk-button |
+
+		// 26 | click | css=#my26 #hardware .uk-button |
 		driver.findElement(By.cssSelector("#my26 #hardware .uk-button")).click();
-		// 26 | click | css=.uk-tab > li:nth-child(4) > a |
+		// 27 | click | css=.uk-tab > li:nth-child(4) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(4) > a")).click();
-		// 27 | click | id=addNewHardware |
+		// 28 | click | id=addNewHardware |
 		driver.findElement(By.id("addNewHardware")).click();
-		// 28 | click | id=hardwareTypeDescription |
+		// 29 | click | id=hardwareTypeDescription |
 		driver.findElement(By.id("hardwareTypeDescription")).click();
-		// 29 | type | id=hardwareTypeDescription | Test Laptop
+		// 30 | type | id=hardwareTypeDescription | Test Laptop
 		driver.findElement(By.id("hardwareTypeDescription")).sendKeys("Test Laptop");
-		// 30 | click | css=.uk-button-primary:nth-child(1) |
+		// 31 | click | css=.uk-button-primary:nth-child(1) |
 		driver.findElement(By.cssSelector(".uk-button-primary:nth-child(1)")).click();
-		// 31 | click | css=.uk-tab > li:nth-child(5) > a |
+		// 32 | click | css=.uk-tab > li:nth-child(5) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(5) > a")).click();
-		// 32 | click | name=returnHardware |
+		// 33 | click | name=returnHardware |
 		driver.findElement(By.name("returnHardware")).click();
-		// 33 | click | css=.uk-tab > li:nth-child(5) > a |
+		// 34 | click | css=.uk-tab > li:nth-child(5) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(5) > a")).click();
-		// 34 | click | css=tr:nth-child(4) > td:nth-child(2) .uk-button |
+		// 35 | click | css=tr:nth-child(4) > td:nth-child(2) .uk-button |
 		driver.findElement(By.cssSelector("tr:nth-child(4) > td:nth-child(2) .uk-button")).click();
-		// 35 | mouseOver | css=div:nth-child(3) > .uk-icon-button |
-		{
-			WebElement element = driver.findElement(By.cssSelector("div:nth-child(3) > .uk-icon-button"));
-			Actions builder = new Actions(driver);
-			builder.moveToElement(element).perform();
-		}
-		// 36 | mouseOut | css=div:nth-child(3) > .uk-icon-button |
-		{
-			WebElement element = driver.findElement(By.tagName("body"));
-			Actions builder = new Actions(driver);
-			builder.moveToElement(element, 0, 0).perform();
-		}
-		// 37 | click | css=div:nth-child(3) > .uk-icon-button > svg |
-		driver.findElement(By.cssSelector("div:nth-child(3) > .uk-icon-button > svg")).click();
+	    // 36 | click | css=.uk-tab > li:nth-child(4) > a | 
+	    driver.findElement(By.cssSelector(".uk-tab > li:nth-child(4) > a")).click();
+	    // 37 | assertValue | id=row-reference-7-hardwareTypeDesc | Test Laptop
+	    {
+	      String value = driver.findElement(By.id("row-reference-7-hardwareTypeDesc")).getAttribute("value");
+	      assertThat(value, is("Test Laptop"));
+	    }
+	    // 38 | click | css=.uk-tab > li:nth-child(5) > a | 
+	    driver.findElement(By.cssSelector(".uk-tab > li:nth-child(5) > a")).click();
+	    // 39 | assertValue | xpath=//td[3]/input | Returned
+	    {
+	      String value = driver.findElement(By.xpath("//td[3]/input")).getAttribute("value");
+	      assertThat(value, is("Returned"));
+	    }
+	    // 40 | assertValue | xpath=//tr[3]/td[3]/input | Lost
+	    {
+	      String value = driver.findElement(By.xpath("//tr[3]/td[3]/input")).getAttribute("value");
+	      assertThat(value, is("Lost"));
+	    }
+	    // 41 | assertValue | id=row-reference-9-hardwareName | Lenovo Yoga 1090 Laptop
+	    {
+	      String value = driver.findElement(By.id("row-reference-9-hardwareName")).getAttribute("value");
+	      assertThat(value, is("Lenovo Yoga 1090 Laptop"));
+	    }
+	    // 42 | assertValue | id=row-reference-9-usernameAssignedTo | employee
+	    {
+	      String value = driver.findElement(By.id("row-reference-9-usernameAssignedTo")).getAttribute("value");
+	      assertThat(value, is("employee"));
+	    }
+	    // 43 | mouseOver | css=div:nth-child(3) > .uk-icon-button | 
+	    {
+	      WebElement element = driver.findElement(By.cssSelector("div:nth-child(3) > .uk-icon-button"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element).perform();
+	    }
+	    // 44 | mouseOut | css=div:nth-child(3) > .uk-icon-button | 
+	    {
+	      WebElement element = driver.findElement(By.tagName("body"));
+	      Actions builder = new Actions(driver);
+	      builder.moveToElement(element, 0, 0).perform();
+	    }
+	    // 45 | click | css=div:nth-child(3) > .uk-icon-button > svg | 
+	    driver.findElement(By.cssSelector("div:nth-child(3) > .uk-icon-button > svg")).click();
+	  }
 	}
-}
