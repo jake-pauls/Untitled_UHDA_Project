@@ -86,7 +86,7 @@ public class HardwareFeatureTest {
 			dropdown.findElement(By.xpath("//option[. = 'Hardware']")).click();
 		}
 		// 15 | click | css=.uk-button-primary |
-		driver.findElement(By.cssSelector(".uk-button-primary")).click();
+		driver.findElement(By.cssSelector(".uk-button:nth-child(2)")).click();
 		// 16 | click | css=.uk-tab > li:nth-child(2) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(2) > a")).click();
 		// 17 | click | css=.uk-first-column svg |
@@ -108,7 +108,7 @@ public class HardwareFeatureTest {
 			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(@href, \'#my26\')]")));
 		}
 		// 22 | click | xpath=//a[contains(@href, '#my26')] |
-		driver.findElement(By.xpath("//a[contains(@href, \'#my26\')]")).click();
+		driver.findElement(By.xpath("//a[contains(@href, '#my26')]")).click();
 
 		// 24 | select | xpath=//div[2]/div/div[2]/form[4]/div/div/select | label=Lenovo
 		// Yoga 1090 Laptop
@@ -119,7 +119,7 @@ public class HardwareFeatureTest {
 		}
 
 		// 26 | click | css=#my26 #hardware .uk-button |
-		driver.findElement(By.cssSelector("#my26 #hardware .uk-button")).click();
+		driver.findElement(By.cssSelector(".uk-inline > #my26")).click();
 		// 27 | click | css=.uk-tab > li:nth-child(4) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(4) > a")).click();
 		// 28 | click | id=addNewHardware |
@@ -129,7 +129,7 @@ public class HardwareFeatureTest {
 		// 30 | type | id=hardwareTypeDescription | Test Laptop
 		driver.findElement(By.id("hardwareTypeDescription")).sendKeys("Test Laptop");
 		// 31 | click | css=.uk-button-primary:nth-child(1) |
-		driver.findElement(By.cssSelector(".uk-button-primary:nth-child(1)")).click();
+		driver.findElement(By.cssSelector("td:nth-child(3) > .uk-button-primary")).click();
 		// 32 | click | css=.uk-tab > li:nth-child(5) > a |
 		driver.findElement(By.cssSelector(".uk-tab > li:nth-child(5) > a")).click();
 		// 33 | click | name=returnHardware |
