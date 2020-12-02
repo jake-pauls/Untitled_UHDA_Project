@@ -4,6 +4,8 @@ package com.csis3275.model_untitled;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jacob Pauls Student ID 300273666
@@ -30,6 +32,8 @@ public class Ticket_untitled{
 	Timestamp dateClosed;
 	Timestamp lastUpdated;
 	String formDateOpen;
+	
+	List<Comment_mwi_18> comments = new ArrayList<Comment_mwi_18>();
 	/*
 	 * Ticket Constants
 	 * TICKET_PRIORITY - Indicates the possible priority values for a ticket
@@ -168,5 +172,21 @@ public class Ticket_untitled{
 	}
 	public String getFormDateOpen() {
 		return this.formDateOpen;
+	}
+	
+	public boolean addComment(Comment_mwi_18 comment) {
+		return this.comments.add(comment);
+	}
+	
+	public void setComments(List<Comment_mwi_18> list) {
+		this.comments = list;
+	}
+	
+	public List<Comment_mwi_18> getComments(){
+		return this.comments;
+	}
+	
+	public boolean hasComments() {
+		return !this.comments.isEmpty();
 	}
 }

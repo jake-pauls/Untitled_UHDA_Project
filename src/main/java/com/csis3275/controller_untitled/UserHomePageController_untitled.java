@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.csis3275.dao_untitled.SlackAssociationDAOImpl_jpa_66;
+import com.csis3275.dao_untitled.CommentDAO_mwi_18;
 import com.csis3275.dao_untitled.TicketDisplayDAO_mwi_18;
+import com.csis3275.model_untitled.Comment_mwi_18;
 import com.csis3275.model_untitled.Ticket_untitled;
 import com.csis3275.model_untitled.User_untitled;
 import com.csis3275.utility_untitled.SlackRestUtilityService_jpa_66;
@@ -53,6 +55,9 @@ public class UserHomePageController_untitled {
 	@Autowired
 	SlackRestUtilityService_jpa_66 slackService;
 	
+	@Autowired
+	CommentDAO_mwi_18 commentDao;
+	
 	/**
 	 * model for ticket under the name ticket
 	 * @return new ticket 
@@ -61,6 +66,12 @@ public class UserHomePageController_untitled {
 	public Ticket_untitled getTicketSetUp() {
 		return new Ticket_untitled();
 	}
+	
+	@ModelAttribute("comment")
+	public Comment_mwi_18 setUpName() {
+		return new Comment_mwi_18();
+	}
+	
 	
 	/**
 	 * GET request mapped to the user's home page view
@@ -82,6 +93,10 @@ public class UserHomePageController_untitled {
 		
 		List<Ticket_untitled> myTickets = dao.getCreatedTickets(loggedInUsername, "dateOpened");
 		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(loggedInUsername);
+		
+		for (Ticket_untitled ticket_untitled : myTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		modelAndView.addObject("createdList",myTickets);
 		modelAndView.addObject("mostRecentTickets", mostRecentTickets);
 		
@@ -110,6 +125,12 @@ public class UserHomePageController_untitled {
 		view.addObject("createdList",ticketList);
 		view.addObject("mostRecentTickets", mostRecentTickets);
 		view.addObject("loggedInUser", loggedInUser);
+		List<Ticket_untitled> myList = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
+		view.addObject("createdList",myList);
+		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
 		
 		return view;
 	}
