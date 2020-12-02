@@ -376,18 +376,6 @@
 							</div>
 						</div>
 
-						<div class="uk-margin">
-							<label class="uk-form-label" for="description">Description:
-							</label>
-							<div class="uk-form-controls">
-								<div class="uk-inline">
-									<form:textarea class="uk-input uk-form-width-large required"
-										id="description" rows="4" cols="50" path="description"
-										required="true" />
-								</div>
-							</div>
-						</div>
-
 						<div class="uk-margin-large-bottom">
 							<label class="uk-form-label" for="category">Category: </label>
 							<div class="uk-form-controls">
