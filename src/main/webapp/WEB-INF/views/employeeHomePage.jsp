@@ -317,8 +317,8 @@
 												<div class="uk-inline">
 													<form:select
 														class="uk-input uk-form-width-medium uk-margin-small-right"
-														id="hardwareName" path="hardwareName">
-														<form:option value="" />
+														id="hardwareNameSelector" path="hardwareName">
+														<form:option value="" selected="true" />
 														<c:forEach items="${hardwareNameList }" var="hardwareName">
 															<form:option
 																value="${hardwareName.hardwareTypeDescription }" />
@@ -326,7 +326,7 @@
 													</form:select>
 													<br> <br>
 													<form:button
-														class="uk-button uk-button-primary uk-button-small">Assign Hardware</form:button>
+														id="my${ticket.ticketID }" class="uk-button uk-button-primary uk-button-small">Assign Hardware</form:button>
 												</div>
 											</div>
 											<form:hidden path="status" value="Assigned" />
