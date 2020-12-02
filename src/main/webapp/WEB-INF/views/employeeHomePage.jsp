@@ -143,143 +143,6 @@
 											<a class="uk-button uk-button-default"
 												href="#my${ticket.ticketID }" uk-toggle>Open</a>
 										</div>
-										<div id="my${ticket.ticketID }" uk-modal>
-											<div class="uk-modal-dialog">
-												<button class="uk-modal-close-default" type="button"
-													uk-close></button>
-												<div class="uk-modal-header">
-													<h2 class="uk-modal-title">${ticket.title }</h2>
-												</div>
-												<div class="uk-modal-body">
-													<p>${ticket.description }</p>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/ChangeTicketStatus"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="status">Status:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="status" path="status">
-																	<c:forEach items="${statusList}" var="status">
-																		<form:option value="${status }"
-																			selected="${status == ticket.status ? 'selected' : ''}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-														<form:hidden path="assignee" value="${ticket.assignee }" />
-													</form:form>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/AssignTicket"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="assignee">Assigned
-															To:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="assignee" path="assignee">
-																	<c:forEach items="${employeeList}" var="assignee">
-																		<form:option value="${assignee.username}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-													</form:form>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/ChangeTicketPriority"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="priority">Priority:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="priority" path="priority">
-																	<c:forEach items="${priorityList}" var="priority">
-																		<form:option value="${priority }"
-																			selected="${priority == ticket.priority ? 'selected' : ''}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-														<form:hidden path="assignee" value="${ticket.assignee }" />
-													</form:form>
-
-													<h3>Comments</h3>
-													<hr>
-													<div class="outer_wrapper">
-														<div class="comment_container">
-															<ul class="uk-list">
-
-																<c:choose>
-															<c:when test="${empty ticket.comments}">
-																<p id="no_comments_message">There are no comments at the moment</p>
-															</c:when>
-															<c:otherwise>
-																<c:forEach items="${ticket.comments }" var="comment">
-																<li class ="comment_organ">
-																	<div class="comment">
-																		
-																			<p id ="comment_author"><i>${comment.author }</i></p> 
-																			<p id ="comment_text">${comment.value }</p>
-																			<p id ="comment_date">${comment.formattedDateCreated }</p>
-																			<c:if
-																				test="${loggedInUser.username == comment.author}">
-																				<a
-																					href="${pageContext.request.contextPath}/deleteComment/?id=${comment.commentId}&redirectUrl=employeeHomePage">
-																					<em>delete</em>
-																				</a>
-																			</c:if>
-																		
-																	</div>
-
-																</li>
-															</c:forEach>
-															</c:otherwise>
-															</c:choose>
-															</ul>
-														</div>
-													</div>
-													<hr>
-													<div class="create_comment_container">
-													<form:form
-														action="${pageContext.request.contextPath}/createComment/?redirectUrl=employeeHomePage"
-														method="post" modelAttribute="comment">
-														<table>
-															<tr>
-																<td><form:textarea path="value" required="true" /></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
-															</tr>
-														</table>
-														<form:hidden path="ticketId" value="${ticket.ticketID }" />
-														<form:hidden path="author" value="${ticket.assignee }" />
-
-													</form:form>
-													</div>
-												</div>
-												<div class="uk-modal-footer uk-text-right">
-													<button class="uk-button uk-button-default uk-modal-close"
-														type="button">Cancel</button>
-												</div>
-											</div>
-										</div>
 									</li>
 
 
@@ -462,8 +325,8 @@
 														</c:forEach>
 													</form:select>
 													<br> <br>
-													<form:button
-														id="my${ticket.ticketID }" class="uk-button uk-button-primary uk-button-small">Assign Hardware</form:button>
+													<form:button id="my${ticket.ticketID }"
+														class="uk-button uk-button-primary uk-button-small">Assign Hardware</form:button>
 												</div>
 											</div>
 											<form:hidden path="status" value="Assigned" />
@@ -471,7 +334,60 @@
 												value="${ticket.username }" />
 										</form:form>
 									</c:if>
+									<h3>Comments</h3>
+									<hr>
+									<div class="outer_wrapper">
+										<div class="comment_container">
+											<ul class="uk-list">
 
+												<c:choose>
+													<c:when test="${empty ticket.comments}">
+														<p id="no_comments_message">There are no comments at
+															the moment</p>
+													</c:when>
+													<c:otherwise>
+														<c:forEach items="${ticket.comments }" var="comment">
+															<li class="comment_organ">
+																<div class="comment">
+
+																	<p id="comment_author">
+																		<i>${comment.author }</i>
+																	</p>
+																	<p id="comment_text">${comment.value }</p>
+																	<p id="comment_date">${comment.formattedDateCreated }</p>
+																	<c:if test="${loggedInUser.username == comment.author}">
+																		<a
+																			href="${pageContext.request.contextPath}/deleteComment/?id=${comment.commentId}&redirectUrl=employeeHomePage">
+																			<em>delete</em>
+																		</a>
+																	</c:if>
+
+																</div>
+
+															</li>
+														</c:forEach>
+													</c:otherwise>
+												</c:choose>
+											</ul>
+										</div>
+									</div>
+									<hr>
+									<div class="create_comment_container">
+										<form:form
+											action="${pageContext.request.contextPath}/createComment/?redirectUrl=employeeHomePage"
+											method="post" modelAttribute="comment">
+											<table>
+												<tr>
+													<td><form:textarea path="value" required="true" /></td>
+													<td><form:button
+															class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
+												</tr>
+											</table>
+											<form:hidden path="ticketId" value="${ticket.ticketID }" />
+											<form:hidden path="author" value="${ticket.assignee }" />
+
+										</form:form>
+									</div>
 								</div>
 								<div class="uk-modal-footer uk-text-right">
 									<button class="uk-button uk-button-default uk-modal-close"
@@ -529,92 +445,6 @@
 											<a class="uk-button uk-button-default"
 												href="${pageContext.request.contextPath}/pickUp?id=${ticket.ticketID }">Pick
 												Up</a>
-										</div>
-
-										<div id="my${ticket.ticketID }" uk-modal>
-											<div class="uk-modal-dialog">
-												<button class="uk-modal-close-default" type="button"
-													uk-close></button>
-												<div class="uk-modal-header">
-													<h2 class="uk-modal-title">${ticket.title }</h2>
-												</div>
-												<div class="uk-modal-body">
-													<p>${ticket.description }</p>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/ChangeTicketStatus"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="status">Status:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="status" path="status">
-																	<c:forEach items="${statusList}" var="status">
-																		<form:option value="${status }"
-																			selected="${status == ticket.status ? 'selected' : ''}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-														<form:hidden path="assignee" value="${ticket.assignee }" />
-													</form:form>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/AssignTicket"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="assignee">Assigned
-															To:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="assignee" path="assignee">
-																	<c:forEach items="${employeeList}" var="assignee">
-																		<form:option value="${assignee.username}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-													</form:form>
-													<form:form class="uk-form-horizontal uk-margin-small"
-														method="post"
-														action="${pageContext.request.contextPath}/ChangeTicketPriority"
-														modelAttribute="ticket">
-														<label class="uk-form-label" for="priority">Priority:</label>
-														<div class="uk-form-controls">
-															<div class="uk-inline">
-																<form:select
-																	class="uk-input uk-form-width-medium uk-margin-small-right"
-																	id="priority" path="priority">
-																	<c:forEach items="${priorityList}" var="priority">
-																		<form:option value="${priority }"
-																			selected="${priority == ticket.priority ? 'selected' : ''}" />
-																	</c:forEach>
-																</form:select>
-																<form:button
-																	class="uk-button uk-button-primary uk-button-small">save</form:button>
-															</div>
-														</div>
-														<form:hidden path="ticketID" value="${ticket.ticketID }" />
-														<form:hidden path="username" value="${ticket.username }" />
-														<form:hidden path="assignee" value="${ticket.assignee }" />
-													</form:form>
-												</div>
-												
-												<div class="uk-modal-footer uk-text-right">
-													<button class="uk-button uk-button-default uk-modal-close"
-														type="button">Cancel</button>
-												</div>
-											</div>
 										</div>
 									</li>
 
