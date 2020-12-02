@@ -112,7 +112,6 @@ CREATE TABLE comments(
     author VARCHAR(30),
     value VARCHAR(800),
     dateCreated TIMESTAMP NOT NULL ,
-    timeFinished TIMESTAMP NOT NULL ,
     FOREIGN KEY(ticketId) REFERENCES tickets(ticketId)
 );
 
