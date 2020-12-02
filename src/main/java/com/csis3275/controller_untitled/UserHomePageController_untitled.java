@@ -97,6 +97,9 @@ public class UserHomePageController_untitled {
 		for (Ticket_untitled ticket_untitled : myTickets) {
 			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
 		}
+		for (Ticket_untitled ticket_untitled : mostRecentTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		modelAndView.addObject("createdList",myTickets);
 		modelAndView.addObject("mostRecentTickets", mostRecentTickets);
 		
@@ -122,15 +125,18 @@ public class UserHomePageController_untitled {
 		List<Ticket_untitled> ticketList = dao.getCreatedTickets(loggedInUser.getUsername(), order);
 		List<Ticket_untitled> mostRecentTickets = dao.getMostRecentTickets(loggedInUser.getUsername());
 		
+		for (Ticket_untitled ticket_untitled : ticketList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
+		for (Ticket_untitled ticket_untitled : mostRecentTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
+		
 		view.addObject("createdList",ticketList);
 		view.addObject("mostRecentTickets", mostRecentTickets);
 		view.addObject("loggedInUser", loggedInUser);
-		List<Ticket_untitled> myList = dao.getCreatedTickets(authenticatedUser.getLoggedInUserContext(principal).getUsername(),order);
-		for (Ticket_untitled ticket_untitled : myList) {
-			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
-		}
-		view.addObject("createdList",myList);
-		view.addObject("loggedInUser", authenticatedUser.getLoggedInUserContext(principal));
+		
+		
 		
 		return view;
 	}

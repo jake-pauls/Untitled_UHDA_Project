@@ -92,13 +92,19 @@ public class EmployeePageController_mwi_18 {
 		}
 		view.addObject("assignedTickets",myList);
 		List<Ticket_untitled> unAssignedList = ticketDisplayDao.getAllUnassignedTickets("dateOpened");
-		for (Ticket_untitled ticket_untitled : myList) {
+		for (Ticket_untitled ticket_untitled : unAssignedList) {
 			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
 		}
 		view.addObject("unAssignedTickets",unAssignedList);
-		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		List<Ticket_untitled> topPriorityTickets = ticketDisplayDao.getTopPriorityTickets(loggedInUser.getUsername());
+		for (Ticket_untitled ticket_untitled : topPriorityTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("topPriorityTickets", topPriorityTickets);
-		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		List<Ticket_untitled> mostRecentUnassignedTickets = ticketDisplayDao.getMostRecentUnassignedTickets();
+		for (Ticket_untitled ticket_untitled : mostRecentUnassignedTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
 
 		// Hardware Request Data
@@ -140,17 +146,28 @@ public class EmployeePageController_mwi_18 {
 		
 		view.addObject("assignedTickets",myList);
 		
-		myList = dao.getAllUnassignedTickets(order);
+		myList = ticketDisplayDao.getAllUnassignedTickets(order);
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("unAssignedTickets",myList);
 		
 		myList = ticketDisplayDao.getAllUnassignedTickets(order);
-		
-		List<Ticket_untitled> topPriorityTickets = dao.getTopPriorityTickets(loggedInUser.getUsername());
+		for (Ticket_untitled ticket_untitled : myList) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
+		List<Ticket_untitled> topPriorityTickets = ticketDisplayDao.getTopPriorityTickets(loggedInUser.getUsername());
+		for (Ticket_untitled ticket_untitled : topPriorityTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("topPriorityTickets", topPriorityTickets);
-		List<Ticket_untitled> mostRecentUnassignedTickets = dao.getMostRecentUnassignedTickets();
+		List<Ticket_untitled> mostRecentUnassignedTickets = ticketDisplayDao.getMostRecentUnassignedTickets();
+		for (Ticket_untitled ticket_untitled : mostRecentUnassignedTickets) {
+			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
+		}
 		view.addObject("mostRecentUnassignedTickets", mostRecentUnassignedTickets);
 		
-		view.addObject("unAssignedTickets",myList);
+		
 		
 		for (Ticket_untitled ticket_untitled : myList) {
 			ticket_untitled.setComments(commentDao.getComments(ticket_untitled.getTicketID()));
@@ -177,6 +194,11 @@ public class EmployeePageController_mwi_18 {
 		return myList;
 	}
 
+	
+	/**
+	 * 
+	 * @return list of category options
+	 */
 	@ModelAttribute("categoryList")
 	public List<String> getCategoryList(){
 		List<String> categoryList = new ArrayList<String>();
