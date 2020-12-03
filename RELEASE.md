@@ -1,3 +1,53 @@
+# v0.3 RELEASE - Untitled
+
+### Release Notes - Iteration 3
+
+#### Core Features
+
+* **Hardware Requests:**  
+	* Allows help desk employees and admins to assign hardware from a hardware ticket
+		* only an admin or the employee assigned to the ticket can assign hardware from the ticket  
+		* Ticket must be assigned  
+		* Ticket must be a hardware ticket  
+		* Can only assign hardware listed in the Hardware Types List
+	* View and add hardware to hardware type list
+		* From the hardware type list can add new hardware types so they can later be assigned
+	* update assigned hardware to returned or lost
+		* From the hardware assignement list can make the hardware as lost or returned
+
+* **Commenting:**
+    * Allows users and employees to communicate on tickets
+        * Comments can be written on the tickets when they are assigned to an employee
+        * Comments can be deleted by the author
+    * Sends an email to the other user to alert them of a new comment on a ticket they created or were assigned too.
+        * Email will only be sent to the user who didn't write the comment
+
+* **Slack Integration:**
+    * Users of any type can now associate their Slack account with the UHDA
+        * Upon logging in, the UHDA will check if a user's UHDA email address is present in the Slack workspace
+        * UI alerts and notifications are present so that the user knows whether their association was successful
+    * Custom notifications are sent to the employee Slack channel whenever a user creates a new ticket, alerting employees that it is ready for pickup
+    * Notifications are directly messaged to all user's connected with Slack whenever their tickets are updated, such as:
+        * When an employee initially picks up a ticket
+        * When ticket assignment (`Assigned To`) is updated
+        * When ticket `Status` is updated
+        * When ticket `Priority` is updated
+
+#### Supplemental Updates
+
+* **Ticketing UI Rework:**
+    * User ticketing UI is updated with two different types of views, a card view and a list view
+        * The card view displays the user's 6 most recently created tickets for their convenience
+        * The list view is a sortable list that displays all of the user's tickets
+    * Employee ticketing UIs are also updated with two different types of views, a card view and a list view (for both assigned and available tickets)
+        *  Card views on pages display the highest priority tickets and the most recently added tickets respectively
+        *  List views on both pages are similar to the user ticketing UI, displaying a comprehensive list of all tickets in the given category
+  
+* **Priority Updates:**
+    * The `Priority` field is now inaccessible to user's when creating a new ticket
+        * Instead this field is automatically generated to `Under Review`
+        * Any decisions, assignments, or creations or priority-based cards is completely dependent on employee and administrator users
+
 # v0.2 RELEASE - Untitled
 
 ### Release Notes - Iteration 2
