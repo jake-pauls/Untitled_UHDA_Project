@@ -56,7 +56,7 @@ class CommentingFeatureTest {
 
 	@Test
 	  public void commentingFunctionBlackBoxTest() {
-	    driver.get("http://localhost:8080/Untitled_UHDA_Project/login");
+	    driver.get("http://localhost:8080/login");
 	    driver.manage().window().setSize(new Dimension(1920, 1040));
 	    driver.findElement(By.id("username")).click();
 	    driver.findElement(By.id("username")).sendKeys("user");
