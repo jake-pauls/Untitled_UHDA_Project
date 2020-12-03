@@ -120,7 +120,8 @@
 							<c:when test="${empty mostRecentTickets}">
 								<span class="uk-text-bold">Featured Tickets</span>
 								<br />
-								<span class="uk-text-meta">Oh no! There's nothing to show here!</span>
+								<span class="uk-text-meta">Oh no! There's nothing to show
+									here!</span>
 							</c:when>
 							<c:otherwise>
 								<span class="uk-text-bold">Featured Tickets</span>
@@ -173,76 +174,6 @@
 											<a class="uk-button uk-button-default"
 												href="#my${ticket.ticketID }" uk-toggle>Open</a>
 										</div>
-										<div id="my${ticket.ticketID }" uk-modal>
-											<div class="uk-modal-dialog">
-												<button class="uk-modal-close-default" type="button"
-													uk-close></button>
-												<div class="uk-modal-header">
-													<h2 class="uk-modal-title">${ticket.title }</h2>
-												</div>
-												<div class="uk-modal-body">
-													<p>${ticket.description }</p>
-
-												<c:if test="${ticket.assignee != null }">
-													<h3>Comments</h3>
-												<hr>
-												<div class="outer_wrapper">
-													<div class="comment_container">
-														<ul class="uk-list">
-															<c:choose>
-															<c:when test="${empty ticket.comments}">
-																<p>There are no comments at the moment</p>
-															</c:when>
-															<c:otherwise>
-																<c:forEach items="${ticket.comments }" var="comment">
-																<li class ="comment_organ">
-																	<div class="comment">
-																		
-																			<p id ="comment_author"><i>${comment.author }</i></p> 
-																			<p id ="comment_text">${comment.value }</p>
-																			<p id ="comment_date">${comment.formattedDateCreated }</p>
-																			<c:if
-																				test="${loggedInUser.username == comment.author}">
-																				<a
-																					href="${pageContext.request.contextPath}/deleteComment/?id=${comment.commentId}&redirectUrl=UserHomePage">
-																					<em>delete</em>
-																				</a>
-																			</c:if>
-																		
-																	</div>
-
-																</li>
-															</c:forEach>
-															</c:otherwise>
-															</c:choose>
-														</ul>
-													</div>
-												</div>
-												<div class="create_comment_container">
-													<form:form
-														action="${pageContext.request.contextPath}/createComment/?redirectUrl=UserHomePage"
-														method="post" modelAttribute="comment">
-														<table>
-															<tr>
-																<td><form:textarea path="value" required="true" /></td>
-																<td><form:button
-																		class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
-															</tr>
-														</table>
-														<form:hidden path="ticketId" value="${ticket.ticketID }" />
-														<form:hidden path="author" value="${ticket.username }" />
-
-													</form:form>
-												</div>
-												</c:if>
-												</div>
-												
-												<div class="uk-modal-footer uk-text-right">
-													<button class="uk-button uk-button-default uk-modal-close"
-														type="button">Cancel</button>
-												</div>
-											</div>
-										</div>
 									</li>
 
 
@@ -263,12 +194,14 @@
 							<c:when test="${empty createdList}">
 								<span class="uk-text-bold">Featured Tickets</span>
 								<br />
-								<span class="uk-text-meta">Oh no! You haven't created any tickets yet!</span>
+								<span class="uk-text-meta">Oh no! You haven't created any
+									tickets yet!</span>
 							</c:when>
 							<c:otherwise>
 								<span class="uk-text-bold">All Tickets</span>
 								<br />
-								<span class="uk-text-meta">Your collection of created tickets.</span>
+								<span class="uk-text-meta">Your collection of created
+									tickets.</span>
 							</c:otherwise>
 						</c:choose>
 					<p>
@@ -325,26 +258,80 @@
 									<td><a class="uk-button uk-button-default"
 										href="#my${ticket.ticketID }" uk-toggle>Open</a></td>
 								</tr>
-								<div id="my${ticket.ticketID }" uk-modal>
-									<div class="uk-modal-dialog">
-										<button class="uk-modal-close-default" type="button" uk-close></button>
-										<div class="uk-modal-header">
-											<h2 class="uk-modal-title">${ticket.title }</h2>
-										</div>
-										<div class="uk-modal-body">
-											<p>${ticket.description }</p>
-
-
-										</div>
-										<div class="uk-modal-footer uk-text-right">
-											<button class="uk-button uk-button-default uk-modal-close"
-												type="button">Cancel</button>
-										</div>
-									</div>
-								</div>
 							</c:forEach>
 						</tbody>
 					</table>
+					<c:forEach items="${createdList }" var="ticket">
+						<div id="my${ticket.ticketID }" uk-modal>
+							<div class="uk-modal-dialog">
+								<button class="uk-modal-close-default" type="button" uk-close></button>
+								<div class="uk-modal-header">
+									<h2 class="uk-modal-title">${ticket.title }</h2>
+								</div>
+								<div class="uk-modal-body">
+									<p>${ticket.description }</p>
+									<c:if test="${ticket.assignee != null }">
+										<h3>Comments</h3>
+										<hr>
+										<div class="outer_wrapper">
+											<div class="comment_container">
+												<ul class="uk-list">
+													<c:choose>
+														<c:when test="${empty ticket.comments}">
+															<p>There are no comments at the moment</p>
+														</c:when>
+														<c:otherwise>
+															<c:forEach items="${ticket.comments }" var="comment">
+																<li class="comment_organ">
+																	<div class="comment">
+
+																		<p id="comment_author">
+																			<i>${comment.author }</i>
+																		</p>
+																		<p id="comment_text">${comment.value }</p>
+																		<p id="comment_date">${comment.formattedDateCreated }</p>
+																		<c:if
+																			test="${loggedInUser.username == comment.author}">
+																			<a
+																				href="${pageContext.request.contextPath}/deleteComment/?id=${comment.commentId}&redirectUrl=UserHomePage">
+																				<em>delete</em>
+																			</a>
+																		</c:if>
+
+																	</div>
+
+																</li>
+															</c:forEach>
+														</c:otherwise>
+													</c:choose>
+												</ul>
+											</div>
+										</div>
+										<div class="create_comment_container">
+											<form:form
+												action="${pageContext.request.contextPath}/createComment/?redirectUrl=UserHomePage"
+												method="post" modelAttribute="comment">
+												<table>
+													<tr>
+														<td><form:textarea path="value" required="true" /></td>
+														<td><form:button
+																class="uk-button uk-button-primary uk-button-small">Comment</form:button></td>
+													</tr>
+												</table>
+												<form:hidden path="ticketId" value="${ticket.ticketID }" />
+												<form:hidden path="author" value="${ticket.username }" />
+
+											</form:form>
+										</div>
+									</c:if>
+								</div>
+								<div class="uk-modal-footer uk-text-right">
+									<button class="uk-button uk-button-default uk-modal-close"
+										type="button">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
 				</div>
 			</li>
 			<!-- Create ticket display -->
