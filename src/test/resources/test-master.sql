@@ -6,13 +6,15 @@
 
 -- Simulates the master table for testing
 
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS authorities;
-DROP TABLE IF EXISTS tickets;
-DROP TABLE IF EXISTS comments;
-DROP TABLE IF EXISTS slack_association;
-DROP TABLE IF EXISTS hardwareType;
+
 DROP TABLE IF EXISTS hardwareAssignment;
+DROP TABLE IF EXISTS hardwareType;
+DROP TABLE IF EXISTS slack_association;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS authorities;
+DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE users(
 	username VARCHAR(30) PRIMARY KEY,
@@ -23,7 +25,7 @@ CREATE TABLE users(
 	security_question VARCHAR(60),
 	security_answer VARCHAR(20),
 	reset_token VARCHAR(50),
-	role VARCHAR(20),
+	role VARCHAR(20)
 );
 
 
@@ -104,7 +106,6 @@ CREATE TABLE comments(
     author VARCHAR(30),
     value VARCHAR(800),
     dateCreated TIMESTAMP NOT NULL ,
-    timeFinished TIMESTAMP NOT NULL ,
     FOREIGN KEY(ticketId) REFERENCES tickets(ticketId)
 );
 
@@ -120,7 +121,7 @@ INSERT INTO slack_association (email, slackUserId)
 
 CREATE TABLE hardwareType(
     hardwareTypeId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
-	hardwareTypeDescription VARCHAR(100) NOT NULL ,
+	hardwareTypeDescription VARCHAR(100) NOT NULL 
 );
 
 INSERT INTO hardwareType (hardwareTypeDescription) 

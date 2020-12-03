@@ -1,5 +1,14 @@
--- Users
+-- Drop Tables
+DROP TABLE IF EXISTS hardwareAssignment;
+DROP TABLE IF EXISTS hardwareType;
+DROP TABLE IF EXISTS slack_association;
+DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS authorities;
 DROP TABLE IF EXISTS users;
+
+
+-- Users
 
 CREATE TABLE users(
 	username VARCHAR(30) PRIMARY KEY,
@@ -10,7 +19,7 @@ CREATE TABLE users(
 	security_question VARCHAR(60),
 	security_answer VARCHAR(20),
 	reset_token VARCHAR(50),
-	role VARCHAR(20),
+	role VARCHAR(20)
 );
 
 
@@ -37,7 +46,7 @@ INSERT INTO users(username, password, first_name, last_name, email, security_que
 		  ('brunogood', '$2a$10$JMCPVgUjVYCKvdBRZKVo6OjvWiYKU.XFNILfhLYU9lJm/Axlvn79W', 'Bruno', 'Laklochloheskevsky', 'buno@gmail.com', 'What is the name of your first pet?', 'Dog', 'user' ),
 		  ('not_emily_here', '$2a$10$jAoDdnid4bpUpD62JsAVIOeJ9lmgvJdCB0uVl42NRp8J.nwyhWLOK', 'Emily', 'Dolittle', 'talks2animals@gmail.com', 'What is your favorite movie?', 'Beetlejuice', 'user' ),
 		  ('uhda_testuser', '$2a$10$d6JTmNpwizj2usF7ro751OMP3sWfey4THaORUgrcgK9zKxzFYVt7q', 'UHDA', 'TestUser', 'uhda.untitled.testuser@gmail.com', 'What is the name of your first pet?', 'Rufus', 'user');
-		  DROP TABLE IF EXISTS authorities;
+		  
 
 -- Authorities
 CREATE TABLE authorities (
@@ -58,7 +67,7 @@ INSERT INTO authorities (username, authority)
 		   ('uhda_testuser', 'ROLE_USER');
 
 -- Tickets		   
-DROP TABLE IF EXISTS tickets;
+
 
 CREATE TABLE tickets(
     ticketId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
@@ -104,7 +113,6 @@ INSERT INTO tickets (title, description, priority, status, username, assignee, c
 			   ('Domainer', 'Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis. Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem. Sed sagittis. Nam congue, risus semper porta volutpat, quam pede lobortis ligula, sit amet eleifend pede libero quis orci. Nullam molestie nibh in lectus.', 'Normal', 'Closed', 'catFan', 'employee', 'Software', '2020-02-27 14:40:39', '2019-11-28 20:33:36', '2019-11-28 20:33:36');
 
 -- Comments
-DROP TABLE IF EXISTS comments;
 
 CREATE TABLE comments(
     commentId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
@@ -116,7 +124,6 @@ CREATE TABLE comments(
 );
 
 -- Slack Associations
-DROP TABLE IF EXISTS slack_association;
 
 CREATE TABLE slack_association (
 	email VARCHAR(50) NOT NULL,
@@ -128,11 +135,10 @@ INSERT INTO slack_association (email, slackUserId)
 		VALUES ('uhda.untitled.testuser@gmail.com', 'U01GBLEGAM6');
 		
 -- Hardware	Type   
-DROP TABLE IF EXISTS hardwareType;
 
 CREATE TABLE hardwareType(
     hardwareTypeId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
-	hardwareTypeDescription VARCHAR(100) NOT NULL ,
+	hardwareTypeDescription VARCHAR(100) NOT NULL 
 );
 
 INSERT INTO hardwareType (hardwareTypeDescription) 
@@ -146,7 +152,6 @@ INSERT INTO hardwareType (hardwareTypeDescription)
 
 
 -- Hardware		   
-DROP TABLE IF EXISTS hardwareAssignment;
 
 CREATE TABLE hardwareAssignment(
     hardwareId INT AUTO_INCREMENT PRIMARY KEY NOT NULL ,
